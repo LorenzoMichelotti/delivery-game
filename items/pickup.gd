@@ -15,6 +15,7 @@ func on_pickup(item_scene: ItemScene):
 	was_picked_up = true
 	GameManager.pickup_delivery_item(delivery_id)
 	VfxManager.display_number("1000", item_scene.global_position)
+	PlayerManager.inventory_delivery_ids.append(delivery_id)
 	PlayerManager.add_points(points)
 	picked_up.emit()
 	var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)

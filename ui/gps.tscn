@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://doyt36tmeupl2"]
+
+[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_2whft"]
+
+[node name="GpsPivot" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9, 0)
+scale = Vector2(1.125, 1.25)
+texture = ExtResource("1_2whft")
+hframes = 8
+vframes = 8
+frame = 54

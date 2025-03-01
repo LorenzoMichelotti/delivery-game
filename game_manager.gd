@@ -68,9 +68,40 @@ func gameover():
 
 func reset_map():
 	clear_items.emit()
+	deliveries.clear()
 	create_delivery()
 	_scatter_fuel(5)
-	
+
+func get_closest_pickup_position(compare_position: Vector2):
+	if deliveries.size() <= 0:
+		return null
+	var shortest_distance = null
+	var shortest_distance_position = null
+	for delivery_id in deliveries.keys():
+		var delivery = deliveries[delivery_id]
+		var position = delivery.item.global_position if delivery.item != null else delivery.target.global_position
+		var distance = compare_position.distance_to(position)
+		if shortest_distance == null || distance < shortest_distance:
+			shortest_distance = distance
+			shortest_distance_position = position
+	return shortest_distance_position
+
+func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Array[int]):
+	if delivery_ids.size() <= 0:
+		return null
+	var shortest_distance = null
+	var shortest_distance_position = null
+	for delivery_id in delivery_ids:
+		var delivery = deliveries[delivery_id]
+		if delivery.target == null:
+			return null
+		var position = delivery.target.global_position if delivery.target != null else delivery.item
+		var distance = compare_position.distance_to(position)
+		if shortest_distance == null || distance < shortest_distance:
+			shortest_distance = distance
+			shortest_distance_position = position
+	return shortest_distance_position
+
 func create_delivery():
 	var pickup_item: ItemScene = _spawn_item(items.pickup.resource)
 	var target: ItemScene = _spawn_item(items.delivery_target.resource)

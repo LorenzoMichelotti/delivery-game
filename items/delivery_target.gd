@@ -12,6 +12,7 @@ func on_pickup(item_scene: ItemScene):
 	if GameManager.can_deliver_item(delivery_id):
 		var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)
 		VfxManager.display_number("1000", item_scene.global_position)
+		PlayerManager.inventory_delivery_ids.erase(delivery_id)
 		PlayerManager.add_points(points)
 		tween.tween_property(item_scene, "scale", Vector2.ZERO, .2)
 		tween.finished.connect(item_scene.queue_free)

@@ -10,6 +10,7 @@ var input_queue: Array = []  # Tracks pressed keys in order
 @export var gas_bar: Panel
 @export var gas_bar_backdrop: Panel
 @export var gas_label: Label
+var moving: bool = false
 
 func _ready():
 	target_position = global_position 
@@ -27,6 +28,7 @@ func _process(delta):
 		if not can_move(current_direction):
 			current_direction = Vector2.ZERO
 			var tween: Tween = get_tree().create_tween().bind_node(self)
+			moving = false
 			tween.tween_property($SpritePivot/Sprite2D, "scale", Vector2(1, 1), 0.05)
 			tween.finished.connect(tween.kill)
 
@@ -79,6 +81,7 @@ func get_valid_direction() -> Vector2:
 				$SpritePivot/Sprite2D.frame = 4
 			
 			var tween: Tween = get_tree().create_tween().bind_node(self)
+			moving = true
 			tween.tween_property($SpritePivot/Sprite2D, "scale", Vector2(abs(dir.x) * 1.2 if abs(dir.x) > 0 else 1, abs(dir.y) * 1.2 if abs(dir.y) > 0 else 1), 0.05)
 			tween.finished.connect(tween.kill)
 			return dir  # Follow the most recent valid direction
