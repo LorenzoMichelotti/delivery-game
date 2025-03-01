@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxixp3mnsu3k3"]
+
+[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_jkvie"]
+
+[sub_resource type="Animation" id="Animation_j8ofc"]
+resource_name = "idle"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.233333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-1, 0), Vector2(-1, -1), Vector2(-1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rt78a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s1aq8"]
+_data = {
+"RESET": SubResource("Animation_rt78a"),
+"idle": SubResource("Animation_j8ofc")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xcpg2"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7gwo4"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_f3m2m"]
+states/idle/node = SubResource("AnimationNodeAnimation_xcpg2")
+states/idle/position = Vector2(327.333, 81.3333)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_7gwo4")]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Panel" type="Sprite2D" parent="."]
+z_index = 5
+position = Vector2(-1, 0)
+texture = ExtResource("1_jkvie")
+hframes = 4
+vframes = 8
+frame = 31
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel"]
+libraries = {
+"": SubResource("AnimationLibrary_s1aq8")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Panel"]
+tree_root = SubResource("AnimationNodeStateMachine_f3m2m")
+anim_player = NodePath("../AnimationPlayer")

@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://cg0e6xtloabql"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_0lbjl"]
+[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
+[ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="3_yylic"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
+radius = 3.0
+
+[sub_resource type="Animation" id="Animation_peuc1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_885hu"]
+resource_name = "idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.1, 0.166667, 0.233333, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1.2), Vector2(1, 1), Vector2(1.2, 1), Vector2(1, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
+_data = {
+"RESET": SubResource("Animation_peuc1"),
+"idle": SubResource("Animation_885hu")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxgv"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ndkef"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c02ud"]
+switch_mode = 2
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tqwx8"]
+states/idle/node = SubResource("AnimationNodeAnimation_vjxgv")
+states/idle/position = Vector2(381.333, 139.333)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ndkef"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud")]
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
+script = ExtResource("1_0lbjl")
+
+[node name="Node2D" parent="." instance=ExtResource("3_yylic")]
+position = Vector2(1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8v2hg")
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+texture = ExtResource("2_hf73d")
+hframes = 8
+vframes = 8
+frame = 3
+region_rect = Rect2(32, 0, 8, 8)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(8, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pl34g")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_tqwx8")
+anim_player = NodePath("../AnimationPlayer")

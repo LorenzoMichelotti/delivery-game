@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4unuymrht51k"]
+
+[ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_lg1v2"]
+[ext_resource type="Script" path="res://ui_themes/game_over.gd" id="1_np54t"]
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_np54t")
+
+[node name="GameOver" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_lg1v2")
+
+[node name="Panel" type="Panel" parent="GameOver"]
+modulate = Color(1, 1, 1, 0.517647)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = -181.0
+offset_right = 265.0
+offset_bottom = -53.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 60
+theme_override_font_sizes/font_size = 100
+text = "OUT OF GAS"
+
+[node name="Label" type="Label" parent="GameOver/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -258.0
+offset_top = 105.0
+offset_right = -161.0
+offset_bottom = 137.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 30
+theme_override_font_sizes/font_size = 25
+text = "SCORE"
+
+[node name="FinalScoreLabel" type="Label" parent="GameOver/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.0
+offset_top = 83.0
+offset_right = 160.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 40
+theme_override_font_sizes/font_size = 50
+text = "00000000000"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = 50.0
+offset_right = 71.0
+offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "start over"
+
+[connection signal="pressed" from="GameOver/Button" to="." method="_on_button_pressed"]

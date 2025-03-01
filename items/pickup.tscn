@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dp5fasrkd2ihc"]
+
+[ext_resource type="Script" path="res://items/pickup.gd" id="1_j6a8d"]
+[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_t5g2w"]
+[ext_resource type="Script" path="res://items/item_scene.gd" id="1_vpe83"]
+
+[sub_resource type="Resource" id="Resource_vg0ff"]
+script = ExtResource("1_j6a8d")
+consumable = false
+animation_frame = 21
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lt58j"]
+size = Vector2(8, 8)
+
+[node name="Pickup" type="Node2D"]
+script = ExtResource("1_vpe83")
+item = SubResource("Resource_vg0ff")
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+texture = ExtResource("1_t5g2w")
+hframes = 8
+vframes = 8
+frame = 21
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_lt58j")
