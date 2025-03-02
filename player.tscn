@@ -90,3 +90,18 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_tqwx8")
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="ItemBalloon" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("2_hf73d")
+hframes = 8
+vframes = 8
+frame = 55
+
+[node name="ItemBalloon2" type="Sprite2D" parent="ItemBalloon"]
+position = Vector2(0, 3)
+scale = Vector2(0.25, -0.46875)
+texture = ExtResource("2_hf73d")
+hframes = 8
+vframes = 8
+frame = 55

@@ -1,7 +1,16 @@
 extends Node2D
 
+const levels = {
+	1: {
+		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		"scene": preload("res://levels/1.tscn"),
+	},
+	2: {
+		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		"scene": preload("res://levels/2.tscn"),
+	},
+}
 const item_scene = preload("res://items/item.tscn")
-
 const items = {
 	"gas": {
 		"resource": preload("res://items/gas.gd")
@@ -15,28 +24,41 @@ const items = {
 }
 
 @onready var game_over_scene: PackedScene = preload("res://ui_themes/GameOver.tscn")
-@onready var city_road: TileMapLayer
-@onready var off_road: TileMapLayer
+
+var current_level: int = 0
+var current_completion_goal
+
 var game_over_ui
 var roads: Array[TileMapLayer]
 
 enum GAMEMODE {
+	INITIALIZING,
+	MENU,
 	PLAYING,
 	GAMEOVER
 }
 
-var current_game_mode = GAMEMODE.PLAYING
-var previous_game_mode = GAMEMODE.PLAYING
+var current_game_mode = GAMEMODE.INITIALIZING
+var previous_game_mode = GAMEMODE.INITIALIZING
 var rng = RandomNumberGenerator.new()
 
 var deliveries = {}
 signal clear_items
 
 func _ready():
-	city_road = get_tree().current_scene.get_node("Tiles/CityRoad")
-	off_road = get_tree().current_scene.get_node("Tiles/OffRoad")
-	roads = [city_road, off_road]
-	reset_map()
+	change_level(1)
+
+func change_level(level: int):
+	set_game_mode(GAMEMODE.INITIALIZING)
+	current_level = level
+	var level_data = levels[level]
+	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
+	
+func next_level():
+	var next_level_number = current_level + 1
+	if next_level_number > levels.size():
+		next_level_number = 1
+	change_level(next_level_number)
 
 func is_game_paused():
 	return current_game_mode != GAMEMODE.PLAYING
@@ -49,28 +71,48 @@ func set_game_mode(new_game_mode: GAMEMODE):
 	current_game_mode = new_game_mode
 	
 	match current_game_mode:
+		GAMEMODE.INITIALIZING:
+			return
 		GAMEMODE.GAMEOVER:
 			gameover()
 			return
 		GAMEMODE.PLAYING:
-			PlayerManager.reset_player()
-			reset_map()
+			return
 
-func _process(delta):
-	pass
-
+func verify_level_win_condition():
+	if current_completion_goal:
+		return current_completion_goal.verify_completion_requirement_met()
+	
 func gameover():
-	if game_over_ui:
-		game_over_ui.show()
+	if game_over_ui != null:
+		game_over_ui.show.call_deferred()
 		return
 	game_over_ui = game_over_scene.instantiate()
 	get_tree().current_scene.add_child.call_deferred(game_over_ui)
 
-func reset_map():
-	clear_items.emit()
-	deliveries.clear()
+func on_level_changed():
+	roads = [
+		get_tree().current_scene.get_node("Tiles/CityRoad"), 
+		get_tree().current_scene.get_node("Tiles/OffRoad")
+	]
+	_clear_map()
 	create_delivery()
 	_scatter_fuel(5)
+
+func reset_level():
+	_clear_map()
+	create_delivery()
+	_scatter_fuel(5)
+	PlayerManager.reset_player()
+
+func reset_map():
+	_clear_map()
+	create_delivery()
+	_scatter_fuel(5)
+
+func _clear_map():
+	clear_items.emit()
+	deliveries.clear()
 
 func get_closest_pickup_position(compare_position: Vector2):
 	if deliveries.size() <= 0:
@@ -79,6 +121,8 @@ func get_closest_pickup_position(compare_position: Vector2):
 	var shortest_distance_position = null
 	for delivery_id in deliveries.keys():
 		var delivery = deliveries[delivery_id]
+		if !delivery.item and !delivery.target:
+			return null
 		var position = delivery.item.global_position if delivery.item != null else delivery.target.global_position
 		var distance = compare_position.distance_to(position)
 		if shortest_distance == null || distance < shortest_distance:
@@ -120,7 +164,11 @@ func create_delivery():
 	
 func _spawn_item(item_resource: Resource) -> ItemScene:
 	var road: TileMapLayer = roads.pick_random()
-	var tile_position = _get_free_tiles(road).pick_random()
+	var free_tiles = _get_free_tiles(road)
+	if free_tiles == null or free_tiles.size() <= 0:
+		print("ERROR: couldnt spawn item because there were no free tiles")
+		return
+	var tile_position = free_tiles.pick_random()
 	var tile_data = road.get_cell_tile_data(tile_position)
 	tile_data.set_custom_data("occupied", true)
 	var spawned_item = item_scene.instantiate()
@@ -134,13 +182,15 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 
 func _get_free_tiles(road: TileMapLayer):
 	var road_tiles: Array[Vector2i] = road.get_used_cells()
-	return road_tiles.filter(
+	var free_tiles = road_tiles.filter(
 		func(tile_position: Vector2i): 
-			if road == null:
-				print("_get_free_: road was null")
 			if !road.get_cell_tile_data(tile_position).get_custom_data("occupied"): 
 				return tile_position
 	)
+	if free_tiles.size() <= 0:
+		# fallback cause sometimes it doesnt find any free tiles....
+		free_tiles = road_tiles
+	return free_tiles
 
 func _scatter_fuel(amount: int):
 	for i in range(amount):

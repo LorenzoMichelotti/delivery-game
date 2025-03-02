@@ -6,3 +6,6 @@ extends Resource
 
 func on_pickup(item_scene: ItemScene):
 	pass
+
+func on_free():
+	pass

@@ -11,38 +11,56 @@ extends Node
 
 var max_gas = 100
 var current_gas = 100
-var initial_gas_usage = 5
+var initial_gas_usage = 10
 var gas_usage = 0
 var points = 0
 var inventory_delivery_ids: Array[int] = []
+var gps_enabled = true
+var gas_enabled = true
 
-func _ready():
-	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/Control/GasBarContainer")
-	gas_bar = get_tree().current_scene.get_node("CanvasLayer/Control/GasBarContainer/GasBar")
-	gas_label = get_tree().current_scene.get_node("CanvasLayer/Control/GasBarContainer/GasLabel")
-	points_label = get_tree().current_scene.get_node("CanvasLayer/Control/PointsControl/Points")
+var player_is_ready = false
+
+func on_level_changed():
+	player_is_ready = false
+	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer")
+	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasBar")
+	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasLabel")
+	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
 	pawn = get_tree().current_scene.get_node("Player")
+	
 	gps_arrow = gps_scene.instantiate()
+	gps_arrow.hide()
 	pawn.add_child.call_deferred(gps_arrow)
+	
 	gas_usage = initial_gas_usage
+	
+	reset_player()
+	player_is_ready = true
 
 func _process(delta):
-	if GameManager.current_game_mode != GameManager.GAMEMODE.PLAYING:
+	if !player_is_ready || GameManager.current_game_mode != GameManager.GAMEMODE.PLAYING:
+		player_is_ready = false
 		return
 	
+	if gps_enabled: use_gps_arrow()
+	if gas_enabled: use_gas(delta)
+
+func use_gps_arrow():
+	if !gps_arrow.visible:
+		gps_arrow.show()
 	if gps_arrow and inventory_delivery_ids.size() <= 0:
 		var closest_pickup_position = GameManager.get_closest_pickup_position(pawn.global_position)
 		if closest_pickup_position != null:
-			gps_arrow.look_at(closest_pickup_position)
+			gps_arrow.rotation = lerp_angle(gps_arrow.rotation, gps_arrow.global_position.angle_to_point(closest_pickup_position), get_process_delta_time() * 5)
 	elif gps_arrow and inventory_delivery_ids.size() > 0:
 		var closest_delivery_position = GameManager.get_closest_delivery_position(pawn.global_position, inventory_delivery_ids)
 		if closest_delivery_position != null:
-			gps_arrow.look_at(closest_delivery_position)
-	
-	use_gas(delta)
+			gps_arrow.rotation = lerp_angle(gps_arrow.rotation, gps_arrow.global_position.angle_to_point(closest_delivery_position), get_process_delta_time() * 5)
 
-func calculate_gps_arrow_direction():
-	pass
+func bump_gps_arrow():
+	var tween = get_tree().create_tween()
+	
+	tween.finished.connect(tween.kill)
 
 func update_gas_bar():
 	gas_bar.scale.x = gas_bar_backdrop.scale.x * current_gas / max_gas
@@ -78,7 +96,6 @@ func reset_player():
 	points = 0
 	update_points_label(points)
 	update_gas_bar()
-	GameManager.set_game_mode(GameManager.GAMEMODE.PLAYING)
 	
 func add_points(amount):
 	var previous_points = points
