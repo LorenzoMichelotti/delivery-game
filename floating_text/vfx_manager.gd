@@ -1,16 +1,29 @@
 extends Node2D
 
-const MAX_VFX = 50
+const MAX_VFX = 10
 
+var pickup_pool: Array[CPUParticles2D] = []
 var number_pool: Array[Node2D] = []
 @onready var canvas_layer: CanvasLayer
+@onready var floating_text_scene: PackedScene = preload("res://floating_text/floating_text.tscn")
+@onready var pickup_scene: PackedScene = preload("res://vfx/pickup_vfx.tscn")
 
 func _ready():
 	for i in range(MAX_VFX):
 		number_pool.append(null)
+	for i in range(MAX_VFX):
+		pickup_pool.append(null)
 
-@onready var floating_text_scene: PackedScene = preload("res://floating_text/floating_text.tscn")
-
+func display_pickup_effect(position: Vector2):
+	for i in len(pickup_pool):
+		if pickup_pool[i] == null:
+			pickup_pool[i] = pickup_scene.instantiate()
+			get_tree().current_scene.add_child.call_deferred(pickup_pool[i])
+		if not pickup_pool[i].emitting:
+			pickup_pool[i].global_position = position
+			pickup_pool[i].emitting = true
+			return
+		
 func display_number(text: String, position: Vector2):
 	if !canvas_layer:
 		canvas_layer = get_tree().current_scene.get_node("CanvasLayer")

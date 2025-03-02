@@ -17,9 +17,18 @@ var points = 0
 var inventory_delivery_ids: Array[int] = []
 var gps_enabled = true
 var gas_enabled = true
-
 var player_is_ready = false
 
+signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
+
+func inventory_hold_delivery(delivery_id):
+	inventory_delivery_ids.append(delivery_id)
+	inventory_delivery_ids_changed.emit(false, GameManager.deliveries[delivery_id].item.item.animation_frame, GameManager.deliveries[delivery_id].item.item.texture, GameManager.deliveries[delivery_id].item.item.is_animated_sprite)
+
+func inventory_complete_delivery(delivery_id):
+	inventory_delivery_ids.erase(delivery_id)
+	inventory_delivery_ids_changed.emit(true)
+	
 func on_level_changed():
 	player_is_ready = false
 	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer")
@@ -39,27 +48,12 @@ func on_level_changed():
 
 func _process(delta):
 	if !player_is_ready || GameManager.current_game_mode != GameManager.GAMEMODE.PLAYING:
-		player_is_ready = false
 		return
 	
-	if gps_enabled: use_gps_arrow()
 	if gas_enabled: use_gas(delta)
-
-func use_gps_arrow():
-	if !gps_arrow.visible:
-		gps_arrow.show()
-	if gps_arrow and inventory_delivery_ids.size() <= 0:
-		var closest_pickup_position = GameManager.get_closest_pickup_position(pawn.global_position)
-		if closest_pickup_position != null:
-			gps_arrow.rotation = lerp_angle(gps_arrow.rotation, gps_arrow.global_position.angle_to_point(closest_pickup_position), get_process_delta_time() * 5)
-	elif gps_arrow and inventory_delivery_ids.size() > 0:
-		var closest_delivery_position = GameManager.get_closest_delivery_position(pawn.global_position, inventory_delivery_ids)
-		if closest_delivery_position != null:
-			gps_arrow.rotation = lerp_angle(gps_arrow.rotation, gps_arrow.global_position.angle_to_point(closest_delivery_position), get_process_delta_time() * 5)
 
 func bump_gps_arrow():
 	var tween = get_tree().create_tween()
-	
 	tween.finished.connect(tween.kill)
 
 func update_gas_bar():

@@ -9,33 +9,41 @@ const levels = {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/2.tscn"),
 	},
+	3: {
+		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		"scene": preload("res://levels/3.tscn"),
+	},
 }
 const item_scene = preload("res://items/item.tscn")
 const items = {
 	"gas": {
-		"resource": preload("res://items/gas.gd")
+		"resource": preload("res://items/gas_item_resource.tres")
 	},
 	"pickup": {
-		"resource": preload("res://items/pickup.gd")
+		"resource": preload("res://items/pickup_item_resource.tres")
 	},
 	"delivery_target": {
-		"resource": preload("res://items/delivery_target.gd")
+		"resource": preload("res://items/delivery_target_resource.tres")
 	}
 }
 
-@onready var game_over_scene: PackedScene = preload("res://ui_themes/GameOver.tscn")
+@onready var game_over_scene: PackedScene = preload("res://ui/GameOver.tscn")
+@onready var pause_scene: PackedScene = preload("res://ui/Pause.tscn")
 
 var current_level: int = 0
 var current_completion_goal
 
 var game_over_ui
+var pause_ui
 var roads: Array[TileMapLayer]
 
 enum GAMEMODE {
 	INITIALIZING,
 	MENU,
 	PLAYING,
-	GAMEOVER
+	GAMEOVER,
+	PAUSED,
+	CUTSCENE
 }
 
 var current_game_mode = GAMEMODE.INITIALIZING
@@ -46,7 +54,7 @@ var deliveries = {}
 signal clear_items
 
 func _ready():
-	change_level(1)
+	change_level(3)
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
@@ -71,12 +79,11 @@ func set_game_mode(new_game_mode: GAMEMODE):
 	current_game_mode = new_game_mode
 	
 	match current_game_mode:
-		GAMEMODE.INITIALIZING:
-			return
 		GAMEMODE.GAMEOVER:
 			gameover()
 			return
-		GAMEMODE.PLAYING:
+		GAMEMODE.PAUSED:
+			pause_screen()
 			return
 
 func verify_level_win_condition():
@@ -89,6 +96,13 @@ func gameover():
 		return
 	game_over_ui = game_over_scene.instantiate()
 	get_tree().current_scene.add_child.call_deferred(game_over_ui)
+	
+func pause_screen():
+	if pause_ui != null:
+		pause_ui.show.call_deferred()
+		return
+	pause_ui = pause_scene.instantiate()
+	get_tree().current_scene.add_child.call_deferred(pause_ui)
 
 func on_level_changed():
 	roads = [
@@ -167,13 +181,13 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 	var free_tiles = _get_free_tiles(road)
 	if free_tiles == null or free_tiles.size() <= 0:
 		print("ERROR: couldnt spawn item because there were no free tiles")
-		return
 	var tile_position = free_tiles.pick_random()
 	var tile_data = road.get_cell_tile_data(tile_position)
 	tile_data.set_custom_data("occupied", true)
 	var spawned_item = item_scene.instantiate()
+	spawned_item.z_index += 2
 	clear_items.connect(spawned_item.queue_free)
-	spawned_item.item = item_resource.new()
+	spawned_item.item = item_resource.duplicate()
 	spawned_item.tile_position = tile_position
 	spawned_item.road = road
 	spawned_item.global_position = to_global(road.map_to_local(tile_position)) 
@@ -195,16 +209,15 @@ func _get_free_tiles(road: TileMapLayer):
 func _scatter_fuel(amount: int):
 	for i in range(amount):
 		var road = roads.pick_random()
-		var tile_position = road.get_used_cells().pick_random()
+		var free_tiles = _get_free_tiles(road)
+		if free_tiles == null or free_tiles.size() <= 0:
+			print("ERROR: couldnt spawn item because there were no free tiles")
+		var tile_position = free_tiles.pick_random()
 		var tile_data = road.get_cell_tile_data(tile_position)
-		while tile_data.get_custom_data("occupied"):
-			road = roads.pick_random()
-			tile_position = road.get_used_cells().pick_random()
-			tile_data = road.get_cell_tile_data(tile_position)
 		tile_data.set_custom_data("occupied", true)
 		var gas_item = item_scene.instantiate()
 		clear_items.connect(gas_item.queue_free)
-		gas_item.item = items.gas.resource.new(20)
+		gas_item.item = items.gas.resource.duplicate()
 		gas_item.tile_position = tile_position
 		gas_item.road = road
 		gas_item.global_position = to_global(road.map_to_local(tile_position)) 
@@ -215,8 +228,15 @@ func pickup_delivery_item(delivery_id: int):
 
 func can_deliver_item(delivery_id: int):
 	if deliveries.has(delivery_id) and deliveries[delivery_id].obtained == true:
-		deliveries.erase(delivery_id)
-		create_delivery()
-		_scatter_fuel(rng.randi_range(1,3))
 		return true
 	return false
+
+func deliver_item(delivery_id: int):
+	print("deliver_item")
+	print(deliveries)
+	deliveries.erase(delivery_id)
+	print("erased delivery from deliveries object")
+	print(deliveries)
+	create_delivery()
+	print(deliveries)
+	_scatter_fuel(rng.randi_range(1,3))

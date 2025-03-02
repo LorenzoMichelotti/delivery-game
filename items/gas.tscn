@@ -9,6 +9,11 @@ script = ExtResource("1_iv1ye")
 gas_amount = 20
 consumable = true
 animation_frame = 20
+h_animation_grid_size = 8
+v_animation_grid_size = 8
+sprite_size = 1.0
+is_animated_sprite = true
+texture = ExtResource("1_rbkri")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mfm1p"]
 size = Vector2(8, 8)

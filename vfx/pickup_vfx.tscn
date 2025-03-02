@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvnrj87jmxw1l"]
+
+[ext_resource type="Texture2D" uid="uid://qph2lh27cyds" path="res://assets/crosshari.png" id="1_bu13x"]
+[ext_resource type="Script" path="res://vfx/pickup_vfx.gd" id="2_4m30v"]
+
+[sub_resource type="Curve" id="Curve_ser8t"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_36s2f"]
+offsets = PackedFloat32Array(0, 0.398477, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Node2D" type="CPUParticles2D"]
+emitting = false
+amount = 1
+lifetime = 0.2
+one_shot = true
+texture = ExtResource("1_bu13x")
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_ser8t")
+color_ramp = SubResource("Gradient_36s2f")
+script = ExtResource("2_4m30v")

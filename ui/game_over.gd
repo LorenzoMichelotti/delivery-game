@@ -10,6 +10,13 @@ func _ready():
 	_update_points_label()
 
 func _on_button_pressed():
+	restart_or_go_to_next_level()
+
+func _input(event):
+	if event.is_action_released("space"):
+		restart_or_go_to_next_level()
+
+func restart_or_go_to_next_level():
 	if start_over:
 		GameManager.change_level(GameManager.current_level)
 		return

@@ -12,8 +12,11 @@ var input_queue: Array = []  # Tracks pressed keys in order
 @export var gas_label: Label
 var moving: bool = false
 
+@onready var item_balloon = $ItemBalloon
+
 func _ready():
 	target_position = global_position 
+	PlayerManager.inventory_delivery_ids_changed.connect(item_balloon.update_item_balloon)
 
 func _process(delta):
 	if GameManager.is_game_paused():
@@ -46,6 +49,8 @@ func _unhandled_input(event):
 		
 	if event is InputEventKey:
 		var input_dir = Vector2.ZERO
+		if Input.is_action_just_pressed("ui_cancel"):
+			GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
 		if event.keycode == KEY_W:
 			input_dir = Vector2.UP
 		elif event.keycode == KEY_S:
@@ -55,7 +60,7 @@ func _unhandled_input(event):
 		elif event.keycode == KEY_D:
 			input_dir = Vector2.RIGHT
 		
-		if event.is_pressed():
+		if event.is_pressed() and input_dir != Vector2.ZERO:
 			if input_dir not in input_queue:
 				input_queue.append(input_dir)  # Track pressed keys
 			

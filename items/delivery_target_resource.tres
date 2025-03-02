@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DeliveryTargetItem" load_steps=3 format=3 uid="uid://dej737sel3qvn"]
+
+[ext_resource type="Script" path="res://items/delivery_target.gd" id="1_umvxr"]
+[ext_resource type="Texture2D" uid="uid://c6cdsa5kibqex" path="res://assets/client.png" id="2_5xsa8"]
+
+[resource]
+script = ExtResource("1_umvxr")
+consumable = false
+animation_frame = 0
+h_animation_grid_size = 1
+v_animation_grid_size = 1
+sprite_size = 1.2
+is_animated_sprite = false
+texture = ExtResource("2_5xsa8")
