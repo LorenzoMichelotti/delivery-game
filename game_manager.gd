@@ -4,17 +4,17 @@ var levels = {
 	1: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/1.tscn"),
-		"watched_cutscene": false
+		"watched_cutscene": true
 	},
 	2: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/2.tscn"),
-		"watched_cutscene": false
+		"watched_cutscene": true
 	},
 	3: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/3.tscn"),
-		"watched_cutscene": false
+		"watched_cutscene": true
 	},
 }
 const item_scene = preload("res://items/item.tscn")
@@ -62,10 +62,10 @@ var deliveries = {}
 signal clear_items
 
 func _ready():
-	change_level(2)
+	change_level(3)
 
-func toggle_watched_level_cutscene():
-	levels[current_level].watched_cutscene = !levels[current_level].watched_cutscene
+func set_watched_level_cutscene():
+	levels[current_level].watched_cutscene = true
 
 func have_watched_level_cutscene():
 	if current_level == 0:
@@ -115,7 +115,7 @@ func verify_level_win_condition():
 	
 func gameover():
 	if game_over_ui != null:
-		game_over_ui.show.call_deferred()
+		game_over_ui.play.call_deferred()
 		return
 	game_over_ui = game_over_scene.instantiate()
 	get_tree().current_scene.add_child.call_deferred(game_over_ui)

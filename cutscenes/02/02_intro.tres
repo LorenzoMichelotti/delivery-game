@@ -67,3 +67,4 @@ gameover = false
 [resource]
 script = ExtResource("2_jd40p")
 scene = Array[ExtResource("1_x32d3")]([SubResource("Resource_5pv57"), SubResource("Resource_euqem"), SubResource("Resource_a7eiu"), SubResource("Resource_p5vqt")])
+intro = true

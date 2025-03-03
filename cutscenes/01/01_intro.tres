@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="CutsceneResource" load_steps=22 format=3 uid="uid://3e0b7sv3aeu4"]
+
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_r3fto"]
+[ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="2_oipaf"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="3_5m566"]
+[ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="4_2lq1p"]
+[ext_resource type="Texture2D" uid="uid://20myn24y7anp" path="res://assets/characters/actors/morgana/box2.png" id="5_xdmh4"]
+[ext_resource type="Texture2D" uid="uid://bsypj17ekjgg0" path="res://assets/characters/actors/morgana/box3.png" id="6_7yoq2"]
+[ext_resource type="Texture2D" uid="uid://7pvqxn3oorp7" path="res://assets/characters/actors/morgana/poirtraits/morgana1.png" id="7_t3hri"]
+[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="8_s5o3k"]
+[ext_resource type="Texture2D" uid="uid://ck06nbqjuisay" path="res://assets/characters/actors/morgana/poirtraits/morgana2.png" id="9_00mj7"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="10_8gt4d"]
+
+[sub_resource type="Resource" id="Resource_eltwu"]
+script = ExtResource("8_s5o3k")
+name = "Morgana"
+poirtrait = ExtResource("7_t3hri")
+color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_2lq1p"), ExtResource("5_xdmh4"), ExtResource("6_7yoq2")])
+
+[sub_resource type="Resource" id="Resource_ihkh7"]
+script = ExtResource("3_5m566")
+text = "Yeah."
+
+[sub_resource type="Resource" id="Resource_r5oh5"]
+script = ExtResource("8_s5o3k")
+name = "Morgana"
+poirtrait = ExtResource("9_00mj7")
+color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_2lq1p"), ExtResource("5_xdmh4"), ExtResource("6_7yoq2")])
+
+[sub_resource type="Resource" id="Resource_q2lsf"]
+script = ExtResource("3_5m566")
+text = "Ok...?"
+
+[sub_resource type="Resource" id="Resource_633ra"]
+script = ExtResource("3_5m566")
+text = "You can count on me."
+
+[sub_resource type="Resource" id="Resource_mmfwe"]
+script = ExtResource("1_r3fto")
+character = SubResource("Resource_r5oh5")
+text = "P-please, pick up a lot of b-boxes and bring them to me..."
+choices = Array[ExtResource("3_5m566")]([SubResource("Resource_q2lsf"), SubResource("Resource_633ra")])
+gameover = false
+
+[sub_resource type="Resource" id="Resource_idx0n"]
+script = ExtResource("1_r3fto")
+character = SubResource("Resource_eltwu")
+text = "A-Anyways..."
+choices = Array[ExtResource("3_5m566")]([])
+next_dialogue = SubResource("Resource_mmfwe")
+gameover = false
+
+[sub_resource type="Resource" id="Resource_wc48g"]
+script = ExtResource("1_r3fto")
+character = SubResource("Resource_eltwu")
+text = "I was waiting for you... L-like for a whole hour..."
+choices = Array[ExtResource("3_5m566")]([])
+next_dialogue = SubResource("Resource_idx0n")
+gameover = false
+
+[sub_resource type="Resource" id="Resource_k3ilp"]
+script = ExtResource("1_r3fto")
+character = SubResource("Resource_eltwu")
+text = "O-oh, you're the delivery person, right?"
+choices = Array[ExtResource("3_5m566")]([SubResource("Resource_ihkh7")])
+next_dialogue = SubResource("Resource_wc48g")
+gameover = false
+
+[sub_resource type="Resource" id="Resource_3e00c"]
+script = ExtResource("1_r3fto")
+character = ExtResource("2_oipaf")
+text = "W-who are you?"
+choices = Array[ExtResource("3_5m566")]([])
+next_dialogue = SubResource("Resource_k3ilp")
+gameover = false
+
+[sub_resource type="Resource" id="Resource_6825j"]
+script = ExtResource("1_r3fto")
+character = ExtResource("2_oipaf")
+text = "Um..."
+choices = Array[ExtResource("3_5m566")]([])
+next_dialogue = SubResource("Resource_3e00c")
+gameover = false
+
+[resource]
+script = ExtResource("10_8gt4d")
+scene = Array[ExtResource("1_r3fto")]([SubResource("Resource_6825j"), SubResource("Resource_3e00c"), SubResource("Resource_k3ilp"), SubResource("Resource_wc48g"), SubResource("Resource_idx0n"), SubResource("Resource_mmfwe")])
+intro = true

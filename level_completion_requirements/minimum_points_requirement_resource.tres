@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_m0qhk")
-minimum_points_for_completion = 5000
+minimum_points_for_completion = 1000
 name = "Minimum points"
-goal_description = "GOAL: 5000 POINTS"
+goal_description = "GOAL 1000 POINTS"

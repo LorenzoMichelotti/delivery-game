@@ -1,16 +1,22 @@
-[gd_scene load_steps=7 format=4 uid="uid://cd7xvhwlm2alw"]
+[gd_scene load_steps=8 format=4 uid="uid://cd7xvhwlm2alw"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_ksffp"]
 [ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="1_w0bf0"]
-[ext_resource type="Resource" uid="uid://nrnyu6q2pcrv" path="res://level_completion_requirements/minimum_points_requirement_resource.tres" id="2_iytea"]
+[ext_resource type="Script" path="res://level_completion_requirements/minimum_points_requirement_script.gd" id="2_ewbsc"]
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://player.tscn" id="2_swtgk"]
 [ext_resource type="Resource" uid="uid://ddva8uehed6yh" path="res://cutscenes/02/02_intro.tres" id="3_j4mfh"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="5_vnymr"]
 
+[sub_resource type="Resource" id="Resource_a8v1r"]
+script = ExtResource("2_ewbsc")
+minimum_points_for_completion = 1000
+name = "Minimum points"
+goal_description = "GOAL 1000 POINTS"
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_ksffp")
 level_name = "LOW TOWN"
-completion_requirements = ExtResource("2_iytea")
+completion_requirements = SubResource("Resource_a8v1r")
 start_cutscene = ExtResource("3_j4mfh")
 
 [node name="Tiles" type="Node2D" parent="."]

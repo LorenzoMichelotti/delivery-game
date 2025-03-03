@@ -1,18 +1,24 @@
-[gd_scene load_steps=9 format=4 uid="uid://bnknt5j45fd4i"]
+[gd_scene load_steps=10 format=4 uid="uid://bnknt5j45fd4i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_ss12u"]
-[ext_resource type="Resource" uid="uid://nrnyu6q2pcrv" path="res://level_completion_requirements/minimum_points_requirement_resource.tres" id="2_oupb7"]
+[ext_resource type="Script" path="res://level_completion_requirements/minimum_points_requirement_script.gd" id="2_derh5"]
 [ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="3_d83pl"]
-[ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01.tres" id="3_eixnm"]
+[ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01_intro.tres" id="3_eixnm"]
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://player.tscn" id="4_3n0fe"]
 [ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="4_yt6v8"]
 [ext_resource type="Resource" uid="uid://cuxv4nasi6flb" path="res://cutscenes/01/01_success.tres" id="5_628kw"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="5_ao72r"]
 
+[sub_resource type="Resource" id="Resource_l8pk4"]
+script = ExtResource("2_derh5")
+minimum_points_for_completion = 1000
+name = "Minimum points"
+goal_description = "GOAL 1000 POINTS"
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_ss12u")
 level_name = "BIG TOWN"
-completion_requirements = ExtResource("2_oupb7")
+completion_requirements = SubResource("Resource_l8pk4")
 start_cutscene = ExtResource("3_eixnm")
 gameover_cutscene = ExtResource("4_yt6v8")
 success_cutscene = ExtResource("5_628kw")
