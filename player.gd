@@ -21,7 +21,7 @@ func _ready():
 func _process(delta):
 	if GameManager.is_game_paused():
 		return
-		
+	
 	global_position = global_position.move_toward(target_position, SPEED * delta)
 
 	if global_position.is_equal_approx(target_position):

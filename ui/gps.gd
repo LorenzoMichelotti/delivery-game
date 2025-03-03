@@ -11,9 +11,12 @@ var cross_hair_frame = 58
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if GameManager.is_game_paused():
+		hide()
+		return
+		
 	if enabled: use_gps_arrow()
-	distance_label.global_position = Vector2(sprite.global_position.x -2, sprite.global_position.y + 4)
-
+	
 func use_gps_arrow():
 	if !visible:
 		show()
@@ -43,3 +46,5 @@ func use_gps_arrow():
 				animation_tree.set("parameters/conditions/appear", true)
 				distance_label.text = str(roundi(distance)).pad_zeros(2) + "m"
 				$Pivot.rotation = lerp_angle($Pivot.rotation, global_position.angle_to_point(closest_delivery_position), get_process_delta_time() * 5)
+	distance_label.global_position = Vector2(sprite.global_position.x -2, sprite.global_position.y + 4)
+	
