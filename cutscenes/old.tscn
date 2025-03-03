@@ -1,0 +1,121 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq8ia10rm2e0x"]
+
+[ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_6wo6l"]
+[ext_resource type="Script" path="res://cutscenes/cutscene.gd" id="2_0vk43"]
+[ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01.tres" id="3_vbyvw"]
+[ext_resource type="Texture2D" uid="uid://1o7pm08b751f" path="res://assets/characters/poirtraits/morgana.png" id="4_spfvx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v52vv"]
+bg_color = Color(0.113721, 0.144464, 0.17416, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 20.0
+expand_margin_top = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 20.0
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 15)
+
+[node name="CutsceneManager" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6wo6l")
+script = ExtResource("2_0vk43")
+cutscene_resource = ExtResource("3_vbyvw")
+
+[node name="BackDrop" type="Panel" parent="Control"]
+self_modulate = Color(1, 1, 1, 0.666667)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PoirtraitLeft" type="TextureRect" parent="Control/BackDrop"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -606.0
+offset_right = 532.0
+grow_vertical = 0
+texture = ExtResource("4_spfvx")
+
+[node name="DialogueBox" type="Panel" parent="Control/BackDrop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.0
+offset_top = -245.0
+offset_right = 512.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_v52vv")
+
+[node name="ActorNameLabel" type="Label" parent="Control/BackDrop/DialogueBox"]
+layout_mode = 1
+offset_top = -46.0
+offset_right = 221.0
+offset_bottom = 6.0
+theme_override_colors/font_color = Color(0.713726, 0, 0.560784, 1)
+theme_override_constants/outline_size = 25
+theme_override_font_sizes/font_size = 40
+text = "Morgana"
+
+[node name="DialogueTextLabel" type="Label" parent="Control/BackDrop/DialogueBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.178
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.0820007
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello World..."
+autowrap_mode = 3
+
+[node name="FirstChoiceButton" type="Button" parent="Control/BackDrop/DialogueBox"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -638.0
+offset_top = -186.0
+offset_bottom = -133.0
+grow_horizontal = 0
+pivot_offset = Vector2(121, 26)
+text = "Choice 1"
+
+[node name="SecondChoiceButton" type="Button" parent="Control/BackDrop/DialogueBox"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -638.0
+offset_top = -114.0
+offset_bottom = -61.0
+grow_horizontal = 0
+pivot_offset = Vector2(121, 26)
+text = "Choice 2"

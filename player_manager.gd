@@ -11,13 +11,14 @@ extends Node
 
 var max_gas = 100
 var current_gas = 100
-var initial_gas_usage = 10
+var initial_gas_usage = 20
 var gas_usage = 0
 var points = 0
 var inventory_delivery_ids: Array[int] = []
 var gps_enabled = true
 var gas_enabled = true
 var player_is_ready = false
+var tank_empty = false
 
 signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
 
@@ -47,7 +48,7 @@ func on_level_changed():
 	player_is_ready = true
 
 func _process(delta):
-	if !player_is_ready || GameManager.current_game_mode != GameManager.GAMEMODE.PLAYING:
+	if !player_is_ready || GameManager.is_game_paused():
 		return
 	
 	if gas_enabled: use_gas(delta)
@@ -75,9 +76,21 @@ func add_gas(amount):
 	update_gas_bar()
 
 func empty_tank():
+	if tank_empty:
+		return
+	tank_empty = true
 	current_gas = 0
 	update_gas_bar()
+	var success = GameManager.verify_level_win_condition()
+	var current_scene = get_tree().current_scene
+	if not success and current_scene.gameover_cutscene != null:
+		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)
+		return 
+	if success and current_scene.success_cutscene != null:
+		CutsceneManager.cutscene_player.play.call_deferred(current_scene.success_cutscene, current_scene.game_ui)
+		return 
 	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
+	return 
 
 func reset_player():
 	pawn.current_direction = Vector2.ZERO
@@ -88,6 +101,7 @@ func reset_player():
 	gas_usage = initial_gas_usage
 	current_gas = max_gas
 	points = 0
+	tank_empty = false
 	update_points_label(points)
 	update_gas_bar()
 	

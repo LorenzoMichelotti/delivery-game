@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CutsceneResource" load_steps=8 format=3 uid="uid://cuxv4nasi6flb"]
+
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_ah25d"]
+[ext_resource type="Texture2D" uid="uid://ck06nbqjuisay" path="res://assets/characters/poirtraits/morgana2.png" id="2_bgset"]
+[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="3_xlosj"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="4_ta0ub"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="5_wyli8"]
+
+[sub_resource type="Resource" id="Resource_cuoy4"]
+script = ExtResource("3_xlosj")
+name = "Morgana"
+poirtrait = ExtResource("2_bgset")
+color = Color(0.627451, 0.12549, 0.941176, 1)
+
+[sub_resource type="Resource" id="Resource_baksi"]
+script = ExtResource("1_ah25d")
+character = SubResource("Resource_cuoy4")
+text = "T-thank you so much... y-you got so many pretty boxes for me"
+choices = Array[ExtResource("4_ta0ub")]([])
+gameover = true
+
+[resource]
+script = ExtResource("5_wyli8")
+scene = Array[ExtResource("1_ah25d")]([SubResource("Resource_baksi")])

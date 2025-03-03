@@ -85,6 +85,8 @@ func set_game_mode(new_game_mode: GAMEMODE):
 		GAMEMODE.PAUSED:
 			pause_screen()
 			return
+		GAMEMODE.CUTSCENE:
+			return
 
 func verify_level_win_condition():
 	if current_completion_goal:
