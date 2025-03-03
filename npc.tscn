@@ -1,10 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://cg0e6xtloabql"]
+[gd_scene load_steps=14 format=3 uid="uid://cibaxdfigpu3p"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_0lbjl"]
-[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
-[ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="3_yylic"]
-[ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_0hc0a"]
-[ext_resource type="PackedScene" uid="uid://doyt36tmeupl2" path="res://ui/gps.tscn" id="5_6tncn"]
+[ext_resource type="Script" path="res://npc.gd" id="1_yi3ig"]
+[ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
+[ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="3_7wfet"]
+[ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -62,21 +61,26 @@ states/idle/node = SubResource("AnimationNodeAnimation_vjxgv")
 states/idle/position = Vector2(381.333, 139.333)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ndkef"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud")]
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
-z_index = 2
-script = ExtResource("1_0lbjl")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eptng"]
+size = Vector2(6, 5)
 
-[node name="Node2D" parent="." instance=ExtResource("3_yylic")]
+[node name="Npc" type="CharacterBody2D" groups=["npc"]]
+z_index = 4
+script = ExtResource("1_yi3ig")
+
+[node name="Node2D" parent="." instance=ExtResource("2_ays1p")]
 position = Vector2(1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8v2hg")
+disabled = true
 
 [node name="SpritePivot" type="Node2D" parent="."]
-z_index = 3
+z_index = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
-texture = ExtResource("2_hf73d")
+modulate = Color(1, 0.404772, 0.783663, 1)
+texture = ExtResource("3_7wfet")
 hframes = 8
 vframes = 8
 frame = 3
@@ -95,6 +99,10 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_tqwx8")
 anim_player = NodePath("../AnimationPlayer")
 
-[node name="ItemBalloon" parent="." instance=ExtResource("4_0hc0a")]
+[node name="ItemBalloon" parent="." instance=ExtResource("4_v7a6i")]
 
-[node name="GpsPivot" parent="." instance=ExtResource("5_6tncn")]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_eptng")

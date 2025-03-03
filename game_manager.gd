@@ -29,6 +29,11 @@ const items = {
 		"resource": preload("res://items/delivery_target_resource.tres")
 	}
 }
+const npcs = {
+	"police_car": {
+		"scene": preload("res://npc.tscn")
+	}
+}
 
 @export var current_client: ActorResource
 
@@ -37,7 +42,7 @@ const items = {
 
 var current_level: int = 0
 var current_day: int = 0
-var current_completion_goal
+var current_completion_goal: CompletionRequirementResource
 var current_level_retries: int = 0
 
 var game_over_ui
@@ -132,20 +137,17 @@ func on_level_changed():
 		get_tree().current_scene.get_node("Tiles/CityRoad"), 
 		get_tree().current_scene.get_node("Tiles/OffRoad")
 	]
-	_clear_map()
-	create_delivery()
-	_scatter_fuel(5)
+	reset_map()
 
 func reset_level():
-	_clear_map()
-	create_delivery()
-	_scatter_fuel(5)
+	reset_map()
 	PlayerManager.reset_player()
 
 func reset_map():
 	_clear_map()
 	create_delivery()
 	_scatter_fuel(5)
+	_scatter_npcs(50)
 
 func _clear_map():
 	clear_items.emit()
@@ -217,7 +219,7 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 	spawned_item.tile_position = tile_position
 	spawned_item.road = road
 	spawned_item.global_position = to_global(road.map_to_local(tile_position)) 
-	get_tree().current_scene.add_child.call_deferred(spawned_item)
+	get_tree().current_scene.get_node("Entities").add_child.call_deferred(spawned_item)
 	return spawned_item
 
 func _get_free_tiles(road: TileMapLayer):
@@ -247,7 +249,18 @@ func _scatter_fuel(amount: int):
 		gas_item.tile_position = tile_position
 		gas_item.road = road
 		gas_item.global_position = to_global(road.map_to_local(tile_position)) 
-		get_tree().current_scene.add_child.call_deferred(gas_item)
+		get_tree().current_scene.get_node("Entities").add_child.call_deferred(gas_item)
+		
+func _scatter_npcs(amount: int):
+	for i in range(amount):
+		var road = roads.pick_random()
+		var free_tiles = _get_free_tiles(road)
+		if free_tiles == null or free_tiles.size() <= 0:
+			print("ERROR: couldnt spawn item because there were no free tiles")
+		var tile_position = free_tiles.pick_random()
+		var police_car_npc = npcs.police_car.scene.instantiate()
+		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 
+		get_tree().current_scene.get_node("Entities").add_child.call_deferred(police_car_npc)
 
 func pickup_delivery_item(delivery_id: int):
 	deliveries[delivery_id].obtained = true

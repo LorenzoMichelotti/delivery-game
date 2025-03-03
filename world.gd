@@ -12,8 +12,6 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$CanvasLayer/LevelUI/PointsControl/Goal.text = completion_requirements.goal_description
-
 	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements
 	GameManager.on_level_changed()

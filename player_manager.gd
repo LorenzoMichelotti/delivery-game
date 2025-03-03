@@ -14,6 +14,7 @@ var current_gas = 100
 var initial_gas_usage = 10
 var gas_usage = 0
 var points = 0
+var completed_deliveries = 0
 var inventory_delivery_ids: Array[int] = []
 var gps_enabled = true
 var gas_enabled = true
@@ -31,6 +32,7 @@ func inventory_complete_delivery(delivery_id):
 		gas_usage -= 1
 	else:
 		gas_usage = 0
+	completed_deliveries += 1
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
 	
@@ -40,7 +42,7 @@ func on_level_changed():
 	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasBar")
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
-	pawn = get_tree().current_scene.get_node("Player")
+	pawn = get_tree().current_scene.get_node("Entities/Player")
 	
 	gps_arrow = gps_scene.instantiate()
 	gps_arrow.hide()
@@ -105,11 +107,15 @@ func reset_player():
 	gas_usage = initial_gas_usage
 	current_gas = max_gas
 	points = 0
+	completed_deliveries = 0
 	tank_empty = false
 	update_points_label(points)
 	update_gas_bar()
 	
 func add_points(amount):
+	if tank_empty:
+		return 
+		
 	var previous_points = points
 	points += amount
 	

@@ -20,7 +20,6 @@ extends Node2D
 @onready var sprite := $SpritePivot/Sprite2D
 @onready var item_balloon := $SpritePivot/ItemBalloon
 
-
 var tile_position: Vector2i
 var road: TileMapLayer
 

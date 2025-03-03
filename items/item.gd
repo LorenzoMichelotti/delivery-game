@@ -8,6 +8,7 @@ extends Resource
 @export var sprite_size: float = 1
 @export var is_animated_sprite: bool = true
 @export var texture: Texture2D = preload("res://assets/city_tileset_8x8.png")
+@export var pickup_sfx: AudioStreamWAV = preload("res://assets/sounds/Pickup.wav")
 
 func on_pickup(item_scene: ItemScene):
 	pass

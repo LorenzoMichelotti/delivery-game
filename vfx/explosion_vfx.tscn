@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbwtbu1n3s6vg"]
+
+[ext_resource type="Texture2D" uid="uid://26qadtn7i3nh" path="res://assets/explosion.png" id="1_cfgkp"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f1a12"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ser8t"]
+max_value = 2.0
+_data = [Vector2(0, 1.04039), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_36s2f"]
+offsets = PackedFloat32Array(0, 0.398477, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Node2D" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_f1a12")
+emitting = false
+amount = 5
+lifetime = 0.4
+one_shot = true
+speed_scale = 2.0
+texture = ExtResource("1_cfgkp")
+emission_shape = 2
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_ser8t")
+color_ramp = SubResource("Gradient_36s2f")
+anim_speed_min = 1.0
+anim_speed_max = 1.0

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvnrj87jmxw1l"]
+[gd_scene load_steps=4 format=3 uid="uid://dvnrj87jmxw1l"]
 
 [ext_resource type="Texture2D" uid="uid://qph2lh27cyds" path="res://assets/crosshari.png" id="1_bu13x"]
-[ext_resource type="Script" path="res://vfx/pickup_vfx.gd" id="2_4m30v"]
 
 [sub_resource type="Curve" id="Curve_ser8t"]
 max_value = 2.0
@@ -21,4 +20,3 @@ texture = ExtResource("1_bu13x")
 gravity = Vector2(0, 0)
 scale_amount_curve = SubResource("Curve_ser8t")
 color_ramp = SubResource("Gradient_36s2f")
-script = ExtResource("2_4m30v")

@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="PickupItem" load_steps=3 format=3 uid="uid://cdxg5ci0a0lg1"]
+[gd_resource type="Resource" script_class="PickupItem" load_steps=4 format=3 uid="uid://cdxg5ci0a0lg1"]
 
+[ext_resource type="AudioStream" uid="uid://bnggwx3l5kwmv" path="res://assets/sounds/Pickup_Item.wav" id="1_4ff1g"]
 [ext_resource type="Script" path="res://items/pickup.gd" id="1_wgjga"]
 [ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="2_ghbe0"]
 
@@ -12,3 +13,4 @@ v_animation_grid_size = 1
 sprite_size = 1.3
 is_animated_sprite = false
 texture = ExtResource("2_ghbe0")
+pickup_sfx = ExtResource("1_4ff1g")

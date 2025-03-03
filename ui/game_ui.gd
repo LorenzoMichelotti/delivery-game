@@ -1,7 +1,17 @@
 extends Control
 
+@onready var goal_description = $PointsControl/Goal
+@onready var goal_value = $PointsControl/GoalValue
+
 func _ready():
 	_play_level_name_animation()
 
+func _process(delta):
+	update_goals()
+
 func _play_level_name_animation():
 	$AnimationPlayer.play("fade_in_out")
+
+func update_goals():
+	goal_description.text = GameManager.current_completion_goal.goal_description
+	goal_value.text = GameManager.current_completion_goal.get_value()
