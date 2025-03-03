@@ -2,10 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_5qbo0"]
 [ext_resource type="Script" path="res://cutscenes/cutscene.gd" id="1_s755s"]
-[ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01.tres" id="2_hhjun"]
+[ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01.tres" id="2_hhjun"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rofja"]
-load_path = "res://.godot/imported/morgana.png-32dd25a8662cc0af5e9a8867e48c462c.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v52vv"]
 bg_color = Color(0.113721, 0.144464, 0.17416, 1)
@@ -62,7 +61,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(458, 403)]
+"values": [Vector2(458, 251)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -183,10 +182,10 @@ tracks/0/path = NodePath("BackDrop:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.666667)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -210,7 +209,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.133333, 0.266667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(458, 500), Vector2(458, 500), Vector2(458, 403)]
+"values": [Vector2(458, 500), Vector2(458, 500), Vector2(458, 251)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -310,7 +309,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(-1.49012e-08, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(458, 403), Vector2(458, 500), Vector2(458, 403)]
+"values": [Vector2(458, 403), Vector2(458, 500), Vector2(458, 241)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -442,7 +441,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0.666667)]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cyjoa"]
@@ -492,9 +491,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -118.0
-offset_top = -245.0
+offset_top = -397.0
 offset_right = 512.0
-offset_bottom = -76.0
+offset_bottom = -228.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(315, 84)
@@ -502,9 +501,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_v52vv")
 
 [node name="ActorNameLabel" type="Label" parent="BackDrop/DialogueBox"]
 layout_mode = 1
-offset_top = -46.0
+offset_top = -19.9999
 offset_right = 221.0
-offset_bottom = 6.0
+offset_bottom = 32.0001
 theme_override_colors/font_color = Color(0.713726, 0, 0.560784, 1)
 theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 40
@@ -530,8 +529,8 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -638.0
-offset_top = -186.0
-offset_bottom = -133.0
+offset_top = 214.0
+offset_bottom = 267.0
 grow_horizontal = 0
 pivot_offset = Vector2(319, 26)
 text = "Choice 1"
@@ -543,8 +542,8 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -638.0
-offset_top = -114.0
-offset_bottom = -61.0
+offset_top = 286.0
+offset_bottom = 339.0
 grow_horizontal = 0
 pivot_offset = Vector2(319, 26)
 text = "Choice 2"

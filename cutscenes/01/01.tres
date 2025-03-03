@@ -1,18 +1,22 @@
-[gd_resource type="Resource" script_class="CutsceneResource" load_steps=19 format=3 uid="uid://3e0b7sv3aeu4"]
+[gd_resource type="Resource" script_class="CutsceneResource" load_steps=22 format=3 uid="uid://3e0b7sv3aeu4"]
 
 [ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_5mnaq"]
 [ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="1_dpr1t"]
 [ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="2_2irqw"]
+[ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="4_5ohm5"]
 [ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="4_cpond"]
 [ext_resource type="Texture2D" uid="uid://7pvqxn3oorp7" path="res://assets/characters/actors/morgana/poirtraits/morgana1.png" id="4_prlpr"]
 [ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="5_axns0"]
+[ext_resource type="Texture2D" uid="uid://20myn24y7anp" path="res://assets/characters/actors/morgana/box2.png" id="5_xgwbc"]
 [ext_resource type="Texture2D" uid="uid://ck06nbqjuisay" path="res://assets/characters/actors/morgana/poirtraits/morgana2.png" id="5_xkwtr"]
+[ext_resource type="Texture2D" uid="uid://bsypj17ekjgg0" path="res://assets/characters/actors/morgana/box3.png" id="6_fvth1"]
 
 [sub_resource type="Resource" id="Resource_eltwu"]
 script = ExtResource("4_cpond")
 name = "Morgana"
 poirtrait = ExtResource("4_prlpr")
 color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_5ohm5"), ExtResource("5_xgwbc"), ExtResource("6_fvth1")])
 
 [sub_resource type="Resource" id="Resource_ihkh7"]
 script = ExtResource("5_axns0")
@@ -23,6 +27,7 @@ script = ExtResource("4_cpond")
 name = "Morgana"
 poirtrait = ExtResource("5_xkwtr")
 color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_5ohm5"), ExtResource("5_xgwbc"), ExtResource("6_fvth1")])
 
 [sub_resource type="Resource" id="Resource_q2lsf"]
 script = ExtResource("5_axns0")
@@ -36,7 +41,7 @@ text = "You can count on me."
 script = ExtResource("1_5mnaq")
 character = SubResource("Resource_r5oh5")
 text = "P-please, pick up a lot of b-boxes and bring them to me..."
-choices = Array[Resource]([SubResource("Resource_q2lsf"), SubResource("Resource_633ra")])
+choices = Array[ExtResource("5_axns0")]([SubResource("Resource_q2lsf"), SubResource("Resource_633ra")])
 gameover = false
 
 [sub_resource type="Resource" id="Resource_idx0n"]

@@ -11,7 +11,7 @@ extends Node
 
 var max_gas = 100
 var current_gas = 100
-var initial_gas_usage = 20
+var initial_gas_usage = 10
 var gas_usage = 0
 var points = 0
 var inventory_delivery_ids: Array[int] = []
@@ -27,6 +27,10 @@ func inventory_hold_delivery(delivery_id):
 	inventory_delivery_ids_changed.emit(false, GameManager.deliveries[delivery_id].item.item.animation_frame, GameManager.deliveries[delivery_id].item.item.texture, GameManager.deliveries[delivery_id].item.item.is_animated_sprite)
 
 func inventory_complete_delivery(delivery_id):
+	if gas_usage - 1 >= 0:
+		gas_usage -= 1
+	else:
+		gas_usage = 0
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
 	
@@ -108,6 +112,10 @@ func reset_player():
 func add_points(amount):
 	var previous_points = points
 	points += amount
+	
+	if not GameManager.endless and GameManager.verify_level_win_condition():
+		empty_tank()
+	
 	var points_tween = create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	points_tween.set_loops(1).tween_method(update_points_label, previous_points, points, .5)
 	points_tween.finished.connect(points_tween.kill)

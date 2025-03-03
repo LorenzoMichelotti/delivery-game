@@ -1,17 +1,20 @@
 extends Node2D
 
-const levels = {
+var levels = {
 	1: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/1.tscn"),
+		"watched_cutscene": false
 	},
 	2: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/2.tscn"),
+		"watched_cutscene": false
 	},
 	3: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/3.tscn"),
+		"watched_cutscene": false
 	},
 }
 const item_scene = preload("res://items/item.tscn")
@@ -35,6 +38,7 @@ const items = {
 var current_level: int = 0
 var current_day: int = 0
 var current_completion_goal
+var current_level_retries: int = 0
 
 var game_over_ui
 var pause_ui
@@ -52,17 +56,30 @@ enum GAMEMODE {
 var current_game_mode = GAMEMODE.INITIALIZING
 var previous_game_mode = GAMEMODE.INITIALIZING
 var rng = RandomNumberGenerator.new()
+var endless = false
 
 var deliveries = {}
 signal clear_items
 
 func _ready():
-	change_level(3)
+	change_level(2)
+
+func toggle_watched_level_cutscene():
+	levels[current_level].watched_cutscene = !levels[current_level].watched_cutscene
+
+func have_watched_level_cutscene():
+	if current_level == 0:
+		return false
+	return levels[current_level].watched_cutscene
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
-	current_day += 1
-	current_level = level
+	if level != current_level:
+		current_day += 1
+		current_level = level
+		current_level_retries = 0
+	else:
+		current_level_retries += 1
 	var level_data = levels[level]
 	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
 	

@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="CutsceneResource" load_steps=19 format=3 uid="uid://ddva8uehed6yh"]
+
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_x32d3"]
+[ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="2_fs03i"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="2_jd40p"]
+[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="3_8r1kv"]
+[ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="4_1rf0p"]
+[ext_resource type="Texture2D" uid="uid://20myn24y7anp" path="res://assets/characters/actors/morgana/box2.png" id="5_crshn"]
+[ext_resource type="Texture2D" uid="uid://bsypj17ekjgg0" path="res://assets/characters/actors/morgana/box3.png" id="6_p2yeo"]
+[ext_resource type="Texture2D" uid="uid://ijinpohnvub7" path="res://assets/characters/actors/morgana/poirtraits/morgana3.png" id="7_0uoqf"]
+[ext_resource type="Texture2D" uid="uid://ck06nbqjuisay" path="res://assets/characters/actors/morgana/poirtraits/morgana2.png" id="7_p4l77"]
+[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="8_54g4y"]
+
+[sub_resource type="Resource" id="Resource_euqem"]
+script = ExtResource("1_x32d3")
+character = ExtResource("2_fs03i")
+text = "I-im sorry... please give me lots of boxes..."
+choices = Array[ExtResource("3_8r1kv")]([])
+gameover = false
+
+[sub_resource type="Resource" id="Resource_ath64"]
+script = ExtResource("3_8r1kv")
+text = "I have a name..."
+result_dialogue = SubResource("Resource_euqem")
+
+[sub_resource type="Resource" id="Resource_niykl"]
+script = ExtResource("8_54g4y")
+name = "Morgana"
+poirtrait = ExtResource("7_p4l77")
+color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_1rf0p"), ExtResource("5_crshn"), ExtResource("6_p2yeo")])
+
+[sub_resource type="Resource" id="Resource_r7qlt"]
+script = ExtResource("8_54g4y")
+name = "Morgana"
+poirtrait = ExtResource("7_0uoqf")
+color = Color(0.627451, 0.12549, 0.941176, 1)
+objects = Array[Texture]([ExtResource("4_1rf0p"), ExtResource("5_crshn"), ExtResource("6_p2yeo")])
+
+[sub_resource type="Resource" id="Resource_p5vqt"]
+script = ExtResource("1_x32d3")
+character = SubResource("Resource_r7qlt")
+text = "N-no, that's probably not what you meant..."
+choices = Array[ExtResource("3_8r1kv")]([])
+gameover = false
+
+[sub_resource type="Resource" id="Resource_a7eiu"]
+script = ExtResource("1_x32d3")
+character = SubResource("Resource_niykl")
+text = "C-can i specify?! i c-could ask for a thousand..."
+choices = Array[ExtResource("3_8r1kv")]([])
+next_dialogue = SubResource("Resource_p5vqt")
+gameover = false
+
+[sub_resource type="Resource" id="Resource_wtxuv"]
+script = ExtResource("3_8r1kv")
+text = "How many boxes today?"
+result_dialogue = SubResource("Resource_a7eiu")
+
+[sub_resource type="Resource" id="Resource_5pv57"]
+script = ExtResource("1_x32d3")
+character = ExtResource("2_fs03i")
+text = "G-good morning, box provider..."
+choices = Array[ExtResource("3_8r1kv")]([SubResource("Resource_ath64"), SubResource("Resource_wtxuv")])
+gameover = false
+
+[resource]
+script = ExtResource("2_jd40p")
+scene = Array[ExtResource("1_x32d3")]([SubResource("Resource_5pv57"), SubResource("Resource_euqem"), SubResource("Resource_a7eiu"), SubResource("Resource_p5vqt")])

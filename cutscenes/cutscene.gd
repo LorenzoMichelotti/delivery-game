@@ -29,11 +29,11 @@ func _input(event):
 	if (Input.is_action_just_released("click") or Input.is_action_just_released("space")) and not has_choice_to_make():
 		_load_next_dialogue()
 
-func _load_next_dialogue():
+func _load_next_dialogue(get_next = true):
 	if current_dialogue == null:
 		# load the first dialogue
 		current_dialogue = cutscene_resource.scene[0]
-	else:
+	elif get_next:
 		# check if reached end of dialogues
 		if current_dialogue.gameover or current_dialogue.next_dialogue == null:
 			_end_cutscene()
@@ -64,7 +64,7 @@ func _load_choice_dialogue(choice_index: int):
 	if choice_dialogue == null or current_dialogue.gameover:
 		_end_cutscene()
 	current_dialogue = choice_dialogue
-	_load_next_dialogue()
+	_load_next_dialogue(false)
 
 func has_choice_to_make():
 	if current_dialogue == null: return
@@ -72,6 +72,7 @@ func has_choice_to_make():
 
 func _end_cutscene():
 	# cutscene ended
+	GameManager.toggle_watched_level_cutscene()
 	hide()
 	if current_dialogue.gameover:
 		GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
