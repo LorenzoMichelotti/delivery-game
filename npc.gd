@@ -4,17 +4,22 @@ extends CharacterBody2D
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
 
+@onready var raycast = $RayCast2D
+@onready var hitbox = $Area2D
+@onready var sprite_pivot = $SpritePivot
+@onready var sprite = $SpritePivot/Sprite2D
+
 const SPEED = 50.0  
 const GRID_SIZE = 8  
 const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 var target_position: Vector2
 var current_direction: Vector2 = Vector2.ZERO
-@onready var raycast = $RayCast2D
-@onready var hitbox = $Area2D
 var moving: bool = false
 var is_dead: bool = false
 var points: int = 100
+
+signal enemy_died
 
 func _ready():
 	target_position = global_position
@@ -51,20 +56,22 @@ func can_move(dir: Vector2) -> bool:
 
 func update_animation(dir: Vector2):
 	if dir.x != 0:
-		$SpritePivot/Sprite2D.flip_h = dir.x < 0
-		$SpritePivot/Sprite2D.frame = 3
+		sprite.flip_h = dir.x < 0
+		sprite.frame = 0
 	elif dir.y > 0:
-		$SpritePivot/Sprite2D.frame = 5
+		sprite.frame = 2
 	else:
-		$SpritePivot/Sprite2D.frame = 4
+		sprite.frame = 1
 
 	var tween = get_tree().create_tween().bind_node(self)
 	moving = true
-	tween.tween_property($SpritePivot/Sprite2D, "scale", Vector2(abs(dir.x) * 1.2 if abs(dir.x) > 0 else 1, abs(dir.y) * 1.2 if abs(dir.y) > 0 else 1), 0.05)
+	tween.tween_property(sprite, "scale", Vector2(abs(dir.x) * 1.2 if abs(dir.x) > 0 else 1, abs(dir.y) * 1.2 if abs(dir.y) > 0 else 1), 0.05)
 	tween.finished.connect(tween.kill)
 
 # Handle when the NPC is hit by the player
 func _on_body_entered(body):
+	if GameManager.is_game_paused() or is_dead:
+		return
 	if body.is_in_group("player"):  # Make sure to match your player node's name
 		die()
 
@@ -75,9 +82,9 @@ func die():
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
 	
 	var tween = get_tree().create_tween().bind_node(self)
-	tween.tween_property($SpritePivot, "global_position", Vector2(global_position.x + randi_range(-8, 8), global_position.y - 10), 0.2)
-	tween.parallel().tween_property($SpritePivot, "rotation", TAU/2, 0.3)
-	tween.chain().tween_property($SpritePivot, "global_position:y", randi_range(global_position.y + 8, global_position.y -8), 0.1)
+	tween.tween_property(sprite_pivot, "global_position", Vector2(global_position.x + randi_range(-8, 8), global_position.y - 10), 0.2)
+	tween.parallel().tween_property(sprite_pivot, "rotation", TAU/2, 0.3)
+	tween.chain().tween_property(sprite_pivot, "global_position:y", randi_range(global_position.y + 8, global_position.y -8), 0.1)
 	
 	await tween.finished
 	
@@ -88,7 +95,9 @@ func die():
 	PlayerManager.add_points(points)
 	
 	tween = get_tree().create_tween().bind_node(self)
-	tween.tween_property($SpritePivot, "modulate", Color.BLACK, 0.1)
-	tween.parallel().tween_property($SpritePivot, "modulate:a", 0, 0.6)  # Fade out effect
+	tween.tween_property(sprite_pivot, "modulate", Color.BLACK, 0.1)
+	tween.parallel().tween_property(sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
+	
+	enemy_died.emit()
 	
 	tween.finished.connect(queue_free)  # Remove NPC after fade

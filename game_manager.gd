@@ -63,6 +63,8 @@ var previous_game_mode = GAMEMODE.INITIALIZING
 var rng = RandomNumberGenerator.new()
 var endless = false
 
+var npcs_alive = 0
+
 var deliveries = {}
 signal clear_items
 
@@ -147,7 +149,7 @@ func reset_map():
 	_clear_map()
 	create_delivery()
 	_scatter_fuel(5)
-	_scatter_npcs(50)
+	_scatter_npcs(5)
 
 func _clear_map():
 	clear_items.emit()
@@ -259,8 +261,14 @@ func _scatter_npcs(amount: int):
 			print("ERROR: couldnt spawn item because there were no free tiles")
 		var tile_position = free_tiles.pick_random()
 		var police_car_npc = npcs.police_car.scene.instantiate()
+		npcs_alive += 1
+		police_car_npc.enemy_died.connect(_on_npc_died)
 		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 
 		get_tree().current_scene.get_node("Entities").add_child.call_deferred(police_car_npc)
+
+func _on_npc_died():
+	npcs_alive -= 1
+	_scatter_npcs(1)
 
 func pickup_delivery_item(delivery_id: int):
 	deliveries[delivery_id].obtained = true
@@ -272,9 +280,7 @@ func can_deliver_item(delivery_id: int):
 
 func deliver_item(delivery_id: int):
 	print("deliver_item")
-	print(deliveries)
 	deliveries.erase(delivery_id)
-	print("erased delivery from deliveries object")
 	print(deliveries)
 	create_delivery()
 	print(deliveries)
