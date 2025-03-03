@@ -17,7 +17,4 @@ func _ready():
 	GameManager.on_level_changed()
 	PlayerManager.on_level_changed()
 	CutsceneManager.on_level_changed()
-	if start_cutscene == null or GameManager.current_level_retries > 0 or GameManager.have_watched_level_cutscene():
-		CutsceneManager.cutscene_player.play.call_deferred(null, null)
-		return
 	CutsceneManager.cutscene_player.play.call_deferred(start_cutscene, game_ui)

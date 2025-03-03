@@ -1,20 +1,20 @@
 extends Node2D
 
 var levels = {
+	#1: {
+		#"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		#"scene": preload("res://levels/1.tscn"),
+		##"watched_cutscene": false
+	#},
+	#2: {
+		#"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		#"scene": preload("res://levels/2.tscn"),
+		##"watched_cutscene": false
+	#},
 	1: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/1.tscn"),
-		"watched_cutscene": true
-	},
-	2: {
-		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/2.tscn"),
-		"watched_cutscene": true
-	},
-	3: {
-		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/3.tscn"),
-		"watched_cutscene": true
+		#"watched_cutscene": false
 	},
 }
 const item_scene = preload("res://items/item.tscn")
@@ -69,15 +69,15 @@ var deliveries = {}
 signal clear_items
 
 func _ready():
-	change_level(3)
+	change_level(1)
 
-func set_watched_level_cutscene():
-	levels[current_level].watched_cutscene = true
-
-func have_watched_level_cutscene():
-	if current_level == 0:
-		return false
-	return levels[current_level].watched_cutscene
+#func set_watched_level_cutscene():
+	#levels[current_level].watched_cutscene = true
+#
+#func have_watched_level_cutscene():
+	#if current_level == 0:
+		#return false
+	#return levels[current_level].watched_cutscene
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)

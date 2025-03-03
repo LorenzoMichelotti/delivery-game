@@ -2,6 +2,7 @@ extends Node
 
 @onready var cutscene_scene: PackedScene = preload("res://cutscenes/cutscene.tscn")
 @onready var cutscene_player: CutscenePlayer
+var watched_cutscenes = []
 
 func on_level_changed():
 	cutscene_player = cutscene_scene.instantiate() 

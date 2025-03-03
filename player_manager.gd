@@ -20,6 +20,7 @@ var gps_enabled = true
 var gas_enabled = true
 var player_is_ready = false
 var tank_empty = false
+var success = false
 
 signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
 
@@ -35,7 +36,9 @@ func inventory_complete_delivery(delivery_id):
 	completed_deliveries += 1
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
-	
+	if not GameManager.endless and GameManager.verify_level_win_condition():
+		complete_level()
+
 func on_level_changed():
 	player_is_ready = false
 	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer")
@@ -87,7 +90,12 @@ func empty_tank():
 	tank_empty = true
 	current_gas = 0
 	update_gas_bar()
-	var success = GameManager.verify_level_win_condition()
+	complete_level()
+
+func complete_level():
+	if success:
+		return
+	success = GameManager.verify_level_win_condition()
 	var current_scene = get_tree().current_scene
 	if not success and current_scene.gameover_cutscene != null:
 		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)
@@ -96,7 +104,6 @@ func empty_tank():
 		CutsceneManager.cutscene_player.play.call_deferred(current_scene.success_cutscene, current_scene.game_ui)
 		return 
 	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
-	return 
 
 func reset_player():
 	pawn.current_direction = Vector2.ZERO
@@ -109,6 +116,7 @@ func reset_player():
 	points = 0
 	completed_deliveries = 0
 	tank_empty = false
+	success = false
 	update_points_label(points)
 	update_gas_bar()
 	

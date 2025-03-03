@@ -17,6 +17,8 @@ func _ready():
 		choice_buttons[i].pressed.connect(_load_choice_dialogue.bind(i))
 
 func play(new_cutscene: CutsceneResource, new_game_ui: Control):
+	is_playing = true
+	GameManager.set_game_mode(GameManager.GAMEMODE.CUTSCENE)
 	if new_cutscene == null:
 		$Transition/DayLabel.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
 		$Transition/GoalDescription.text = GameManager.current_completion_goal.goal_description
@@ -26,7 +28,11 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$AnimationPlayer.play("no_cutscene_transition")
 		print("no_cutscene_transition")
 		return
-	is_playing = true
+	if CutsceneManager.watched_cutscenes.has(new_cutscene):
+		$AnimationPlayer.play("no_goals_no_cutscene_transition")
+		print("no_goals_no_cutscene_transition")
+		return
+	CutsceneManager.watched_cutscenes.append(new_cutscene)
 	cutscene_resource = new_cutscene
 	current_dialogue = null
 	game_ui = new_game_ui
@@ -42,12 +48,11 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$Transition/GoalDescription.hide()
 		$Transition/DayLabel.hide()
 		$Transition/GoalTitle.hide()
-	GameManager.set_game_mode(GameManager.GAMEMODE.CUTSCENE)
 	_load_next_dialogue()
 	$AnimationPlayer.play("appear")
 
 func _input(event):
-	if is_playing and (Input.is_action_just_released("click") or Input.is_action_just_released("space")) and not has_choice_to_make():
+	if GameManager.current_game_mode == GameManager.GAMEMODE.CUTSCENE and is_playing and (Input.is_action_just_released("click") or Input.is_action_just_released("space")) and not has_choice_to_make():
 		_load_next_dialogue()
 
 func _load_next_dialogue(get_next = true):
@@ -56,9 +61,11 @@ func _load_next_dialogue(get_next = true):
 		current_dialogue = cutscene_resource.scene[0]
 	elif get_next:
 		# check if reached end of dialogues
-		if current_dialogue.gameover or current_dialogue.next_dialogue == null:
+		if current_dialogue.gameover:
 			_resume_gameplay()
-			#_end_cutscene()
+			return
+		if current_dialogue.next_dialogue == null:
+			_end_cutscene()
 			return
 		# go to the next dialogue
 		current_dialogue = current_dialogue.next_dialogue
@@ -83,9 +90,14 @@ func _load_choice_dialogue(choice_index: int):
 	if not has_choice_to_make():
 		_load_next_dialogue()
 	var choice_dialogue = current_dialogue.choices[choice_index].result_dialogue if current_dialogue.choices[choice_index].result_dialogue != null else current_dialogue.next_dialogue
-	if choice_dialogue == null or current_dialogue.gameover:
+	if  current_dialogue == null:
+		_end_cutscene()
+		return
+	if current_dialogue.gameover:
 		_resume_gameplay()
-		#_end_cutscene()
+		return
+	if  choice_dialogue == null:
+		_end_cutscene()
 		return
 	current_dialogue = choice_dialogue
 	_load_next_dialogue(false)
@@ -101,19 +113,21 @@ func _end_cutscene():
 		# show points if this is not a level ending cutscene
 		$Transition/GoalDescription.text = GameManager.current_completion_goal.goal_description
 		$Transition/DayLabel.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
+		$Transition/GoalDescription.show()
 		$Transition/DayLabel.show()
 		$Transition/GoalTitle.show()
-		$Transition/GoalDescription3.show()
 	else:
 		$Transition/GoalDescription.hide()
 		$Transition/DayLabel.hide()
 		$Transition/GoalTitle.hide()
 	is_playing = false
-	GameManager.set_watched_level_cutscene()
+	#GameManager.set_watched_level_cutscene()
 	$AnimationPlayer.play("disappear")
 
 func _resume_gameplay():
-	if current_dialogue and current_dialogue.gameover:
+	if (current_dialogue and current_dialogue.gameover) or GameManager.verify_level_win_condition():
+		if game_ui:
+			game_ui.hide()
 		GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
 	else:
 		if game_ui:
