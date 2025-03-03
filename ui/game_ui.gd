@@ -4,7 +4,7 @@ extends Control
 
 func _ready():
 	$PointsControl/Goal.text = world.completion_requirements.goal_description
-	$LevelName.text = str(GameManager.current_level).pad_zeros(2) + " - " + world.level_name
+	$LevelName.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
 	$LevelName.modulate.a = 0
 	_play_level_name_animation()
 

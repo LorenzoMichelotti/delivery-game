@@ -1,6 +1,7 @@
 class_name World
 extends Node2D
 
+@export var current_client: ActorResource = preload("res://assets/characters/actors/morgana/morgana.tres")
 @export var level_name: String = "LEVEL NAME"
 @export var completion_requirements: CompletionRequirementResource
 @export var start_cutscene: CutsceneResource
@@ -11,6 +12,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements
 	GameManager.on_level_changed()
 	PlayerManager.on_level_changed()

@@ -27,10 +27,13 @@ const items = {
 	}
 }
 
+@export var current_client: ActorResource
+
 @onready var game_over_scene: PackedScene = preload("res://ui/GameOver.tscn")
 @onready var pause_scene: PackedScene = preload("res://ui/Pause.tscn")
 
 var current_level: int = 0
+var current_day: int = 0
 var current_completion_goal
 
 var game_over_ui
@@ -58,6 +61,7 @@ func _ready():
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
+	current_day += 1
 	current_level = level
 	var level_data = levels[level]
 	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
@@ -163,8 +167,11 @@ func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Arra
 	return shortest_distance_position
 
 func create_delivery():
-	var pickup_item: ItemScene = _spawn_item(items.pickup.resource)
-	var target: ItemScene = _spawn_item(items.delivery_target.resource)
+	var pickup_item_resource = items.pickup.resource.duplicate()
+	pickup_item_resource.texture = current_client.objects.pick_random()
+	var pickup_item: ItemScene = _spawn_item(pickup_item_resource)
+	var target: ItemScene = _spawn_item(items.delivery_target.resource.duplicate())
+	target.color = current_client.color
 	
 	var delivery_id = deliveries.size() + 1
 	
@@ -189,7 +196,7 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 	var spawned_item = item_scene.instantiate()
 	spawned_item.z_index += 2
 	clear_items.connect(spawned_item.queue_free)
-	spawned_item.item = item_resource.duplicate()
+	spawned_item.item = item_resource
 	spawned_item.tile_position = tile_position
 	spawned_item.road = road
 	spawned_item.global_position = to_global(road.map_to_local(tile_position)) 

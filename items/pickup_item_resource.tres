@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PickupItem" load_steps=3 format=3 uid="uid://cdxg5ci0a0lg1"]
 
 [ext_resource type="Script" path="res://items/pickup.gd" id="1_wgjga"]
-[ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/package.png" id="2_ghbe0"]
+[ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="2_ghbe0"]
 
 [resource]
 script = ExtResource("1_wgjga")

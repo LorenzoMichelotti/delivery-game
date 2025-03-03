@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ActorResource" load_steps=3 format=3 uid="uid://bk8a7wr4o6575"]
+
+[ext_resource type="Texture2D" uid="uid://7pvqxn3oorp7" path="res://assets/characters/actors/morgana/poirtraits/morgana1.png" id="1_e38j5"]
+[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="1_yylal"]
+
+[resource]
+script = ExtResource("1_yylal")
+name = "Morgana"
+poirtrait = ExtResource("1_e38j5")
+color = Color(0.627451, 0.12549, 0.941176, 1)

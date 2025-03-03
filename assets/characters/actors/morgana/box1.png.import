@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck06nbqjuisay"
-path="res://.godot/imported/morgana2.png-a8bc4cffc5415b1527c9dd7e0904d645.ctex"
+uid="uid://blls3rbi1oujc"
+path="res://.godot/imported/box1.png-218342ce86e0dbba3004c22866b1c77d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/poirtraits/morgana2.png"
-dest_files=["res://.godot/imported/morgana2.png-a8bc4cffc5415b1527c9dd7e0904d645.ctex"]
+source_file="res://assets/characters/actors/morgana/box1.png"
+dest_files=["res://.godot/imported/box1.png-218342ce86e0dbba3004c22866b1c77d.ctex"]
 
 [params]
 

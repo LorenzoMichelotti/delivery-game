@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CutsceneResource" load_steps=8 format=3 uid="uid://3pkk8kbef8mg"]
 
 [ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_pxler"]
-[ext_resource type="Texture2D" uid="uid://ijinpohnvub7" path="res://assets/characters/poirtraits/morgana3.png" id="2_k83ym"]
+[ext_resource type="Texture2D" uid="uid://ijinpohnvub7" path="res://assets/characters/actors/morgana/poirtraits/morgana3.png" id="2_k83ym"]
 [ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="3_3khxa"]
 [ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="5_fj3hd"]
 [ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="6_p0525"]

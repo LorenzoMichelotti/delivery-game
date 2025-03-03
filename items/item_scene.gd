@@ -1,6 +1,7 @@
 class_name ItemScene
 extends Node2D
 
+@export var color: Color = Color.WHITE
 @export var item: Item:
 	set(new_item):
 		item = new_item
@@ -19,11 +20,13 @@ extends Node2D
 @onready var sprite := $SpritePivot/Sprite2D
 @onready var item_balloon := $SpritePivot/ItemBalloon
 
+
 var tile_position: Vector2i
 var road: TileMapLayer
 
 func _ready():
 	$AnimationPlayer.play("idle")
+	sprite.modulate = color
 	area2d.connect("body_entered", _on_area_2d_body_entered)
 	
 	if item is DeliveryTargetItem:
