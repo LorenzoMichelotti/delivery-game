@@ -11,10 +11,6 @@ var cross_hair_frame = 58
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if GameManager.is_game_paused():
-		hide()
-		return
-		
 	if enabled: use_gps_arrow()
 	
 func use_gps_arrow():

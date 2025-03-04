@@ -10,13 +10,17 @@ extends Node2D
 
 @onready var game_ui: Control = $CanvasLayer/LevelUI
 
-# Called when the node enters the scene tree for the first time.
+# ATTENTION: THE ORDER OF THE COMPONENTS BELOW IS IMPORTANT
 func _ready():
 	GameManager.current_level = level
 	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements
+	
 	PlayerManager.on_level_changed()
 	completion_requirements.apply_modifiers()
+	if not PlayerManager.gas_enabled:
+		game_ui.gas_bar_container.hide()
+		
 	GameManager.on_level_changed()
 	CutsceneManager.on_level_changed()
 	CutsceneManager.cutscene_player.play.call_deferred(start_cutscene, game_ui)

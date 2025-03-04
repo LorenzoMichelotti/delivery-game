@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=4 uid="uid://d2xva7cmj4g50"]
 
-[ext_resource type="Script" path="res://world.gd" id="1_fx0ir"]
+[ext_resource type="Script" path="res://levels/world.gd" id="1_fx0ir"]
 [ext_resource type="Resource" uid="uid://ch6jfo4uyls8r" path="res://assets/characters/actors/axy/axy.tres" id="2_0itch"]
 [ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="2_d8iui"]
 [ext_resource type="Script" path="res://level_completion_requirements/minimum_deliveries_requirement_script.gd" id="3_6rywj"]
 [ext_resource type="Resource" uid="uid://bg8ew2flxsmae" path="res://cutscenes/03/03_intro.tres" id="3_40c8c"]
-[ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://player.tscn" id="3_ru8ms"]
+[ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://actors/player.tscn" id="3_ru8ms"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="5_hk5md"]
 
 [sub_resource type="Resource" id="Resource_415to"]

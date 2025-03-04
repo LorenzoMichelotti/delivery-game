@@ -26,7 +26,7 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kjun5")
 
-[node name="GasBarContainer" type="Panel" parent="."]
+[node name="GasBarContainer" type="Panel" parent="Panel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -35,13 +35,13 @@ offset_bottom = 26.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kjun5")
 
-[node name="GasBar" type="Panel" parent="GasBarContainer"]
+[node name="GasBar" type="Panel" parent="Panel/GasBarContainer"]
 layout_mode = 1
 offset_right = 1152.0
 offset_bottom = 21.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jtd70")
 
-[node name="GasLabel" type="Label" parent="GasBarContainer"]
+[node name="GasLabel" type="Label" parent="Panel/GasBarContainer"]
 visible = false
 layout_mode = 1
 anchors_preset = 8

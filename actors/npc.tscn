@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://cibaxdfigpu3p"]
 
-[ext_resource type="Script" path="res://npc.gd" id="1_yi3ig"]
+[ext_resource type="Script" path="res://actors/npc.gd" id="1_yi3ig"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]

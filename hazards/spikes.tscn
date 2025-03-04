@@ -1,0 +1,152 @@
+[gd_scene load_steps=17 format=3 uid="uid://qhhji15xlc4s"]
+
+[ext_resource type="Script" path="res://hazards/IntervalHazard.gd" id="1_6wi26"]
+[ext_resource type="Texture2D" uid="uid://dxxff44lhgfbu" path="res://assets/hazards/spikes.png" id="1_s0c8p"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_ejbvc"]
+
+[sub_resource type="Animation" id="Animation_85jcf"]
+resource_name = "idle"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_uyo2d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_p8iot"]
+resource_name = "arming"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_t57oo"]
+resource_name = "armed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 4, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"_set_armed"
+}, {
+"args": [false],
+"method": &"_set_armed"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sk54s"]
+_data = {
+"RESET": SubResource("Animation_uyo2d"),
+"armed": SubResource("Animation_t57oo"),
+"arming": SubResource("Animation_p8iot"),
+"idle": SubResource("Animation_85jcf")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tepgo"]
+animation = &"armed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iwrx1"]
+animation = &"arming"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_im73m"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j6580"]
+advance_mode = 2
+advance_condition = &"enabled"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cf35p"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnafw"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7g548"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wrh5g"]
+states/armed/node = SubResource("AnimationNodeAnimation_tepgo")
+states/armed/position = Vector2(684.667, 61.3333)
+states/arming/node = SubResource("AnimationNodeAnimation_iwrx1")
+states/arming/position = Vector2(536, 163.333)
+states/idle/node = SubResource("AnimationNodeAnimation_im73m")
+states/idle/position = Vector2(344.667, 140.667)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_j6580"), "idle", "arming", SubResource("AnimationNodeStateMachineTransition_cf35p"), "arming", "armed", SubResource("AnimationNodeStateMachineTransition_mnafw"), "armed", "idle", SubResource("AnimationNodeStateMachineTransition_7g548")]
+
+[node name="Spikes" type="Node2D" node_paths=PackedStringArray("damage_dealer_module")]
+position = Vector2(0, -1)
+script = ExtResource("1_6wi26")
+damage_dealer_module = NodePath("DamageDealerModule")
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+texture = ExtResource("1_s0c8p")
+hframes = 5
+
+[node name="DamageDealerModule" parent="." instance=ExtResource("3_ejbvc")]
+type = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sk54s")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_wrh5g")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/enabled = false
+
+[editable path="DamageDealerModule"]

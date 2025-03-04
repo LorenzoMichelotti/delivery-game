@@ -3,19 +3,22 @@ extends Node
 enum CHANNEL_CONFIG {
 	BASIC,
 	HITS,
-	EXPLOSIONS
+	EXPLOSIONS,
+	SPIKES
 } 
 
 const BUS_CONFIG = {
 	CHANNEL_CONFIG.BASIC: "Master",
+	CHANNEL_CONFIG.SPIKES: "Master",
 	CHANNEL_CONFIG.HITS: "Explosions",
-	CHANNEL_CONFIG.EXPLOSIONS: "Explosions"
+	CHANNEL_CONFIG.EXPLOSIONS: "Explosions",
 } 
 
 var channels = {
 	CHANNEL_CONFIG.BASIC: [null, null, null, null, null],
 	CHANNEL_CONFIG.HITS: [null, null],
-	CHANNEL_CONFIG.EXPLOSIONS: [null, null]
+	CHANNEL_CONFIG.EXPLOSIONS: [null, null],
+	CHANNEL_CONFIG.SPIKES: [null]
 }
 
 func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC):

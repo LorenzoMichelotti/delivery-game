@@ -2,6 +2,7 @@ class_name AliveModule
 extends Node2D
 
 @export var max_hp := 1
+@export var should_free_on_dead := true
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
@@ -24,24 +25,24 @@ func _ready():
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES):
-	if is_dead or is_taking_damage or GameManager.is_game_paused() or not _should_take_damage(perpetrator):
+	if is_dead or is_taking_damage or not _should_take_damage(perpetrator):
 		return
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:
-		die()
+		die(perpetrator)
 		return
 	
 	hp = new_hp
 	_play_hit_tweener()
 
 
-func die():
+func die(perpetrator):
 	hp = 0
 	is_dead = true
 	died.emit()
 	
-	_play_death_tweener()
+	_play_death_tweener(perpetrator)
 
 func _play_hit_tweener():
 	is_taking_damage = true
@@ -60,7 +61,7 @@ func _play_hit_tweener():
 	actor.sprite_pivot.rotation = 0
 	is_taking_damage = false
 	
-func _play_death_tweener():
+func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
 	VfxManager.display_explosion_effect(actor.global_position)
@@ -77,14 +78,15 @@ func _play_death_tweener():
 	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS)
 	VfxManager.display_explosion_effect(knockdown_position)
 	
-	if on_death_points > 0:
+	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER and on_death_points > 0:
 		VfxManager.display_number(str(on_death_points), knockdown_position)
 		PlayerManager.add_points(on_death_points)
 	
 	tween = get_tree().create_tween().bind_node(self)
 	tween.tween_property(actor.sprite_pivot, "modulate", Color.BLACK, 0.1)
 	tween.parallel().tween_property(actor.sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
-	tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
+	if should_free_on_dead:
+		tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
 
 func _get_random_knockup_position() -> Vector2:
 	return Vector2(actor.global_position.x + randi_range(-8, 8), actor.global_position.y - 10)
@@ -97,7 +99,7 @@ func _should_take_damage(perpetrator: GlobalConstants.ACTOR_TYPES) -> bool:
 		GlobalConstants.ACTOR_TYPES.ENEMY:
 			return false if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY else true
 		GlobalConstants.ACTOR_TYPES.PLAYER:
-			return true if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY else false
+			return true if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY or perpetrator == GlobalConstants.ACTOR_TYPES.HAZARD else false
 		GlobalConstants.ACTOR_TYPES.FRIEND:
-			return true if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY else false
+			return true if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY or perpetrator == GlobalConstants.ACTOR_TYPES.HAZARD else false
 	return false

@@ -1,6 +1,7 @@
 class_name DamageDealerModule
 extends Node2D
 
+@export var enabled := true
 @export var damage := 1
 @export var type: GlobalConstants.ACTOR_TYPES
 
@@ -10,5 +11,5 @@ func _ready():
 	hurt_box.area_entered.connect(_on_are_entered)
 
 func _on_are_entered(area):
-	if area.is_in_group("hit_box"):
+	if enabled and area.is_in_group("hit_box"):
 		(area.get_parent() as AliveModule).take_damage(damage, type)

@@ -18,13 +18,16 @@ func _input(event):
 
 func _restart_or_go_to_next_level():
 	if start_over:
-		GameManager.change_level(GameManager.current_level)
+		get_tree().reload_current_scene()
 		return
 	GameManager.next_level()
 
 func _update_points_label():
 	if visible:
 		play()
+
+func pause():
+	get_tree().paused = true
 
 func play():
 	animation_tree.set("parameters/conditions/appear", true)

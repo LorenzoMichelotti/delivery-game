@@ -43,17 +43,13 @@ func inventory_complete_delivery(delivery_id):
 
 func on_level_changed():
 	player_is_ready = false
-	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer")
-	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasBar")
-	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasLabel")
+	gas_bar_backdrop = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer")
+	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasBar")
+	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
 	pawn = get_tree().current_scene.get_node("Entities/Player")
 	pawn_spawn_position = pawn.global_position
-	
-	gps_arrow = gps_scene.instantiate()
-	gps_arrow.hide()
-	pawn.add_child.call_deferred(gps_arrow)
-	
+	pawn.alive_module.died.connect(empty_tank)
 	gas_usage = initial_gas_usage
 	
 	reset_player()

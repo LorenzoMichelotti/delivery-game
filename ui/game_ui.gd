@@ -2,6 +2,7 @@ extends Control
 
 @onready var goal_description = $PointsControl/Goal
 @onready var goal_value = $PointsControl/GoalValue
+@onready var gas_bar_container = $Panel
 
 func _ready():
 	show()

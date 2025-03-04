@@ -28,7 +28,7 @@ const items = {
 }
 const npcs = {
 	"police_car": {
-		"scene": preload("res://npc.tscn")
+		"scene": preload("res://actors/npc.tscn")
 	}
 }
 
@@ -103,10 +103,13 @@ func set_game_mode(new_game_mode: GAMEMODE):
 			gameover()
 			return
 		GAMEMODE.PAUSED:
+			get_tree().paused = true
 			pause_screen()
 			return
 		GAMEMODE.CUTSCENE:
 			return
+		GAMEMODE.PLAYING:
+			get_tree().paused = false
 
 func verify_level_win_condition():
 	if current_completion_goal:

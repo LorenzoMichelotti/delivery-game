@@ -296,6 +296,20 @@ tracks/11/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath(".")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"pause"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_22xa3"]
 resource_name = "disappear"
@@ -652,6 +666,7 @@ states/initialize/position = Vector2(381.333, 123.333)
 transitions = ["Start", "initialize", SubResource("AnimationNodeStateMachineTransition_7ij7q"), "initialize", "appear", SubResource("AnimationNodeStateMachineTransition_ce0ma"), "appear", "disappear", SubResource("AnimationNodeStateMachineTransition_k8wxq"), "disappear", "initialize", SubResource("AnimationNodeStateMachineTransition_s4ape")]
 
 [node name="GameOver" type="CanvasLayer"]
+process_mode = 3
 layer = 2
 script = ExtResource("1_np54t")
 
