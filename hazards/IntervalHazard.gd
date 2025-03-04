@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var damage_dealer_module: DamageDealerModule
-@export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Spike.wav")
+@export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Sword_Slash.wav")
 @export var start_delay: float = 0.0
 
 func _ready():

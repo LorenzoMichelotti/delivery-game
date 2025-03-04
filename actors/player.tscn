@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://cg0e6xtloabql"]
+[gd_scene load_steps=18 format=3 uid="uid://cg0e6xtloabql"]
 
 [ext_resource type="Script" path="res://actors/player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
+[ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="3_m3new"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="3_yylic"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_0hc0a"]
 [ext_resource type="PackedScene" uid="uid://doyt36tmeupl2" path="res://ui/gps.tscn" id="5_6tncn"]
@@ -80,6 +81,7 @@ z_index = 3
 position = Vector2(0, -2)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+material = ExtResource("3_m3new")
 texture = ExtResource("2_hf73d")
 hframes = 8
 vframes = 8

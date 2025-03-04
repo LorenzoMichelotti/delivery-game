@@ -9,7 +9,7 @@ enum CHANNEL_CONFIG {
 
 const BUS_CONFIG = {
 	CHANNEL_CONFIG.BASIC: "Master",
-	CHANNEL_CONFIG.SPIKES: "Master",
+	CHANNEL_CONFIG.SPIKES: "Explosions",
 	CHANNEL_CONFIG.HITS: "Explosions",
 	CHANNEL_CONFIG.EXPLOSIONS: "Explosions",
 } 
@@ -18,7 +18,7 @@ var channels = {
 	CHANNEL_CONFIG.BASIC: [null, null, null, null, null],
 	CHANNEL_CONFIG.HITS: [null, null],
 	CHANNEL_CONFIG.EXPLOSIONS: [null, null],
-	CHANNEL_CONFIG.SPIKES: [null]
+	CHANNEL_CONFIG.SPIKES: [null, null, null]
 }
 
 func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC):

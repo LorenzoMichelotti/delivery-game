@@ -3,6 +3,7 @@ extends Node2D
 
 @export var max_hp := 1
 @export var should_free_on_dead := true
+@export var can_be_knocked_down := true
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
@@ -24,7 +25,7 @@ func _ready():
 	hp = max_hp
 
 
-func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES):
+func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true):
 	if is_dead or is_taking_damage or not _should_take_damage(perpetrator):
 		return
 	
@@ -34,7 +35,7 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES):
 		return
 	
 	hp = new_hp
-	_play_hit_tweener()
+	_play_hit_tweener(is_knockup)
 
 
 func die(perpetrator):
@@ -44,12 +45,27 @@ func die(perpetrator):
 	
 	_play_death_tweener(perpetrator)
 
-func _play_hit_tweener():
+func _play_hit_tweener(is_knockup: bool):
 	is_taking_damage = true
-	var knockup_position = Vector2(actor.global_position.x, actor.global_position.y - 10)
-	var knockdown_position = actor.global_position
+	
 	VfxManager.display_explosion_effect(actor.global_position)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
+	
+	if not can_be_knocked_down or not is_knockup:
+		var shader = actor.sprite.material as ShaderMaterial
+		shader.set_shader_parameter("active", true)
+		if tween:
+			tween.kill()
+		tween = create_tween()
+		tween.tween_property(actor, "global_position", actor.global_position, 0.5)
+		tween.finished.connect(tween.kill)
+		await tween.finished
+		shader.set_shader_parameter("active", false)
+		is_taking_damage = false
+		return
+	
+	var knockdown_position = actor.global_position
+	var knockup_position = Vector2(actor.global_position.x, actor.global_position.y - 10)
 	if tween:
 		tween.kill()
 	tween = create_tween()
@@ -59,6 +75,7 @@ func _play_hit_tweener():
 	tween.finished.connect(tween.kill)
 	await tween.finished
 	actor.sprite_pivot.rotation = 0
+	
 	is_taking_damage = false
 	
 func _play_death_tweener(perpetrator):
@@ -66,6 +83,10 @@ func _play_death_tweener(perpetrator):
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
 	VfxManager.display_explosion_effect(actor.global_position)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
+	
+	var shader = actor.sprite.material as ShaderMaterial
+	shader.set_shader_parameter("active", true)
+	
 	if tween:
 		tween.kill()
 	tween = create_tween()
@@ -74,6 +95,7 @@ func _play_death_tweener(perpetrator):
 	tween.chain().tween_property(actor.sprite_pivot, "global_position", knockdown_position, 0.1)
 	
 	await tween.finished
+	shader.set_shader_parameter("active", false)
 	
 	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS)
 	VfxManager.display_explosion_effect(knockdown_position)

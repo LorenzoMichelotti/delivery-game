@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://clrg2wu11gslg"]
+[gd_scene load_steps=9 format=4 uid="uid://clrg2wu11gslg"]
 
 [ext_resource type="Script" path="res://levels/world.gd" id="1_ma8nb"]
 [ext_resource type="Script" path="res://level_completion_requirements/completion_requirement_script.gd" id="2_7w1mb"]
@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="4_d4k7u"]
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://actors/player.tscn" id="5_tx0ij"]
 [ext_resource type="PackedScene" uid="uid://qhhji15xlc4s" path="res://hazards/spikes.tscn" id="6_llpjc"]
+[ext_resource type="PackedScene" uid="uid://bfdqdodpe3pog" path="res://actors/tank/tank.tscn" id="7_ly4fu"]
 
 [sub_resource type="Resource" id="Resource_lhqgm"]
 script = ExtResource("2_7w1mb")
 goal_description = "Free Roam"
 gas_enabled = false
-npc_count = 5
+npc_count = 50
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_ma8nb")
@@ -67,3 +68,6 @@ start_delay = 1.0
 [node name="Spikes3" parent="." instance=ExtResource("6_llpjc")]
 position = Vector2(52, -36)
 start_delay = 2.0
+
+[node name="Tank" parent="." instance=ExtResource("7_ly4fu")]
+position = Vector2(-20, -4)

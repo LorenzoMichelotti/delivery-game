@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjv1gqoxxwfaf"]
+[gd_scene load_steps=7 format=3 uid="uid://bjv1gqoxxwfaf"]
 
 [ext_resource type="Script" path="res://ui/game_ui.gd" id="1_jjqjh"]
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="2_ulwpv"]
@@ -8,6 +8,12 @@ bg_color = Color(0.0330039, 0.0346141, 0.091406, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtd70"]
 bg_color = Color(0.960683, 0.407038, 1.92523e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbwig"]
+bg_color = Color(0.269336, 6.63001e-06, 0.205138, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fv372"]
+bg_color = Color(0.812612, 0, 0.156663, 1)
 
 [node name="LevelUI" type="Control"]
 layout_mode = 3
@@ -57,6 +63,60 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_ulwpv")
 text = "100"
+
+[node name="HealthBarContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 35.0
+offset_top = 62.0
+offset_right = -934.0
+offset_bottom = 103.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kjun5")
+
+[node name="HealthBarBackDrop" type="Panel" parent="HealthBarContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = -7.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fbwig")
+
+[node name="HealthBar" type="Panel" parent="HealthBarContainer/HealthBarBackDrop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fv372")
+
+[node name="HealthLabel" type="Label" parent="HealthBarContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.5
+offset_top = -17.5
+offset_right = 48.5
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ulwpv")
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 24
+text = "3/3
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PointsControl" type="Control" parent="."]
 layout_mode = 1
