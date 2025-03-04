@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="2_y356s"]
 
 [node name="FloatingText" type="Label"]
-z_index = 6
+z_index = 12
 offset_right = 34.0
 offset_bottom = 31.0
 scale = Vector2(0.244701, 0.244701)
