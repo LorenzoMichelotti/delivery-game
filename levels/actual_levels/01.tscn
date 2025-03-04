@@ -50,7 +50,7 @@ tile_set = ExtResource("6_w8vus")
 y_sort_enabled = true
 
 [node name="Player" parent="Entities" instance=ExtResource("7_m7djf")]
-position = Vector2(4, -5)
+position = Vector2(-4, -4)
 
 [node name="Camera2D" type="Camera2D" parent="Entities/Player"]
 zoom = Vector2(6, 6)

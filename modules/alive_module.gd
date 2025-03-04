@@ -1,4 +1,4 @@
-class_name AliveComponent
+class_name AliveModule
 extends Node2D
 
 @export var max_hp := 1

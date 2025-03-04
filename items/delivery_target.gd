@@ -21,8 +21,8 @@ func on_pickup(item_scene: ItemScene):
 		tween.finished.connect(item_scene.queue_free)
 
 func on_delivery_item_picked_up(item_scene: ItemScene):
-	item_scene.item_balloon.self_modulate = Color.GREEN_YELLOW
-	item_scene.item_balloon.scale = Vector2.ONE * 1.2
+	item_scene.item_balloon.balloon_sprite.modulate = Color.GREEN_YELLOW
+	item_scene.item_balloon.sprite_pivot.scale = Vector2.ONE * 1.2
 	#if ready_sign:
 		#return
 	#ready_sign = preload("res://ui/ready_sign.tscn").instantiate()

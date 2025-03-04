@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqnvu4th0t4ar"]
+
+[ext_resource type="Script" path="res://modules/player_controller_module.gd" id="1_ddd51"]
+
+[node name="PlayerControllerModule" type="Node2D"]
+script = ExtResource("1_ddd51")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(8, 0)
+collision_mask = 2

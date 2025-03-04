@@ -8,7 +8,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("SpritePivot:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -17,30 +17,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -9)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_kt724"]
 resource_name = "appear"
@@ -48,7 +24,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("SpritePivot:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -60,7 +36,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
+tracks/1/path = NodePath("SpritePivot:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -72,7 +48,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
+tracks/2/path = NodePath("SpritePivot:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -88,8 +64,8 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
+tracks/0/path = NodePath("SpritePivot:position")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3),
@@ -100,7 +76,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
+tracks/1/path = NodePath("SpritePivot:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -112,7 +88,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
+tracks/2/path = NodePath("SpritePivot:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -129,15 +105,23 @@ _data = {
 "dissappear": SubResource("Animation_r6tfb")
 }
 
-[node name="ItemBalloon" type="Sprite2D"]
+[node name="ItemBalloon" type="Node2D"]
+z_index = 6
+script = ExtResource("2_j0bld")
+
+[node name="SpritePivot" type="Node2D" parent="."]
 position = Vector2(0, -9)
+
+[node name="BalloonSprite" type="Node2D" parent="SpritePivot"]
+
+[node name="Balloon" type="Sprite2D" parent="SpritePivot/BalloonSprite"]
+scale = Vector2(1, 1)
 texture = ExtResource("1_5tonb")
 hframes = 8
 vframes = 8
 frame = 55
-script = ExtResource("2_j0bld")
 
-[node name="ItemBalloon2" type="Sprite2D" parent="."]
+[node name="BallonTail" type="Sprite2D" parent="SpritePivot/BalloonSprite"]
 position = Vector2(0, 3)
 scale = Vector2(0.25, -0.46875)
 texture = ExtResource("1_5tonb")
@@ -145,7 +129,8 @@ hframes = 8
 vframes = 8
 frame = 55
 
-[node name="ItemSprite" type="Sprite2D" parent="."]
+[node name="ItemSprite" type="Sprite2D" parent="SpritePivot"]
+scale = Vector2(1.01745, 1.01745)
 texture = ExtResource("1_5tonb")
 hframes = 8
 vframes = 8

@@ -1,3 +1,4 @@
+class_name DamageDealerModule
 extends Node2D
 
 @export var damage := 1
@@ -10,4 +11,4 @@ func _ready():
 
 func _on_are_entered(area):
 	if area.is_in_group("hit_box"):
-		(area.get_parent() as AliveComponent).take_damage(damage, type)
+		(area.get_parent() as AliveModule).take_damage(damage, type)

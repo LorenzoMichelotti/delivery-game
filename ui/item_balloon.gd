@@ -1,17 +1,19 @@
-extends Sprite2D
+extends Node2D
 
 @onready var anim_player = $AnimationPlayer
-@onready var item_sprite = $ItemSprite
+@onready var item_sprite = $SpritePivot/ItemSprite
+@onready var balloon_sprite = $SpritePivot/BalloonSprite
+@onready var sprite_pivot = $SpritePivot
 
 func _ready():
-	modulate.a = 0
+	$SpritePivot.modulate.a = 0
 
 func update_item_balloon(hide: bool, animation_frame: int = 0, texture: Texture2D = null, is_animated: bool = true):
 	if hide:
 		anim_player.play("dissappear")
 		return
-	anim_player.play("appear")
 	item_sprite.texture = texture
+	anim_player.play("appear")
 	if is_animated:
 		item_sprite.hframes = 8
 		item_sprite.vframes = 8

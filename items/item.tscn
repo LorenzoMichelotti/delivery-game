@@ -58,6 +58,7 @@ vframes = 8
 frame = 20
 
 [node name="ItemBalloon" parent="SpritePivot" instance=ExtResource("3_vu4vb")]
+position = Vector2(0, -1)
 
 [node name="Area2D" type="Area2D" parent="."]
 

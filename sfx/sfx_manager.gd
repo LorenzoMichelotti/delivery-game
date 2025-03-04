@@ -6,16 +6,24 @@ enum CHANNEL_CONFIG {
 	EXPLOSIONS
 } 
 
+const BUS_CONFIG = {
+	CHANNEL_CONFIG.BASIC: "Master",
+	CHANNEL_CONFIG.HITS: "Explosions",
+	CHANNEL_CONFIG.EXPLOSIONS: "Explosions"
+} 
+
 var channels = {
 	CHANNEL_CONFIG.BASIC: [null, null, null, null, null],
-	CHANNEL_CONFIG.HITS: [null],
-	CHANNEL_CONFIG.EXPLOSIONS: [null]
+	CHANNEL_CONFIG.HITS: [null, null],
+	CHANNEL_CONFIG.EXPLOSIONS: [null, null]
 }
 
 func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC):
 	for i in range(channels[playback_channel].size()):
 		if channels[playback_channel][i] == null:
 			channels[playback_channel][i] = AudioStreamPlayer2D.new()
+			channels[playback_channel][i].attenuation = .2
+			channels[playback_channel][i].bus = BUS_CONFIG[playback_channel]
 			add_child(channels[playback_channel][i])
 			print("created basic audiostream channel")
 		var channel: AudioStreamPlayer2D = channels[playback_channel][i]

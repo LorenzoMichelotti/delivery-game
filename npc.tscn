@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://cibaxdfigpu3p"]
+[gd_scene load_steps=18 format=3 uid="uid://cibaxdfigpu3p"]
 
 [ext_resource type="Script" path="res://npc.gd" id="1_yi3ig"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]
-[ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://components/alive_component.tscn" id="5_sxxkn"]
+[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="5_cwb55"]
+[ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="5_sxxkn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -101,17 +102,13 @@ disabled = true
 
 [node name="SpritePivot" type="Node2D" parent="."]
 z_index = 1
-position = Vector2(0, -3)
+position = Vector2(0, -2)
 scale = Vector2(1.12429, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
 texture = ExtResource("3_bhchp")
 hframes = 3
 region_rect = Rect2(32, 0, 8, 8)
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(8, 0)
-collision_mask = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -123,7 +120,11 @@ tree_root = SubResource("AnimationNodeStateMachine_tqwx8")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="ItemBalloon" parent="." instance=ExtResource("4_v7a6i")]
+position = Vector2(0, -3)
 
-[node name="AliveComponent" parent="." instance=ExtResource("5_sxxkn")]
+[node name="AliveModule" parent="." instance=ExtResource("5_sxxkn")]
 on_death_points = 100
 type = 1
+
+[node name="RandomMovementModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("5_cwb55")]
+pawn = NodePath("..")

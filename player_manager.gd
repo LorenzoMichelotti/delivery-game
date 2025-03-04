@@ -109,10 +109,10 @@ func complete_level():
 	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
 
 func reset_player():
-	pawn.current_direction = Vector2.ZERO
-	pawn.target_position = pawn_spawn_position
+	pawn.controller.current_direction = Vector2.ZERO
+	pawn.controller.target_position = pawn_spawn_position
 	pawn.global_position = pawn_spawn_position
-	pawn.input_queue.clear()
+	pawn.controller.input_queue.clear()
 	inventory_delivery_ids.clear()
 	
 	gas_enabled = true
