@@ -27,6 +27,8 @@ SfxManager="*res://sfx/sfx_manager.gd"
 
 player=""
 npc=""
+hurt_box=""
+hit_box=""
 
 [input]
 

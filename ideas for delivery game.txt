@@ -1,0 +1,15 @@
+ideas for delivery game
+
+
+- level with items that spawn on NPC cars:
+	- destroy them to grab the item
+
+
+- level where u pick up trash and deliver it to a specific location
+
+
+- car shoots gun turret
+
+- enemies have life and take multiple hits
+	- knockups and damage are separate
+	- taking damage as a external component

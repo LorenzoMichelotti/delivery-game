@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]
+[ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://components/alive_component.tscn" id="5_sxxkn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -23,6 +24,22 @@ tracks/0/keys = {
 "values": [Vector2(1.12429, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_cuerq"]
+resource_name = "appear"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.12429, 1), Vector2(1.12429, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_885hu"]
 resource_name = "idle"
 length = 0.3
@@ -38,22 +55,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1, 1.2), Vector2(1, 1), Vector2(1.2, 1), Vector2(1, 1.2), Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_cuerq"]
-resource_name = "appear"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SpritePivot:scale")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(1.12429, 1), Vector2(1.12429, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
@@ -86,9 +87,6 @@ states/appear/position = Vector2(399.333, 135.333)
 states/idle/node = SubResource("AnimationNodeAnimation_vjxgv")
 states/idle/position = Vector2(633.333, 153.333)
 transitions = ["idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud"), "Start", "appear", SubResource("AnimationNodeStateMachineTransition_gar1c"), "appear", "idle", SubResource("AnimationNodeStateMachineTransition_2oiu3")]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_eptng"]
-size = Vector2(6, 5)
 
 [node name="Npc" type="CharacterBody2D" groups=["npc"]]
 z_index = 4
@@ -126,8 +124,6 @@ anim_player = NodePath("../AnimationPlayer")
 
 [node name="ItemBalloon" parent="." instance=ExtResource("4_v7a6i")]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_eptng")
+[node name="AliveComponent" parent="." instance=ExtResource("5_sxxkn")]
+on_death_points = 100
+type = 1

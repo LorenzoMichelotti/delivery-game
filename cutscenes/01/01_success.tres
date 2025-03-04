@@ -26,3 +26,4 @@ gameover = true
 [resource]
 script = ExtResource("5_wyli8")
 scene = Array[ExtResource("1_ah25d")]([SubResource("Resource_baksi")])
+intro = false

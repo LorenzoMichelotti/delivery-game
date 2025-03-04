@@ -248,15 +248,15 @@ func _scatter_npcs(amount: int):
 		if free_tiles == null or free_tiles.size() <= 0:
 			print("ERROR: couldnt spawn item because there were no free tiles")
 		var tile_position = free_tiles.pick_random()
-		var police_car_npc = npcs.police_car.scene.instantiate()
 		npcs_alive += 1
-		police_car_npc.enemy_died.connect(_on_npc_died)
+		var police_car_npc = npcs.police_car.scene.instantiate()
 		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 
-		get_tree().current_scene.get_node("Entities").add_child.call_deferred(police_car_npc)
+		get_tree().current_scene.get_node("Entities").add_child(police_car_npc)
+		police_car_npc.alive_component.died.connect(_on_npc_died)
 
 func _on_npc_died():
 	npcs_alive -= 1
-	_scatter_npcs(1)
+	_scatter_npcs.call_deferred(1)
 
 func pickup_delivery_item(delivery_id: int):
 	deliveries[delivery_id].obtained = true

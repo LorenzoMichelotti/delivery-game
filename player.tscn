@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://cg0e6xtloabql"]
+[gd_scene load_steps=16 format=3 uid="uid://cg0e6xtloabql"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="3_yylic"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_0hc0a"]
 [ext_resource type="PackedScene" uid="uid://doyt36tmeupl2" path="res://ui/gps.tscn" id="5_6tncn"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://components/damage_dealer_component.tscn" id="6_lmiaw"]
+[ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://components/alive_component.tscn" id="7_eowff"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -98,3 +100,8 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="ItemBalloon" parent="." instance=ExtResource("4_0hc0a")]
 
 [node name="GpsPivot" parent="." instance=ExtResource("5_6tncn")]
+
+[node name="DamageDealerComponent" parent="." instance=ExtResource("6_lmiaw")]
+
+[node name="AliveComponent" parent="." instance=ExtResource("7_eowff")]
+max_hp = 3
