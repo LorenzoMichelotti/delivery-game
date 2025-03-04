@@ -125,7 +125,7 @@ func gameover():
 		game_over_ui.play.call_deferred()
 		return
 	game_over_ui = game_over_scene.instantiate()
-	get_tree().current_scene.add_child.call_deferred(game_over_ui)
+	add_child.call_deferred(game_over_ui)
 	
 func pause_screen():
 	if pause_ui != null:

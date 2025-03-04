@@ -3,10 +3,10 @@ extends CanvasLayer
 @onready var final_score_label = $GameOver/FinalScoreLabel
 @onready var button = $GameOver/Button
 @onready var title = $GameOver/Title
+@onready var animation_tree := $AnimationTree
 var start_over = true
 
 func _ready():
-	$AnimationPlayer.play("initialize")
 	visibility_changed.connect(_update_points_label)
 	_update_points_label()
 
@@ -28,7 +28,8 @@ func _update_points_label():
 		play()
 
 func play():
-	$AnimationPlayer.play("appear")
+	animation_tree.set("parameters/conditions/appear", true)
+	animation_tree.set("parameters/conditions/disappear", false)
 	if GameManager.verify_level_win_condition():
 		button.set_text("Next Level")
 		title.set_text("LEVEL COMPLETE")
@@ -40,5 +41,5 @@ func play():
 	final_score_label.text = str(PlayerManager.points).pad_zeros(10)
 
 func _disappear():
-	if $AnimationPlayer.current_animation != "disappear":
-		$AnimationPlayer.play("disappear")
+	animation_tree.set("parameters/conditions/appear", false)
+	animation_tree.set("parameters/conditions/disappear", true)

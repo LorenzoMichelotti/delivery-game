@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4unuymrht51k"]
+[gd_scene load_steps=16 format=3 uid="uid://b4unuymrht51k"]
 
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_lg1v2"]
 [ext_resource type="Script" path="res://ui/game_over.gd" id="1_np54t"]
@@ -615,7 +615,43 @@ _data = {
 "initialize": SubResource("Animation_v8t05")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_etw25"]
+animation = &"appear"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fmj0k"]
+animation = &"disappear"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ve072"]
+animation = &"initialize"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7ij7q"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ce0ma"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k8wxq"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"disappear"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s4ape"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"appear"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_nymyd"]
+states/appear/node = SubResource("AnimationNodeAnimation_etw25")
+states/appear/position = Vector2(549.333, 202)
+states/disappear/node = SubResource("AnimationNodeAnimation_fmj0k")
+states/disappear/position = Vector2(748, 122.667)
+states/initialize/node = SubResource("AnimationNodeAnimation_ve072")
+states/initialize/position = Vector2(381.333, 123.333)
+transitions = ["Start", "initialize", SubResource("AnimationNodeStateMachineTransition_7ij7q"), "initialize", "appear", SubResource("AnimationNodeStateMachineTransition_ce0ma"), "appear", "disappear", SubResource("AnimationNodeStateMachineTransition_k8wxq"), "disappear", "initialize", SubResource("AnimationNodeStateMachineTransition_s4ape")]
+
 [node name="GameOver" type="CanvasLayer"]
+layer = 2
 script = ExtResource("1_np54t")
 
 [node name="GameOver" type="Control" parent="."]
@@ -643,9 +679,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -561.0
+offset_left = -265.0
 offset_top = -181.0
-offset_right = 535.0
+offset_right = 831.0
 offset_bottom = -53.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -712,5 +748,11 @@ text = "start over"
 libraries = {
 "": SubResource("AnimationLibrary_xv3yx")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_nymyd")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/appear = false
+parameters/conditions/disappear = false
 
 [connection signal="pressed" from="GameOver/Button" to="." method="_on_button_pressed"]
