@@ -1,5 +1,7 @@
 [gd_resource type="Theme" load_steps=6 format=3 uid="uid://ck22mgvaqi0wd"]
 
+[ext_resource type="FontFile" uid="uid://bq148xiq6wovs" path="res://assets/fonts/PublicPixel.otf" id="1_8yjl7"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_loeqt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mude8"]
@@ -56,16 +58,13 @@ expand_margin_top = 4.0
 expand_margin_right = 20.0
 expand_margin_bottom = 8.0
 
-[sub_resource type="SystemFont" id="SystemFont_ypq47"]
-font_names = PackedStringArray("Alatsi")
-
 [resource]
-default_font = SubResource("SystemFont_ypq47")
+default_font = ExtResource("1_8yjl7")
 default_font_size = 32
 Button/colors/font_color = Color(1, 1, 1, 1)
-Button/constants/outline_size = 20
+Button/constants/outline_size = 25
 Button/styles/focus = SubResource("StyleBoxEmpty_loeqt")
 Button/styles/hover = SubResource("StyleBoxFlat_mude8")
 Button/styles/normal = SubResource("StyleBoxFlat_awh4h")
 Button/styles/pressed = SubResource("StyleBoxFlat_nmwoq")
-Label/constants/outline_size = 20
+Label/constants/outline_size = 25

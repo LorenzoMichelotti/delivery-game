@@ -8,7 +8,6 @@ var start_over = true
 
 func _ready():
 	visibility_changed.connect(_update_points_label)
-	_update_points_label()
 
 func _on_button_pressed():
 	_disappear()

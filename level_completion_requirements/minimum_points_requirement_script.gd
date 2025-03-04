@@ -5,7 +5,10 @@ extends CompletionRequirementResource
 
 func _init():
 	goal_description = "GOAL:" + str(minimum_points_for_completion) + "POINTS"
-	
+
+func apply_modifiers():
+	pass
+
 func verify_completion_requirement_met():
 	return PlayerManager.points >= minimum_points_for_completion
 

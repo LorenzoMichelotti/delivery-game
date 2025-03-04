@@ -82,16 +82,18 @@ func die():
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
 	
 	var tween = get_tree().create_tween().bind_node(self)
-	tween.tween_property(sprite_pivot, "global_position", Vector2(global_position.x + randi_range(-8, 8), global_position.y - 10), 0.2)
+	var drop_position = Vector2(global_position.x + randi_range(-8, 8), global_position.y - 10)
+	tween.tween_property(sprite_pivot, "global_position", drop_position, 0.2)
 	tween.parallel().tween_property(sprite_pivot, "rotation", TAU/2, 0.3)
-	tween.chain().tween_property(sprite_pivot, "global_position:y", randi_range(global_position.y + 8, global_position.y -8), 0.1)
+	drop_position.y = randi_range(drop_position.y + 8, drop_position.y -8)
+	tween.chain().tween_property(sprite_pivot, "global_position", drop_position, 0.1)
 	
 	await tween.finished
 	
 	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS)
-	VfxManager.display_explosion_effect(global_position)
+	VfxManager.display_explosion_effect(drop_position)
 	
-	VfxManager.display_number(str(points), global_position)
+	VfxManager.display_number(str(points), drop_position)
 	PlayerManager.add_points(points)
 	
 	tween = get_tree().create_tween().bind_node(self)

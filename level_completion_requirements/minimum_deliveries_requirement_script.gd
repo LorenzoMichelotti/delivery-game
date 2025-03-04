@@ -6,6 +6,9 @@ extends CompletionRequirementResource
 func _init():
 	goal_description = "GOAL: COMPLETE DELIVERIES"
 
+func apply_modifiers():
+	pass
+	
 func verify_completion_requirement_met():
 	return PlayerManager.completed_deliveries >= minimum_deliveries_for_completion
 

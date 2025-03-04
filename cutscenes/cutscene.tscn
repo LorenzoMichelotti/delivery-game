@@ -1324,7 +1324,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_v52vv")
 [node name="ActorNameLabel" type="Label" parent="BackDrop/DialogueBox"]
 layout_mode = 1
 offset_top = -46.0
-offset_right = 221.0
+offset_right = 280.0
 offset_bottom = 6.0
 theme_override_colors/font_color = Color(0.713726, 0, 0.560784, 1)
 theme_override_constants/outline_size = 25

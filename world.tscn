@@ -11,7 +11,6 @@ script = ExtResource("2_0dfg7")
 goal_description = "Free Roam"
 
 [node name="World" type="Node2D"]
-visible = false
 script = ExtResource("1_vcjjp")
 completion_requirements = SubResource("Resource_61rcc")
 

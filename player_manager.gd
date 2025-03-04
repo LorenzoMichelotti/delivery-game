@@ -5,7 +5,7 @@ extends Node
 @onready var gas_label: Label
 @onready var points_label: Label
 @onready var pawn: Node2D
-@onready var pawn_spawn_position: Vector2 = Vector2(4, -5)
+@onready var pawn_spawn_position: Vector2
 @onready var gps_scene: PackedScene = preload("res://ui/gps.tscn")
 @onready var gps_arrow: Node2D
 
@@ -13,6 +13,7 @@ var max_gas = 100
 var current_gas = 100
 var initial_gas_usage = 10
 var gas_usage = 0
+
 var points = 0
 var completed_deliveries = 0
 var inventory_delivery_ids: Array[int] = []
@@ -29,10 +30,11 @@ func inventory_hold_delivery(delivery_id):
 	inventory_delivery_ids_changed.emit(false, GameManager.deliveries[delivery_id].item.item.animation_frame, GameManager.deliveries[delivery_id].item.item.texture, GameManager.deliveries[delivery_id].item.item.is_animated_sprite)
 
 func inventory_complete_delivery(delivery_id):
-	if gas_usage - 1 >= 0:
-		gas_usage -= 1
-	else:
-		gas_usage = 0
+	if gas_enabled:
+		if gas_usage - 1 >= 0:
+			gas_usage -= 1
+		else:
+			gas_usage = 0
 	completed_deliveries += 1
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
@@ -46,6 +48,7 @@ func on_level_changed():
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
 	pawn = get_tree().current_scene.get_node("Entities/Player")
+	pawn_spawn_position = pawn.global_position
 	
 	gps_arrow = gps_scene.instantiate()
 	gps_arrow.hide()
@@ -111,11 +114,14 @@ func reset_player():
 	pawn.global_position = pawn_spawn_position
 	pawn.input_queue.clear()
 	inventory_delivery_ids.clear()
+	
+	gas_enabled = true
 	gas_usage = initial_gas_usage
 	current_gas = max_gas
+	tank_empty = false
+	
 	points = 0
 	completed_deliveries = 0
-	tank_empty = false
 	success = false
 	update_points_label(points)
 	update_gas_bar()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bjv1gqoxxwfaf"]
+[gd_scene load_steps=5 format=3 uid="uid://bjv1gqoxxwfaf"]
 
 [ext_resource type="Script" path="res://ui/game_ui.gd" id="1_jjqjh"]
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="2_ulwpv"]
@@ -8,19 +8,6 @@ bg_color = Color(0.0330039, 0.0346141, 0.091406, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtd70"]
 bg_color = Color(0.960683, 0.407038, 1.92523e-07, 1)
-
-[sub_resource type="Animation" id="Animation_khaxl"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_8ft6f"]
-resource_name = "fade_in_out"
-length = 3.0
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_mai2g"]
-_data = {
-"RESET": SubResource("Animation_khaxl"),
-"fade_in_out": SubResource("Animation_8ft6f")
-}
 
 [node name="LevelUI" type="Control"]
 layout_mode = 3
@@ -96,10 +83,11 @@ grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(186, 0)
 theme = ExtResource("2_ulwpv")
-theme_override_constants/outline_size = 30
-theme_override_font_sizes/font_size = 42
+theme_override_constants/outline_size = 25
+theme_override_font_sizes/font_size = 32
 text = "0000000000"
 horizontal_alignment = 1
+uppercase = true
 
 [node name="Goal" type="Label" parent="PointsControl"]
 modulate = Color(0.598525, 0.598525, 0.598525, 1)
@@ -110,17 +98,18 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -358.0
-offset_top = 80.0
+offset_top = 98.0
 offset_right = -2.0
-offset_bottom = 111.0
+offset_bottom = 129.0
 grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(186, 0)
 theme = ExtResource("2_ulwpv")
 theme_override_constants/outline_size = 18
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 16
 text = "COMPLETE DELIVERIES"
 horizontal_alignment = 2
+uppercase = true
 
 [node name="GoalsTitle" type="Label" parent="PointsControl"]
 layout_mode = 1
@@ -129,17 +118,18 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -243.0
-offset_top = 45.0
-offset_right = -2.0
-offset_bottom = 76.0
+offset_left = -320.0
+offset_top = 60.0
+offset_right = -79.0
+offset_bottom = 91.0
 grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(186, 0)
 theme = ExtResource("2_ulwpv")
-theme_override_constants/outline_size = 18
+theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 24
 text = "GOALS"
+uppercase = true
 
 [node name="GoalValue" type="Label" parent="PointsControl"]
 layout_mode = 1
@@ -149,9 +139,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -239.0
-offset_top = 116.0
+offset_top = 134.0
 offset_right = -2.0
-offset_bottom = 157.0
+offset_bottom = 175.0
 grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(186, 0)
@@ -161,8 +151,4 @@ theme_override_font_sizes/font_size = 32
 text = "0/3"
 horizontal_alignment = 2
 autowrap_mode = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_mai2g")
-}
+uppercase = true

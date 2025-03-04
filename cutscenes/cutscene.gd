@@ -27,7 +27,7 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$AnimationPlayer.play("no_cutscene_transition")
 		print("no_cutscene_transition")
 		return
-	if CutsceneManager.watched_cutscenes.has(new_cutscene):
+	if CutsceneManager.watched_cutscenes.has(new_cutscene) or GameManager.skip_cutscenes:
 		$AnimationPlayer.play("no_goals_no_cutscene_transition")
 		print("no_goals_no_cutscene_transition")
 		return
@@ -125,7 +125,7 @@ func _end_cutscene():
 	$AnimationPlayer.play("disappear")
 
 func _resume_gameplay():
-	if (current_dialogue and current_dialogue.gameover) or GameManager.verify_level_win_condition():
+	if (current_dialogue and current_dialogue.gameover) or GameManager.verify_level_win_condition() or (GameManager.skip_cutscenes and PlayerManager.tank_empty):
 		if game_ui:
 			game_ui.hide()
 		GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)

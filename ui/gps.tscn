@@ -328,7 +328,7 @@ states/pickup/position = Vector2(502, 276)
 transitions = ["Start", "appear", SubResource("AnimationNodeStateMachineTransition_43qik"), "appear", "disappear", SubResource("AnimationNodeStateMachineTransition_hnh1c"), "disappear", "appear", SubResource("AnimationNodeStateMachineTransition_fpebo"), "disappear", "pickup", SubResource("AnimationNodeStateMachineTransition_1mbfg"), "pickup", "disappear", SubResource("AnimationNodeStateMachineTransition_s11b3"), "pickup", "appear", SubResource("AnimationNodeStateMachineTransition_61hh1"), "appear", "pickup", SubResource("AnimationNodeStateMachineTransition_kh1yx")]
 
 [node name="Gps" type="Node2D"]
-z_index = 2
+z_index = 10
 script = ExtResource("1_jmyr5")
 
 [node name="Pivot" type="Node2D" parent="."]

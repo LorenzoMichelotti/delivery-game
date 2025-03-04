@@ -1,21 +1,18 @@
 extends Node2D
 
 var levels = {
-	#1: {
-		#"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		#"scene": preload("res://levels/1.tscn"),
-		##"watched_cutscene": false
-	#},
-	#2: {
-		#"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		#"scene": preload("res://levels/2.tscn"),
-		##"watched_cutscene": false
-	#},
 	1: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/3.tscn"),
-		#"watched_cutscene": false
+		"scene": preload("res://levels/actual_levels/01.tscn"),
 	},
+	2: {
+		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		"scene": preload("res://levels/actual_levels/02.tscn"),
+	},
+	3: {
+		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
+		"scene": preload("res://levels/actual_levels/03.tscn"),
+	}
 }
 const item_scene = preload("res://items/item.tscn")
 const items = {
@@ -44,7 +41,7 @@ var current_level: int = 0
 var current_day: int = 0
 var current_completion_goal: CompletionRequirementResource
 var current_level_retries: int = 0
-
+var skip_cutscenes = true
 var game_over_ui
 var pause_ui
 var roads: Array[TileMapLayer]
@@ -63,21 +60,16 @@ var previous_game_mode = GAMEMODE.INITIALIZING
 var rng = RandomNumberGenerator.new()
 var endless = false
 
+var npc_count = 5
 var npcs_alive = 0
 
 var deliveries = {}
 signal clear_items
 
 func _ready():
-	change_level(1)
-
-#func set_watched_level_cutscene():
-	#levels[current_level].watched_cutscene = true
-#
-#func have_watched_level_cutscene():
-	#if current_level == 0:
-		#return false
-	#return levels[current_level].watched_cutscene
+	game_over_ui = game_over_scene.instantiate()
+	add_child.call_deferred(game_over_ui)
+	#change_level(1)
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
@@ -121,11 +113,7 @@ func verify_level_win_condition():
 		return current_completion_goal.verify_completion_requirement_met()
 	
 func gameover():
-	if game_over_ui != null:
-		game_over_ui.play.call_deferred()
-		return
-	game_over_ui = game_over_scene.instantiate()
-	add_child.call_deferred(game_over_ui)
+	game_over_ui.play.call_deferred()
 	
 func pause_screen():
 	if pause_ui != null:
@@ -148,8 +136,8 @@ func reset_level():
 func reset_map():
 	_clear_map()
 	create_delivery()
-	_scatter_fuel(5)
-	_scatter_npcs(5)
+	if PlayerManager.gas_enabled: _scatter_fuel(5)
+	_scatter_npcs(npc_count)
 
 func _clear_map():
 	clear_items.emit()
@@ -284,4 +272,4 @@ func deliver_item(delivery_id: int):
 	print(deliveries)
 	create_delivery()
 	print(deliveries)
-	_scatter_fuel(rng.randi_range(1,3))
+	if PlayerManager.gas_enabled: _scatter_fuel(rng.randi_range(1,3))
