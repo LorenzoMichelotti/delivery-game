@@ -99,6 +99,9 @@ func set_game_mode(new_game_mode: GAMEMODE):
 	current_game_mode = new_game_mode
 	
 	match current_game_mode:
+		GAMEMODE.INITIALIZING:
+			get_tree().paused = true
+			return
 		GAMEMODE.GAMEOVER:
 			gameover()
 			return

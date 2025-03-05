@@ -12,6 +12,8 @@ extends Node2D
 
 # ATTENTION: THE ORDER OF THE COMPONENTS BELOW IS IMPORTANT
 func _ready():
+	get_tree().paused = true
+	
 	GameManager.current_level = level
 	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements

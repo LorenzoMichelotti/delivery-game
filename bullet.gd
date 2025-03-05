@@ -24,6 +24,7 @@ func _ready():
 
 func _physics_process(delta):
 	velocity = direction * speed
+	rotation = direction.angle()
 	move_and_slide()
 
 func _on_lifespan_timeout():

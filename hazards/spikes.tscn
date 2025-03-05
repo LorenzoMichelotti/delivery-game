@@ -137,6 +137,7 @@ texture = ExtResource("1_s0c8p")
 hframes = 5
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("3_ejbvc")]
+type = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

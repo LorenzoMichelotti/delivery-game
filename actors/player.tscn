@@ -72,7 +72,8 @@ z_index = 2
 script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
-position = Vector2(0, -6)
+position = Vector2(0, -8)
+shoot_delay = 0.1
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)

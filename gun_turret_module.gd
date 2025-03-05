@@ -22,7 +22,6 @@ var closest_enemy_in_range: Node2D
 
 
 func _ready():
-	crosshair_pivot.hide()
 	type = get_parent().type
 	crosshair_pivot.modulate = GlobalConstants.ACTOR_COLORS[type]
 
@@ -45,7 +44,7 @@ func _shoot():
 		bullet.direction = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
 	else:
 		bullet.direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
-	SfxManager.play_sfx(stream_sfx)
+	SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.GUN)
 	bullet.speed = bullet_speed
 	bullet.global_position = bullet_hole.global_position
 	bullet.type = type
@@ -63,11 +62,11 @@ func update_animations():
 		if closest_enemy_in_range == null:
 			return
 		var dir = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
-		animation_tree.set("parameters/blend_position", dir)
+		animation_tree.set("parameters/DirectionBlendSpace/blend_position", dir)
 		bullet_hole_pivot.rotation = lerp_angle(bullet_hole_pivot.rotation, bullet_hole.global_position.angle_to_point(closest_enemy_in_range.global_position), get_process_delta_time() * 5)
 		return
 	var dir = (get_global_mouse_position() - global_position).normalized()
-	animation_tree.set("parameters/blend_position", dir)
+	animation_tree.set("parameters/DirectionBlendSpace/blend_position", dir)
 	bullet_hole_pivot.rotation = lerp_angle(bullet_hole_pivot.rotation, global_position.angle_to_point(get_global_mouse_position()), get_process_delta_time() * 5)
 
 
@@ -76,13 +75,16 @@ func _update_crosshair_animation():
 		# go to closest enemy
 		closest_enemy_in_range = _get_closest_enemy_in_range()
 		if closest_enemy_in_range != null:
-			crosshair_pivot.show()
+			animation_tree.set("parameters/conditions/appear", true)
+			animation_tree.set("parameters/conditions/disappear", false)
 			crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, closest_enemy_in_range.global_position, get_process_delta_time() * 40)
 		else:
-			crosshair_pivot.hide()
+			animation_tree.set("parameters/conditions/appear", false)
+			animation_tree.set("parameters/conditions/disappear", true)
 		return
 	# go to mouse position
-	crosshair_pivot.show()
+	animation_tree.set("parameters/conditions/appear", true)
+	animation_tree.set("parameters/conditions/disappear", false)
 	crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, get_global_mouse_position(), get_process_delta_time() * 40)
 	
 	
