@@ -6,6 +6,7 @@ extends Node2D
 @export var damage = 10
 @export var bullet_speed = 200
 @export var automatic_aim = true
+@export var aim_speed = 10
 @export var automatic_shoot = true
 
 @onready var type: GlobalConstants.ACTOR_TYPES
@@ -80,7 +81,7 @@ func _update_crosshair_animation():
 		if closest_enemy_in_range != null:
 			animation_tree.set("parameters/conditions/appear", true)
 			animation_tree.set("parameters/conditions/disappear", false)
-			crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, closest_enemy_in_range.global_position, get_process_delta_time() * 40)
+			crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, closest_enemy_in_range.global_position, get_process_delta_time() * aim_speed)
 		else:
 			animation_tree.set("parameters/conditions/appear", false)
 			animation_tree.set("parameters/conditions/disappear", true)
@@ -88,7 +89,7 @@ func _update_crosshair_animation():
 	# go to mouse position
 	animation_tree.set("parameters/conditions/appear", true)
 	animation_tree.set("parameters/conditions/disappear", false)
-	crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, get_global_mouse_position(), get_process_delta_time() * 40)
+	crosshair_pivot.global_position = lerp(crosshair_pivot.global_position, get_global_mouse_position(), get_process_delta_time() * aim_speed)
 	
 	
 func _get_closest_enemy_in_range():

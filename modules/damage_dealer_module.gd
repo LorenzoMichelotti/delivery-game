@@ -16,3 +16,9 @@ func _on_area_entered(area):
 	if enabled and area.is_in_group("hit_box") and area.get_parent():
 		if (area.get_parent() as AliveModule).take_damage(damage, type, is_knockup, get_parent()) and is_bullet:
 			get_parent().queue_free()
+
+func enable():
+	enabled = true
+
+func disable():
+	enabled = false

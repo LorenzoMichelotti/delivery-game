@@ -6,6 +6,7 @@
 size = Vector2(10, 7.56061)
 
 [node name="DamageDealerModule" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_afd73")
 
 [node name="HurtBox" type="Area2D" parent="." groups=["hurt_box"]]

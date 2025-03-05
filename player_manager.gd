@@ -90,12 +90,17 @@ func empty_tank():
 	tank_empty = true
 	current_gas = 0
 	update_gas_bar()
-	complete_level()
+	var current_scene = get_tree().current_scene
+	if current_scene.gameover_cutscene != null:
+		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)
+		return 
+	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
 
 func complete_level():
 	if success:
 		return
 	success = GameManager.verify_level_win_condition()
+	get_tree().paused = true
 	var current_scene = get_tree().current_scene
 	if not success and current_scene.gameover_cutscene != null:
 		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)

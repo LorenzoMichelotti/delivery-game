@@ -11,7 +11,7 @@ func on_pickup(item_scene: ItemScene):
 		var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)
 		VfxManager.display_number(str(points), item_scene.global_position)
 		VfxManager.display_pickup_effect(item_scene.global_position)
-		SfxManager.play_sfx(pickup_sfx, SfxManager.CHANNEL_CONFIG.BASIC, true)
+		SfxManager.play_sfx(pickup_sfx, SfxManager.CHANNEL_CONFIG.VOICES)
 		PlayerManager.inventory_complete_delivery(delivery_id)
 		GameManager.deliver_item(delivery_id)
 		PlayerManager.add_points(points)

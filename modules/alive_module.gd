@@ -19,6 +19,7 @@ var is_dead := false
 var is_taking_damage := false
 var has_invincibility := false
 signal died
+signal took_damage
 
 var tween: Tween
 
@@ -42,8 +43,7 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 	if has_invincibility or is_taking_damage:
 		return true # absorb bullets
 	
-	if type == GlobalConstants.ACTOR_TYPES.PLAYER:
-		CameraManager.apply_quick_zoom()
+	took_damage.emit()
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:

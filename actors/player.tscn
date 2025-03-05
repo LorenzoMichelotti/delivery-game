@@ -69,12 +69,13 @@ states/idle/position = Vector2(522, 107.333)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ndkef"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud")]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+process_mode = 3
 z_index = 2
 script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
-shoot_delay = 0.1
+shoot_delay = 0.2
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)
@@ -125,5 +126,10 @@ damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
 [node name="PlayerControllerModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("8_y1ilt")]
+process_mode = 1
 visible = false
 pawn = NodePath("..")
+
+[connection signal="died" from="AliveModule" to="." method="_on_die"]
+[connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]
+[connection signal="took_damage" from="AliveModule" to="." method="_on_take_damage"]

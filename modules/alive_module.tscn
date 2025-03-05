@@ -6,6 +6,7 @@
 size = Vector2(6, 5)
 
 [node name="AliveModule" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_6k1yw")
 
 [node name="HitBox" type="Area2D" parent="." groups=["hit_box"]]
