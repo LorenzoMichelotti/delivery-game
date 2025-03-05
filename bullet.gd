@@ -1,5 +1,5 @@
 class_name Bullet
-extends CharacterBody2D
+extends ActorInanimate
 
 @export var speed := 200
 @export var direction: Vector2 = Vector2.RIGHT
@@ -11,6 +11,16 @@ var lifespan: float = 5.0
 
 func _ready():
 	get_tree().create_timer(lifespan).timeout.connect(_on_lifespan_timeout)
+	damage_dealer_module.type = type
+	match type:
+		GlobalConstants.ACTOR_TYPES.PLAYER:
+			sprite.frame = 0
+		GlobalConstants.ACTOR_TYPES.ENEMY:
+			sprite.frame = 2
+		GlobalConstants.ACTOR_TYPES.HAZARD:
+			sprite.frame = 2
+		GlobalConstants.ACTOR_TYPES.FRIEND:
+			sprite.frame = 0
 
 func _physics_process(delta):
 	velocity = direction * speed

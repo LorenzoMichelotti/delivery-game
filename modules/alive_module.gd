@@ -9,9 +9,9 @@ extends Node2D
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
-@export var type: GlobalConstants.ACTOR_TYPES
 
 @onready var actor
+@onready var type: GlobalConstants.ACTOR_TYPES
 @onready var hit_box: Area2D = $HitBox
 
 var hp := 1
@@ -25,15 +25,18 @@ var tween: Tween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	actor = get_parent()
+	type = actor.type
 	hp = max_hp
 
 
-func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
+func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true, damage_dealer = null) -> bool:
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	
 	if not is_knockup:
-		VfxManager.display_number(str(damage).pad_zeros(2), actor.global_position)
+		VfxManager.display_number(str(damage).pad_zeros(2), actor.global_position, Color.RED)
+		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
+		VfxManager.display_explosion_effect(actor.global_position)
 	
 	if has_invincibility or is_taking_damage:
 		return true # absorb bullets
@@ -60,8 +63,6 @@ func _play_hit_tweener(is_knockup: bool):
 	is_taking_damage = true
 	get_tree().create_timer(damage_stun_amount).timeout.connect(_stop_being_stunned)
 	
-	VfxManager.display_explosion_effect(actor.global_position)
-	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
 	
 	var shader = actor.sprite.material as ShaderMaterial
 	shader.set_shader_parameter("active", true)

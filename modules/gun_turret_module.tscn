@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bqf5chdoirwek"]
+[gd_scene load_steps=23 format=3 uid="uid://bqf5chdoirwek"]
 
 [ext_resource type="Script" path="res://gun_turret_module.gd" id="1_aqang"]
 [ext_resource type="Texture2D" uid="uid://bjtcd1s5bh0jh" path="res://assets/guns/gun_turret.png" id="2_ke4gh"]
@@ -203,7 +203,11 @@ blend_point_7/pos = Vector2(-1, 1)
 max_space = Vector2(1.01, 1)
 blend_mode = 1
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3h87"]
+radius = 51.0
+
 [node name="GunTurretModule" type="Node2D"]
+z_index = 6
 script = ExtResource("1_aqang")
 
 [node name="BulletHolePivot" type="Node2D" parent="."]
@@ -227,3 +231,19 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendSpace2D_2sjue")
 anim_player = NodePath("../AnimationPlayer")
 parameters/blend_position = Vector2(0.000413775, 0.949704)
+
+[node name="CrossHairPivot" type="Node2D" parent="."]
+
+[node name="CrossHair" type="Sprite2D" parent="CrossHairPivot"]
+texture = ExtResource("2_ke4gh")
+hframes = 3
+vframes = 3
+frame = 4
+
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+shape = SubResource("CircleShape2D_x3h87")
+
+[connection signal="area_entered" from="Range" to="." method="_on_range_body_entered"]
+[connection signal="area_exited" from="Range" to="." method="_on_range_body_exited"]

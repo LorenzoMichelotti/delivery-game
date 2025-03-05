@@ -16,7 +16,7 @@ const BUS_CONFIG = {
 
 var channels = {
 	CHANNEL_CONFIG.BASIC: [null, null, null, null, null],
-	CHANNEL_CONFIG.HITS: [null, null],
+	CHANNEL_CONFIG.HITS: [null, null, null, null],
 	CHANNEL_CONFIG.EXPLOSIONS: [null, null],
 	CHANNEL_CONFIG.SPIKES: [null, null, null]
 }

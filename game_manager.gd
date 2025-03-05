@@ -255,6 +255,7 @@ func _scatter_npcs(amount: int):
 		var police_car_npc = npcs.police_car.scene.instantiate()
 		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 
 		get_tree().current_scene.get_node("Entities").add_child(police_car_npc)
+		police_car_npc.add_to_group("enemy")
 		police_car_npc.alive_module.died.connect(_on_npc_died)
 
 func _on_npc_died():

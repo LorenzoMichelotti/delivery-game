@@ -38,7 +38,7 @@ func display_explosion_effect(position: Vector2):
 			explosion_pool[i].emitting = true
 			return
 		
-func display_number(text: String, position: Vector2):
+func display_number(text: String, position: Vector2, color: Color = Color.WHITE):
 	for i in len(number_pool):
 		if number_pool[i] == null:
 			number_pool[i] = floating_text_scene.instantiate()
@@ -47,6 +47,7 @@ func display_number(text: String, position: Vector2):
 		if not number_pool[i].visible:
 			number_pool[i].global_position = position 
 			number_pool[i].global_position.y -= 8 
+			number_pool[i].modulate = color 
 			number_pool[i].set_text(text)  # Set the text value
 			number_pool[i].animate()
 			return

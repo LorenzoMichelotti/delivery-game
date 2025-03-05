@@ -71,16 +71,14 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 z_index = 2
 script = ExtResource("1_0lbjl")
 
+[node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
+position = Vector2(0, -6)
+
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8v2hg")
-
-[node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
-z_index = 4
-position = Vector2(0, -7)
-shoot_delay = 0.1
 
 [node name="SpritePivot" type="Node2D" parent="."]
 z_index = 3
@@ -116,6 +114,8 @@ position = Vector2(0, -4)
 [node name="AliveModule" parent="." instance=ExtResource("7_eowff")]
 max_hp = 3
 should_free_on_dead = false
+damage_stun_amount = 0.1
+invincibility_amount = 1.0
 
 [node name="PlayerControllerModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("8_y1ilt")]
 pawn = NodePath("..")
