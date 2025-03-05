@@ -24,12 +24,13 @@ var channels = {
 	CHANNEL_CONFIG.SPIKES: [null, null, null]
 }
 
-func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC):
+func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC, randomize_pitch = false):
 	for i in range(channels[playback_channel].size()):
 		if channels[playback_channel][i] == null:
 			channels[playback_channel][i] = AudioStreamPlayer2D.new()
 			channels[playback_channel][i].attenuation = .2
 			channels[playback_channel][i].bus = BUS_CONFIG[playback_channel]
+			channels[playback_channel][i].pitch_scale = randf_range(.5, 1.5) if randomize_pitch else 1
 			add_child(channels[playback_channel][i])
 			print("created basic audiostream channel")
 		var channel: AudioStreamPlayer2D = channels[playback_channel][i]

@@ -1,7 +1,7 @@
 class_name DeliveryTargetItem
 extends Item
 
-var points = 1000
+var points = 10000
 var ready_sign
 var delivery_id: int
 
@@ -11,7 +11,7 @@ func on_pickup(item_scene: ItemScene):
 		var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)
 		VfxManager.display_number(str(points), item_scene.global_position)
 		VfxManager.display_pickup_effect(item_scene.global_position)
-		SfxManager.play_sfx(pickup_sfx)
+		SfxManager.play_sfx(pickup_sfx, SfxManager.CHANNEL_CONFIG.BASIC, true)
 		PlayerManager.inventory_complete_delivery(delivery_id)
 		GameManager.deliver_item(delivery_id)
 		PlayerManager.add_points(points)
@@ -23,12 +23,6 @@ func on_pickup(item_scene: ItemScene):
 func on_delivery_item_picked_up(item_scene: ItemScene):
 	item_scene.item_balloon.balloon_sprite.modulate = Color.GREEN_YELLOW
 	item_scene.item_balloon.sprite_pivot.scale = Vector2.ONE * 1.2
-	#if ready_sign:
-		#return
-	#ready_sign = preload("res://ui/ready_sign.tscn").instantiate()
-	#ready_sign.position.y -= 8
-	#ready_sign.position.x -= 9
-	#item_scene.add_child.call_deferred(ready_sign)
 
 func on_free():
 	PlayerManager.inventory_complete_delivery(delivery_id)

@@ -35,11 +35,15 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 	
 	if not is_knockup:
 		VfxManager.display_number(str(damage).pad_zeros(2), actor.global_position, Color.RED)
-		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
+		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 		VfxManager.display_explosion_effect(actor.global_position)
+		CameraManager.apply_shake()
 	
 	if has_invincibility or is_taking_damage:
 		return true # absorb bullets
+	
+	if type == GlobalConstants.ACTOR_TYPES.PLAYER:
+		CameraManager.apply_quick_zoom()
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:
@@ -62,7 +66,6 @@ func die(perpetrator):
 func _play_hit_tweener(is_knockup: bool):
 	is_taking_damage = true
 	get_tree().create_timer(damage_stun_amount).timeout.connect(_stop_being_stunned)
-	
 	
 	var shader = actor.sprite.material as ShaderMaterial
 	shader.set_shader_parameter("active", true)
@@ -108,7 +111,7 @@ func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
 	VfxManager.display_explosion_effect(actor.global_position)
-	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
+	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	
 	var shader = actor.sprite.material as ShaderMaterial
 	shader.set_shader_parameter("active", true)
@@ -141,8 +144,9 @@ func _play_death_tweener(perpetrator):
 	await tween.finished
 	shader.set_shader_parameter("active", false)
 	
-	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS)
+	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
 	VfxManager.display_explosion_effect(knockdown_position)
+	CameraManager.apply_shake()
 	
 	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER and on_death_points > 0:
 		VfxManager.display_number(str(on_death_points), knockdown_position)
@@ -151,7 +155,7 @@ func _play_death_tweener(perpetrator):
 	tween = get_tree().create_tween().bind_node(self)
 	tween.tween_property(actor.sprite_pivot, "modulate", Color.BLACK, 0.1)
 	tween.parallel().tween_property(actor.sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
-	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , .4)
+	tween.parallel().tween_property(actor.shadow, "modulate:a", 0 , .4)
 	if should_free_on_dead:
 		tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
 

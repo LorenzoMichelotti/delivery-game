@@ -313,7 +313,7 @@ region_rect = Rect2(32, 0, 8, 8)
 position = Vector2(0, -1)
 max_hp = 100
 can_be_knocked_down = false
-on_death_points = 1000
+on_death_points = 10000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_hcm04")

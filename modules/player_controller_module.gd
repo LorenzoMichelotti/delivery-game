@@ -15,7 +15,7 @@ func _ready():
 	target_position = pawn.global_position 
 
 func _process(delta):
-	if pawn.alive_module.is_taking_damage:
+	if pawn.alive_module.is_taking_damage or pawn.alive_module.is_dead:
 		return
 	
 	pawn.global_position = pawn.global_position.move_toward(target_position, speed * delta)
@@ -40,7 +40,7 @@ func _process(delta):
 			target_position += current_direction * GlobalConstants.GRID_SIZE
 
 func _unhandled_input(event):
-	if pawn.alive_module.is_taking_damage:
+	if pawn.alive_module.is_taking_damage or pawn.alive_module.is_dead:
 		return
 		
 	if event is InputEventKey:

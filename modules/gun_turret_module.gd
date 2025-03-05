@@ -19,15 +19,18 @@ extends Node2D
 var can_shoot = true
 var enemies_in_range: Array[Node2D] = []
 var closest_enemy_in_range: Node2D
-
+var actor: Actor
 
 func _ready():
-	type = get_parent().type
+	actor = get_parent()
+	type = actor.type
 	crosshair_pivot.modulate = GlobalConstants.ACTOR_COLORS[type]
 
 
 func _process(delta):
-	if not enabled:
+	if not enabled or actor.alive_module.is_dead:
+		animation_tree.set("parameters/conditions/appear", false)
+		animation_tree.set("parameters/conditions/disappear", true)
 		return
 	update_animations()
 	if can_shoot and (automatic_shoot or (type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_pressed("space"))):
@@ -44,7 +47,7 @@ func _shoot():
 		bullet.direction = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
 	else:
 		bullet.direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
-	SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.GUN)
+	SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.GUN, true)
 	bullet.speed = bullet_speed
 	bullet.global_position = bullet_hole.global_position
 	bullet.type = type
