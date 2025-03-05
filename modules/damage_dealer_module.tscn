@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://modules/damage_dealer_module.gd" id="1_afd73"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jh5cv"]
-size = Vector2(6, 5)
+size = Vector2(10, 7.56061)
 
 [node name="DamageDealerModule" type="Node2D"]
 script = ExtResource("1_afd73")

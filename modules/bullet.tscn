@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv3vi6qqaxcbi"]
+
+[ext_resource type="Script" path="res://bullet.gd" id="1_li8li"]
+[ext_resource type="Texture2D" uid="uid://26qadtn7i3nh" path="res://assets/explosion.png" id="2_jd5wr"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_xqm0h"]
+
+[node name="Bullet" type="CharacterBody2D"]
+z_index = 8
+script = ExtResource("1_li8li")
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="SpritePivot"]
+scale = Vector2(2.03013, 2.03013)
+texture = ExtResource("2_jd5wr")
+hframes = 4
+
+[node name="DamageDealerModule" parent="." instance=ExtResource("3_xqm0h")]
+is_knockup = false
+is_bullet = true
+
+[node name="CollisionShape2D" parent="DamageDealerModule/HurtBox" index="0"]
+position = Vector2(0, 0.01)
+scale = Vector2(1, 1.32)
+
+[editable path="DamageDealerModule"]

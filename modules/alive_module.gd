@@ -4,6 +4,8 @@ extends Node2D
 @export var max_hp := 1
 @export var should_free_on_dead := true
 @export var can_be_knocked_down := true
+@export var damage_stun_amount := .2
+@export var invincibility_amount := .3
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
@@ -15,6 +17,7 @@ extends Node2D
 var hp := 1
 var is_dead := false
 var is_taking_damage := false
+var has_invincibility := false
 signal died
 
 var tween: Tween
@@ -25,17 +28,25 @@ func _ready():
 	hp = max_hp
 
 
-func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true):
-	if is_dead or is_taking_damage or not _should_take_damage(perpetrator):
-		return
+func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
+	if is_dead or not _should_take_damage(perpetrator):
+		return false
+	
+	if not is_knockup:
+		VfxManager.display_number(str(damage).pad_zeros(2), actor.global_position)
+	
+	if has_invincibility or is_taking_damage:
+		return true # absorb bullets
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:
 		die(perpetrator)
-		return
+		return true
 	
 	hp = new_hp
+	
 	_play_hit_tweener(is_knockup)
+	return true
 
 
 func die(perpetrator):
@@ -47,21 +58,22 @@ func die(perpetrator):
 
 func _play_hit_tweener(is_knockup: bool):
 	is_taking_damage = true
+	get_tree().create_timer(damage_stun_amount).timeout.connect(_stop_being_stunned)
 	
 	VfxManager.display_explosion_effect(actor.global_position)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS)
 	
+	var shader = actor.sprite.material as ShaderMaterial
+	shader.set_shader_parameter("active", true)
+	
 	if not can_be_knocked_down or not is_knockup:
-		var shader = actor.sprite.material as ShaderMaterial
-		shader.set_shader_parameter("active", true)
 		if tween:
 			tween.kill()
 		tween = create_tween()
-		tween.tween_property(actor, "global_position", actor.global_position, 0.5)
+		tween.tween_property(actor, "global_position", actor.global_position, 0.4)
 		tween.finished.connect(tween.kill)
 		await tween.finished
 		shader.set_shader_parameter("active", false)
-		is_taking_damage = false
 		return
 	
 	var knockdown_position = actor.global_position
@@ -74,9 +86,10 @@ func _play_hit_tweener(is_knockup: bool):
 	tween.tween_property(actor, "global_position", knockdown_position, 0.1)
 	tween.finished.connect(tween.kill)
 	await tween.finished
+	shader.set_shader_parameter("active", false)
+	
 	actor.sprite_pivot.rotation = 0
 	
-	is_taking_damage = false
 	
 func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
@@ -125,3 +138,11 @@ func _should_take_damage(perpetrator: GlobalConstants.ACTOR_TYPES) -> bool:
 		GlobalConstants.ACTOR_TYPES.FRIEND:
 			return true if perpetrator == GlobalConstants.ACTOR_TYPES.ENEMY or perpetrator == GlobalConstants.ACTOR_TYPES.HAZARD else false
 	return false
+
+func _stop_being_stunned():
+	is_taking_damage = false
+	has_invincibility = true
+	get_tree().create_timer(invincibility_amount).timeout.connect(_stop_invincibility)
+
+func _stop_invincibility():
+	has_invincibility = false

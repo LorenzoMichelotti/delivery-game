@@ -1,0 +1,229 @@
+[gd_scene load_steps=22 format=3 uid="uid://bqf5chdoirwek"]
+
+[ext_resource type="Script" path="res://gun_turret_module.gd" id="1_aqang"]
+[ext_resource type="Texture2D" uid="uid://bjtcd1s5bh0jh" path="res://assets/guns/gun_turret.png" id="2_ke4gh"]
+
+[sub_resource type="Animation" id="Animation_is7k4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_eb1wu"]
+resource_name = "down"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_aalgu"]
+resource_name = "down_left"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_7fx6q"]
+resource_name = "down_right"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_1scgf"]
+resource_name = "left"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_7p6qg"]
+resource_name = "right"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_jr83o"]
+resource_name = "up"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_o5miv"]
+resource_name = "up_left"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ttvjv"]
+resource_name = "up_right"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xqhbe"]
+_data = {
+"RESET": SubResource("Animation_is7k4"),
+"down": SubResource("Animation_eb1wu"),
+"down_left": SubResource("Animation_aalgu"),
+"down_right": SubResource("Animation_7fx6q"),
+"left": SubResource("Animation_1scgf"),
+"right": SubResource("Animation_7p6qg"),
+"up": SubResource("Animation_jr83o"),
+"up_left": SubResource("Animation_o5miv"),
+"up_right": SubResource("Animation_ttvjv")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t7uda"]
+animation = &"up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ps3co"]
+animation = &"down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iuahm"]
+animation = &"right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f3lh2"]
+animation = &"left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_anvek"]
+animation = &"up_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_winjg"]
+animation = &"up_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m3ybr"]
+animation = &"down_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ly3n"]
+animation = &"down_left"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_2sjue"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_t7uda")
+blend_point_0/pos = Vector2(0, -1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_ps3co")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_iuahm")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_f3lh2")
+blend_point_3/pos = Vector2(-1, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_anvek")
+blend_point_4/pos = Vector2(-1, -1)
+blend_point_5/node = SubResource("AnimationNodeAnimation_winjg")
+blend_point_5/pos = Vector2(1, -1)
+blend_point_6/node = SubResource("AnimationNodeAnimation_m3ybr")
+blend_point_6/pos = Vector2(1, 1)
+blend_point_7/node = SubResource("AnimationNodeAnimation_3ly3n")
+blend_point_7/pos = Vector2(-1, 1)
+max_space = Vector2(1.01, 1)
+blend_mode = 1
+
+[node name="GunTurretModule" type="Node2D"]
+script = ExtResource("1_aqang")
+
+[node name="BulletHolePivot" type="Node2D" parent="."]
+
+[node name="bullet_hole" type="Node2D" parent="BulletHolePivot"]
+position = Vector2(5, 0)
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="SpritePivot"]
+texture = ExtResource("2_ke4gh")
+hframes = 3
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xqhbe")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendSpace2D_2sjue")
+anim_player = NodePath("../AnimationPlayer")
+parameters/blend_position = Vector2(0.000413775, 0.949704)

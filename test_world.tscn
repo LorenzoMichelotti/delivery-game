@@ -12,7 +12,7 @@
 script = ExtResource("2_7w1mb")
 goal_description = "Free Roam"
 gas_enabled = false
-npc_count = 50
+npc_count = 5
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_ma8nb")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfdqdodpe3pog"]
+[gd_scene load_steps=17 format=3 uid="uid://bfdqdodpe3pog"]
 
 [ext_resource type="Script" path="res://actors/tank/tank.gd" id="1_c4hyv"]
 [ext_resource type="Texture2D" uid="uid://ikajd8qgfqpr" path="res://assets/cars/tank.png" id="1_fxolp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="2_cbxp3"]
 [ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="4_0gh2q"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://c4bnu6brxis1w" path="res://actors/tank/directional_blendspace_2D.tres" id="5_cl3pm"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="7_2m3if"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hcm04"]
 size = Vector2(4, 4)
@@ -195,7 +196,6 @@ type = 1
 shape = SubResource("RectangleShape2D_hcm04")
 
 [node name="RandomMovementModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("4_0gh2q")]
-enabled = false
 pawn = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -207,3 +207,6 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_x7nic")
 anim_player = NodePath("../AnimationPlayer")
 parameters/BlendSpace2D/blend_position = Vector2(0, 0)
+
+[node name="DamageDealerModule" parent="." instance=ExtResource("7_2m3if")]
+type = 1
