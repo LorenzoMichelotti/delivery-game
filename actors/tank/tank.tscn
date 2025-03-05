@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bfdqdodpe3pog"]
+[gd_scene load_steps=19 format=3 uid="uid://bfdqdodpe3pog"]
 
 [ext_resource type="Script" path="res://actors/tank/tank.gd" id="1_c4hyv"]
 [ext_resource type="Texture2D" uid="uid://ikajd8qgfqpr" path="res://assets/cars/tank.png" id="1_fxolp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="4_0gh2q"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://c4bnu6brxis1w" path="res://actors/tank/directional_blendspace_2D.tres" id="5_cl3pm"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="7_2m3if"]
+[ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="9_xtfgt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hcm04"]
 size = Vector2(4, 4)
@@ -38,6 +39,30 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_f3wwd"]
 resource_name = "down"
@@ -66,6 +91,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
 }
 
 [sub_resource type="Animation" id="Animation_8vrhp"]
@@ -96,6 +145,30 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_epxp6"]
 resource_name = "right"
@@ -124,6 +197,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_druxd"]
@@ -154,6 +251,30 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4mesq"]
 _data = {
@@ -178,7 +299,7 @@ type = 1
 
 [node name="SpritePivot" type="Node2D" parent="."]
 z_index = 1
-position = Vector2(0, -2)
+position = Vector2(0, -3)
 scale = Vector2(1, 1.04337)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
@@ -189,6 +310,7 @@ vframes = 3
 region_rect = Rect2(32, 0, 8, 8)
 
 [node name="AliveModule" parent="." instance=ExtResource("2_cbxp3")]
+position = Vector2(0, -1)
 max_hp = 100
 can_be_knocked_down = false
 on_death_points = 1000
@@ -210,10 +332,15 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/BlendSpace2D/blend_position = Vector2(0, 0)
 
 [node name="GunTurretModule" parent="." instance=ExtResource("2_cyu6t")]
-position = Vector2(0, -6)
+position = Vector2(0, -7)
 shoot_delay = 2.0
 damage = 0
 bullet_speed = 50
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("7_2m3if")]
+position = Vector2(0, -1)
 type = 3
+
+[node name="Shadow" parent="." instance=ExtResource("9_xtfgt")]
+position = Vector2(0, 1)
+scale = Vector2(1.11742, 0.875)

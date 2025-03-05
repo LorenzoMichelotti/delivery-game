@@ -1,11 +1,13 @@
 shader_type canvas_item;
 
+// damage
 uniform bool active = false;
 uniform vec3 shock_color : source_color = vec3(0.965, 0.186, 0.0);
 uniform float amplitude = 2.0;
 uniform float frequency = 10.0;
 
 void vertex() {
+	// damage
     float phase = mod(TIME, 0.3) / 0.3; // Normalize time into a 0 to 1 range
     float amp_factor = sin(phase * PI); // Smooth transition from 0 to 1 to 0
     if (active) {
@@ -16,6 +18,7 @@ void vertex() {
 }
 
 void fragment() {
+	// damage
     float phase = mod(TIME, 0.3) / 0.3;
     float amp_factor = sin(phase * PI);
     vec3 normal_color = texture(TEXTURE, UV).rgb;

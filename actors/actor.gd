@@ -5,4 +5,5 @@ extends CharacterBody2D
 
 @onready var sprite_pivot = $SpritePivot
 @onready var sprite = $SpritePivot/Sprite2D
-@onready var alive_module = $AliveModule
+@onready var alive_module: AliveModule = $AliveModule
+@onready var shadow: Sprite2D = $Shadow

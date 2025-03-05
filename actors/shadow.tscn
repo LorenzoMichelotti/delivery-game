@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b060ub1c3cpsf"]
+
+[ext_resource type="Texture2D" uid="uid://bfncjqp5q4w2e" path="res://assets/white_square_filled.png" id="1_8pd4q"]
+
+[node name="Shadow" type="Sprite2D"]
+modulate = Color(0, 0, 0, 0.745)
+scale = Vector2(1, 0.5)
+texture = ExtResource("1_8pd4q")

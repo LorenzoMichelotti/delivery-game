@@ -22,6 +22,7 @@ PlayerManager="*res://player_manager.gd"
 VfxManager="*res://floating_text/vfx_manager.gd"
 CutsceneManager="*res://cutscenes/cutscene_manager.gd"
 SfxManager="*res://sfx/sfx_manager.gd"
+CameraManager="*res://camera_manager.tscn"
 
 [global_group]
 

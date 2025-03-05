@@ -13,6 +13,8 @@
 script = ExtResource("2_p4b7u")
 minimum_deliveries_for_completion = 3
 goal_description = "COMPLETE 3 DELIVERIES"
+gas_enabled = true
+npc_count = 5
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_xgndy")
@@ -52,9 +54,6 @@ y_sort_enabled = true
 
 [node name="Player" parent="Entities" instance=ExtResource("7_t7yxt")]
 position = Vector2(44, -20)
-
-[node name="Camera2D" type="Camera2D" parent="Entities/Player"]
-zoom = Vector2(6, 6)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

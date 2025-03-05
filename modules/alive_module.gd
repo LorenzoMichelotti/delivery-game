@@ -68,23 +68,35 @@ func _play_hit_tweener(is_knockup: bool):
 	shader.set_shader_parameter("active", true)
 	
 	if not can_be_knocked_down or not is_knockup:
-		if tween:
-			tween.kill()
-		tween = create_tween()
-		tween.tween_property(actor, "global_position", actor.global_position, 0.4)
-		tween.finished.connect(tween.kill)
-		await tween.finished
+		await get_tree().create_timer(.4).timeout
 		shader.set_shader_parameter("active", false)
 		return
 	
-	var knockdown_position = actor.global_position
-	var knockup_position = Vector2(actor.global_position.x, actor.global_position.y - 10)
 	if tween:
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(actor, "global_position", knockup_position, 0.2)
+	
+	# actor pivot sprite
+	var knockdown_position = actor.sprite_pivot.position
+	var knockup_position = Vector2(actor.sprite_pivot.position.x, actor.sprite_pivot.position.y - 10)
+	tween.tween_property(actor.sprite_pivot, "position", knockup_position, 0.2)
 	tween.parallel().tween_property(actor.sprite_pivot, "rotation", TAU, 0.3)
-	tween.tween_property(actor, "global_position", knockdown_position, 0.1)
+	
+	# actor shadow sprite
+	var base_shadow_scale = actor.shadow.scale
+	var base_shadow_position = actor.shadow.position
+	var base_shadow_alpha = actor.shadow.modulate.a
+	tween.parallel().tween_property(actor.shadow, "position", Vector2(knockup_position.x, base_shadow_position.y) , 0.3)
+	tween.parallel().tween_property(actor.shadow, "modulate:a", .35 , 0.3)
+	tween.parallel().tween_property(actor.shadow, "scale", Vector2(.5, .5) , 0.3)
+	
+	# actor pivot sprite
+	tween.tween_property(actor.sprite_pivot, "position", knockdown_position, 0.1)
+	# actor shadow sprite
+	tween.parallel().tween_property(actor.shadow, "position", base_shadow_position , 0.3)
+	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , 0.3)
+	tween.parallel().tween_property(actor.shadow, "scale", base_shadow_scale , 0.3)
+	
 	tween.finished.connect(tween.kill)
 	await tween.finished
 	shader.set_shader_parameter("active", false)
@@ -104,9 +116,27 @@ func _play_death_tweener(perpetrator):
 	if tween:
 		tween.kill()
 	tween = create_tween()
+	
+	# explode and tumble
+	
+	# actor sprite
 	tween.tween_property(actor.sprite_pivot, "global_position", knockup_position, 0.2)
 	tween.parallel().tween_property(actor.sprite_pivot, "rotation", TAU/2, 0.3)
-	tween.chain().tween_property(actor.sprite_pivot, "global_position", knockdown_position, 0.1)
+	# actor shadow sprite
+	var base_shadow_scale = actor.shadow.scale
+	var base_shadow_alpha = actor.shadow.modulate.a
+	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockup_position.x, actor.shadow.global_position.y) , 0.3)
+	tween.parallel().tween_property(actor.shadow, "modulate:a", .35 , 0.3)
+	tween.parallel().tween_property(actor.shadow, "scale", Vector2(.5, .5) , 0.3)
+	
+	# fall back down
+	
+	# actor sprite
+	tween.tween_property(actor.sprite_pivot, "global_position", knockdown_position, 0.1)
+	# actor shadow sprite
+	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockdown_position.x, knockdown_position.y + 1) , 0.3)
+	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , 0.3)
+	tween.parallel().tween_property(actor.shadow, "scale", base_shadow_scale , 0.3)
 	
 	await tween.finished
 	shader.set_shader_parameter("active", false)
@@ -121,6 +151,7 @@ func _play_death_tweener(perpetrator):
 	tween = get_tree().create_tween().bind_node(self)
 	tween.tween_property(actor.sprite_pivot, "modulate", Color.BLACK, 0.1)
 	tween.parallel().tween_property(actor.sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
+	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , .4)
 	if should_free_on_dead:
 		tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cg0e6xtloabql"]
+[gd_scene load_steps=20 format=3 uid="uid://cg0e6xtloabql"]
 
 [ext_resource type="Script" path="res://actors/player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="3_yylic"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_0hc0a"]
 [ext_resource type="PackedScene" uid="uid://doyt36tmeupl2" path="res://ui/gps.tscn" id="5_6tncn"]
+[ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="6_ibiqb"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="6_lmiaw"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="7_eowff"]
 [ext_resource type="PackedScene" uid="uid://bqnvu4th0t4ar" path="res://modules/player_controller_module.tscn" id="8_y1ilt"]
@@ -64,7 +65,7 @@ advance_mode = 0
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tqwx8"]
 states/idle/node = SubResource("AnimationNodeAnimation_vjxgv")
-states/idle/position = Vector2(381.333, 139.333)
+states/idle/position = Vector2(522, 107.333)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ndkef"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud")]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -72,7 +73,7 @@ z_index = 2
 script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
-position = Vector2(0, -8)
+position = Vector2(0, -9)
 shoot_delay = 0.1
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
@@ -83,7 +84,7 @@ shape = SubResource("CircleShape2D_8v2hg")
 
 [node name="SpritePivot" type="Node2D" parent="."]
 z_index = 3
-position = Vector2(0, -2)
+position = Vector2(0, -3)
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
 material = ExtResource("3_m3new")
@@ -96,6 +97,8 @@ region_rect = Rect2(32, 0, 8, 8)
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
 
+[node name="Shadow" parent="." instance=ExtResource("6_ibiqb")]
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_pl34g")
@@ -106,17 +109,21 @@ tree_root = SubResource("AnimationNodeStateMachine_tqwx8")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="ItemBalloon" parent="." instance=ExtResource("4_0hc0a")]
-position = Vector2(0, -4)
+position = Vector2(0, -9)
 
 [node name="GpsPivot" parent="." instance=ExtResource("5_6tncn")]
+visible = false
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("6_lmiaw")]
+visible = false
 
 [node name="AliveModule" parent="." instance=ExtResource("7_eowff")]
+visible = false
 max_hp = 3
 should_free_on_dead = false
 damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
 [node name="PlayerControllerModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("8_y1ilt")]
+visible = false
 pawn = NodePath("..")

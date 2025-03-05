@@ -2,7 +2,7 @@ class_name PlayerControllerModule
 extends Node2D
 
 # Actor
-@export var pawn: CharacterBody2D
+@export var pawn: Actor
 @onready var speed = 100.0  
 
 var target_position: Vector2
@@ -15,7 +15,7 @@ func _ready():
 	target_position = pawn.global_position 
 
 func _process(delta):
-	if GameManager.is_game_paused():
+	if pawn.alive_module.is_taking_damage:
 		return
 	
 	pawn.global_position = pawn.global_position.move_toward(target_position, speed * delta)
@@ -40,7 +40,7 @@ func _process(delta):
 			target_position += current_direction * GlobalConstants.GRID_SIZE
 
 func _unhandled_input(event):
-	if GameManager.is_game_paused():
+	if pawn.alive_module.is_taking_damage:
 		return
 		
 	if event is InputEventKey:
@@ -76,10 +76,16 @@ func get_valid_direction() -> Vector2:
 			if dir.x != 0 :
 				pawn.sprite.flip_h = dir.x < 0
 				pawn.sprite.frame = 3
+				pawn.shadow.rotation_degrees = 0
+				pawn.shadow.position.y = 0
 			elif dir.y > 0:
 				pawn.sprite.frame = 5
-			else:
+				pawn.shadow.rotation_degrees = 90
+				pawn.shadow.position.y = -1
+			elif dir.y < 0:
 				pawn.sprite.frame = 4
+				pawn.shadow.rotation_degrees = 90
+				pawn.shadow.position.y = -1
 			var tween: Tween = get_tree().create_tween().bind_node(self)
 			moving = true
 			tween.tween_property(pawn.sprite, "scale", Vector2(abs(dir.x) * 1.2 if abs(dir.x) > 0 else 1, abs(dir.y) * 1.2 if abs(dir.y) > 0 else 1), 0.05)

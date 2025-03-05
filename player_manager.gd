@@ -48,6 +48,7 @@ func on_level_changed():
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
 	pawn = get_tree().current_scene.get_node("Entities/Player")
+	CameraManager.set_pawn_to_follow(pawn)
 	pawn_spawn_position = pawn.global_position
 	pawn.alive_module.died.connect(empty_tank)
 	gas_usage = initial_gas_usage

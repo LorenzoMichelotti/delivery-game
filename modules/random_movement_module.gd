@@ -2,7 +2,7 @@ class_name RandomMovementModule
 extends Node2D
 
 @export var enabled := true
-@export var pawn: CharacterBody2D
+@export var pawn: Actor
 @onready var raycast = $RayCast2D
 
 const SPEED = 50.0  
