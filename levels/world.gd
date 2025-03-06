@@ -19,7 +19,7 @@ func _ready():
 	GameManager.current_completion_goal = completion_requirements
 	
 	PlayerManager.on_level_changed()
-	completion_requirements.apply_modifiers()
+	completion_requirements.level_modifiers.apply_modifiers()
 	if not PlayerManager.gas_enabled:
 		game_ui.gas_bar_container.hide()
 		

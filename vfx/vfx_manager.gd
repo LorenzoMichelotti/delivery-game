@@ -2,7 +2,7 @@ extends Node2D
 
 const MAX_VFX = 10
 
-var explosion_pool: Array[CPUParticles2D] = []
+var explosion_pool: Array = []
 var pickup_pool: Array[CPUParticles2D] = []
 var number_pool: Array[Label] = []
 @onready var canvas_layer: CanvasLayer
@@ -32,7 +32,7 @@ func display_explosion_effect(position: Vector2):
 	for i in len(explosion_pool):
 		if explosion_pool[i] == null:
 			explosion_pool[i] = explosion_scene.instantiate()
-			get_tree().current_scene.add_child.call_deferred(explosion_pool[i])
+			get_tree().current_scene.add_child(explosion_pool[i])
 		if not explosion_pool[i].emitting:
 			explosion_pool[i].global_position = position
 			explosion_pool[i].emitting = true

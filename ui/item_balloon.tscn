@@ -17,6 +17,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -9)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_kt724"]
 resource_name = "appear"
@@ -56,6 +68,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_r6tfb"]
@@ -97,6 +121,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_22yml"]
 _data = {
@@ -110,12 +146,13 @@ z_index = 6
 script = ExtResource("2_j0bld")
 
 [node name="SpritePivot" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -9)
+scale = Vector2(2, 1e-05)
 
 [node name="BalloonSprite" type="Node2D" parent="SpritePivot"]
 
 [node name="Balloon" type="Sprite2D" parent="SpritePivot/BalloonSprite"]
-scale = Vector2(1, 1)
 texture = ExtResource("1_5tonb")
 hframes = 8
 vframes = 8

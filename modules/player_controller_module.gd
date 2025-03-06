@@ -1,72 +1,64 @@
 class_name PlayerControllerModule
-extends Node2D
+extends ControllerModuleResource
 
-# Actor
-@export var pawn: Actor
-@onready var speed = 100.0  
-
-var target_position: Vector2
-var current_direction: Vector2 = Vector2.ZERO  # Active movement direction
 var input_queue: Array = []  # Tracks pressed keys in order
-@onready var raycast := $RayCast2D
-var moving: bool = false
+var wanted_direction: Vector2 = Vector2.ZERO
+var coyote_timer: Timer
 
 func _ready():
-	target_position = pawn.global_position 
+	coyote_timer = Timer.new()
+	add_child(coyote_timer)
+	coyote_timer.one_shot = true
+	coyote_timer.timeout.connect(func(): wanted_direction = Vector2.ZERO)
+	super() 
 
 func _process(delta):
 	if pawn.alive_module.is_taking_damage or pawn.alive_module.is_dead:
 		return
+		
+	_observe_input_direction("up", Vector2.UP)
+	_observe_input_direction("left", Vector2.LEFT)
+	_observe_input_direction("right", Vector2.RIGHT)
+	_observe_input_direction("down", Vector2.DOWN)
 	
+	var input_direction = input_queue.back()
+	if input_direction != null:
+		wanted_direction = input_direction
+		
 	pawn.global_position = pawn.global_position.move_toward(target_position, speed * delta)
 
 	if pawn.global_position.is_equal_approx(target_position):
 		pawn.global_position = target_position  
 
+		if wanted_direction != Vector2.ZERO and can_move(wanted_direction):
+			current_direction = wanted_direction
+			target_position += wanted_direction * GlobalConstants.GRID_SIZE
+			return
+
 		# Stop moving if the current direction is blocked
 		if not can_move(current_direction):
 			current_direction = Vector2.ZERO
+			wanted_direction = Vector2.ZERO
 			var tween: Tween = get_tree().create_tween().bind_node(self)
 			moving = false
 			tween.tween_property(pawn.sprite, "scale", Vector2(1, 1), 0.05)
 			tween.finished.connect(tween.kill)
 
-		# Get the most recent valid direction
-		var new_direction = get_valid_direction()
-		if new_direction != Vector2.ZERO:
-			current_direction = new_direction
-
+		# fallback direction
 		if current_direction != Vector2.ZERO:
 			target_position += current_direction * GlobalConstants.GRID_SIZE
 
+func _observe_input_direction(input_action_name: String, direction: Vector2):
+	if Input.is_action_pressed(input_action_name) and not input_queue.has(direction):
+		input_queue.append(direction)
+		print(input_queue)
+	if Input.is_action_just_released(input_action_name):
+		input_queue.erase(direction)
+		print(input_queue)
+
 func _unhandled_input(event):
-	if pawn.alive_module.is_taking_damage or pawn.alive_module.is_dead:
-		return
-		
-	if event is InputEventKey:
-		var input_dir = Vector2.ZERO
-		if Input.is_action_just_pressed("ui_cancel"):
-			GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
-		if event.keycode == KEY_W:
-			input_dir = Vector2.UP
-		elif event.keycode == KEY_S:
-			input_dir = Vector2.DOWN
-		elif event.keycode == KEY_A:
-			input_dir = Vector2.LEFT
-		elif event.keycode == KEY_D:
-			input_dir = Vector2.RIGHT
-		
-		if event.is_pressed() and input_dir != Vector2.ZERO:
-			if input_dir not in input_queue:
-				input_queue.append(input_dir)  # Track pressed keys
-			
-		elif event.is_released():
-			input_queue.erase(input_dir)  # Remove released key
-			
-			# Immediately switch to the next most recent key still held, if valid
-			var new_direction = get_valid_direction()
-			if new_direction != Vector2.ZERO:
-				current_direction = new_direction
+	if Input.is_action_just_pressed("ui_cancel"):
+		GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
 
 func get_valid_direction() -> Vector2:
 	# Traverse the queue from latest to earliest pressed key
@@ -94,6 +86,6 @@ func get_valid_direction() -> Vector2:
 	return Vector2.ZERO  # Stop if no valid direction remains
 
 func can_move(dir: Vector2) -> bool:
-	raycast.target_position = dir * (GlobalConstants.GRID_SIZE + 2)
+	raycast.target_position = dir * (GlobalConstants.GRID_SIZE + 1)
 	raycast.force_raycast_update()
 	return not raycast.is_colliding()

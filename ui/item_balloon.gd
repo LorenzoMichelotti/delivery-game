@@ -6,7 +6,7 @@ extends Node2D
 @onready var sprite_pivot = $SpritePivot
 
 func _ready():
-	$SpritePivot.modulate.a = 0
+	hide()
 
 func update_item_balloon(hide: bool, animation_frame: int = 0, texture: Texture2D = null, is_animated: bool = true):
 	if hide:

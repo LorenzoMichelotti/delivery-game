@@ -115,20 +115,21 @@ position = Vector2(0, -9)
 
 [node name="GpsPivot" parent="." instance=ExtResource("5_6tncn")]
 visible = false
+z_index = 9
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("6_lmiaw")]
 visible = false
 
 [node name="AliveModule" parent="." instance=ExtResource("7_eowff")]
 visible = false
+max_hp = 3
 should_free_on_dead = false
 damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
-[node name="PlayerControllerModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("8_y1ilt")]
+[node name="PlayerControllerModule" parent="." instance=ExtResource("8_y1ilt")]
 process_mode = 1
 visible = false
-pawn = NodePath("..")
 
 [connection signal="died" from="AliveModule" to="." method="_on_die"]
 [connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]

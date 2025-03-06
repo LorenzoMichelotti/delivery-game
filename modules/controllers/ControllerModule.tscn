@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4jiw43tk2tpi"]
+
+[sub_resource type="GDScript" id="GDScript_u0r8r"]
+script/source = "extends Node2D
+
+@export var pawn: Actor
+@export var raycast: RayCast2D
+@export var controller_module: ControllerModule
+
+func _ready():
+	controller_module.reset(pawn)
+
+func _process(delta):
+	controller_module.move(delta)
+"
+
+[node name="ControllerModule" type="Node2D"]
+script = SubResource("GDScript_u0r8r")

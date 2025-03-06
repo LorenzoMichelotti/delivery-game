@@ -135,7 +135,7 @@ func add_points(amount):
 	points += amount
 	
 	if not GameManager.endless and GameManager.verify_level_win_condition():
-		empty_tank()
+		complete_level()
 	
 	var points_tween = create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	points_tween.set_loops(1).tween_method(update_points_label, previous_points, points, .5)

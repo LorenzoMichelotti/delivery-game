@@ -37,6 +37,7 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		print("no_goals_no_cutscene_transition")
 		return
 	is_playing = true
+	get_tree().paused = true
 	CutsceneManager.watched_cutscenes.append(new_cutscene)
 	cutscene_resource = new_cutscene
 	current_dialogue = null

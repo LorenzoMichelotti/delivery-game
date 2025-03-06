@@ -3,15 +3,15 @@ extends Node2D
 var levels = {
 	1: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/actual_levels/01.tscn"),
+		"scene": preload("res://levels/01.tscn"),
 	},
 	2: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/actual_levels/02.tscn"),
+		"scene": preload("res://levels/02.tscn"),
 	},
 	3: {
 		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
-		"scene": preload("res://levels/actual_levels/03.tscn"),
+		"scene": preload("res://levels/03.tscn"),
 	}
 }
 const item_scene = preload("res://items/item.tscn")
@@ -62,6 +62,7 @@ var endless = false
 
 var npc_count = 5
 var npcs_alive = 0
+var random_gas_enabled = true
 
 var deliveries = {}
 signal clear_items
@@ -232,6 +233,8 @@ func _get_free_tiles(road: TileMapLayer):
 	return free_tiles
 
 func _scatter_fuel(amount: int):
+	if not random_gas_enabled or not PlayerManager.gas_enabled:
+		return
 	for i in range(amount):
 		var road = roads.pick_random()
 		var free_tiles = _get_free_tiles(road)
@@ -278,4 +281,4 @@ func deliver_item(delivery_id: int):
 	deliveries.erase(delivery_id)
 	if not GameManager.verify_level_win_condition():
 		create_delivery()
-		if PlayerManager.gas_enabled: _scatter_fuel(rng.randi_range(1,3))
+		_scatter_fuel(rng.randi_range(1,3))

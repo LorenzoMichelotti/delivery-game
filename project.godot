@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://game_manager.gd"
 PlayerManager="*res://player_manager.gd"
-VfxManager="*res://floating_text/vfx_manager.gd"
+VfxManager="*res://vfx/vfx_manager.gd"
 SfxManager="*res://sfx/sfx_manager.gd"
 CutsceneManager="*res://cutscenes/cutscene_manager.gd"
 CameraManager="*res://camera_manager.tscn"
@@ -68,3 +68,4 @@ click={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.423529, 0.54902, 0.313726, 1)

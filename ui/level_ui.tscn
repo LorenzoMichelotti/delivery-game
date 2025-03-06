@@ -16,6 +16,7 @@ bg_color = Color(0.269336, 6.63001e-06, 0.205138, 1)
 bg_color = Color(0.812612, 0, 0.156663, 1)
 
 [node name="LevelUI" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
