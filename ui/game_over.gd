@@ -17,7 +17,7 @@ func _on_button_pressed():
 	_disappear()
 
 func _input(event):
-	if event.is_action_released("space"):
+	if visible and event.is_action_released("space"):
 		_disappear()
 
 func _restart_or_go_to_next_level():

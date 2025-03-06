@@ -21,6 +21,7 @@ func _ready():
 		choice_buttons[i].pressed.connect(_load_choice_dialogue.bind(i))
 
 func play(new_cutscene: CutsceneResource, new_game_ui: Control):
+	is_playing = false
 	GameManager.set_game_mode(GameManager.GAMEMODE.CUTSCENE)
 	if new_cutscene == null:
 		$Transition/DayLabel.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
@@ -30,7 +31,6 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$Transition/GoalTitle.show()
 		animation_player.play("initialize")
 		print("initialize")
-		print("previously -> no_cutscene_transition")
 		return
 	if CutsceneManager.watched_cutscenes.has(new_cutscene) or GameManager.skip_cutscenes:
 		animation_player.play("no_goals_no_cutscene_transition")
