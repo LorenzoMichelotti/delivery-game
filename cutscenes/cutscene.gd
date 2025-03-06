@@ -1,12 +1,16 @@
 class_name CutscenePlayer
 extends Control
 
+@export var level_start_song: AudioStreamWAV = preload("res://assets/sounds/Collect_Big_Point_2.wav")
 @export var cutscene_resource: CutsceneResource
 @export var game_ui: Control
+
 @onready var poirtrait_left = $BackDrop/PoirtraitLeft
 @onready var actor_name_label = $BackDrop/DialogueBox/ActorNameLabel
 @onready var dialogue_text_label = $BackDrop/DialogueBox/DialogueTextLabel
 @onready var choice_buttons = [$BackDrop/DialogueBox/FirstChoiceButton, $BackDrop/DialogueBox/SecondChoiceButton]
+@onready var animation_player = $AnimationPlayer
+@onready var audio_player = $AudioStreamPlayer
 
 var is_playing = false
 var current_dialogue: CutsceneDialogueResource
@@ -24,11 +28,12 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$Transition/GoalDescription.show()
 		$Transition/DayLabel.show()
 		$Transition/GoalTitle.show()
-		$AnimationPlayer.play("no_cutscene_transition")
-		print("no_cutscene_transition")
+		animation_player.play("initialize")
+		print("initialize")
+		print("previously -> no_cutscene_transition")
 		return
 	if CutsceneManager.watched_cutscenes.has(new_cutscene) or GameManager.skip_cutscenes:
-		$AnimationPlayer.play("no_goals_no_cutscene_transition")
+		animation_player.play("no_goals_no_cutscene_transition")
 		print("no_goals_no_cutscene_transition")
 		return
 	is_playing = true
@@ -49,7 +54,7 @@ func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 		$Transition/DayLabel.hide()
 		$Transition/GoalTitle.hide()
 	_load_next_dialogue()
-	$AnimationPlayer.play("appear")
+	animation_player.play("appear")
 
 func _input(event):
 	if GameManager.current_game_mode == GameManager.GAMEMODE.CUTSCENE and is_playing and (Input.is_action_just_released("click") or Input.is_action_just_released("space")) and not has_choice_to_make():
@@ -70,7 +75,7 @@ func _load_next_dialogue(get_next = true):
 		# go to the next dialogue
 		current_dialogue = current_dialogue.next_dialogue
 	print("loading next dialogue")
-	$AnimationPlayer.play("next_dialogue")
+	animation_player.play("next_dialogue")
 	var dialogue: CutsceneDialogueResource = current_dialogue
 	poirtrait_left.texture = dialogue.character.poirtrait
 	actor_name_label.text = dialogue.character.name
@@ -122,7 +127,7 @@ func _end_cutscene():
 		$Transition/GoalTitle.hide()
 	is_playing = false
 	#GameManager.set_watched_level_cutscene()
-	$AnimationPlayer.play("disappear")
+	animation_player.play("disappear")
 
 func _resume_gameplay():
 	if (current_dialogue and current_dialogue.gameover) or GameManager.verify_level_win_condition() or (GameManager.skip_cutscenes and PlayerManager.tank_empty):
@@ -133,3 +138,11 @@ func _resume_gameplay():
 		if game_ui:
 			game_ui.show()
 		GameManager.set_game_mode(GameManager.GAMEMODE.PLAYING)
+
+func fade_to_color():
+	animation_player.play("end_level")
+
+func _play_level_start_song():
+	print("_play_level_start_song")
+	audio_player.stream = level_start_song
+	audio_player.play()

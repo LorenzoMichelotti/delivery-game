@@ -4,7 +4,7 @@ extends Node2D
 @export var shoot_delay = 0.3
 @export var enabled = true
 @export var damage = 10
-@export var bullet_speed = 200
+@export var bullet_speed: GlobalConstants.BULLET_SPEED = GlobalConstants.BULLET_SPEED.FAST
 @export var automatic_aim = true
 @export var aim_speed = 10
 @export var automatic_shoot = true
@@ -49,7 +49,7 @@ func _shoot():
 	else:
 		bullet.direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
 	SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.GUN, true)
-	bullet.speed = bullet_speed
+	bullet.bullet_speed = bullet_speed
 	bullet.global_position = bullet_hole.global_position
 	bullet.type = type
 	get_tree().current_scene.get_node("Entities").add_child(bullet)

@@ -335,7 +335,7 @@ parameters/BlendSpace2D/blend_position = Vector2(0, 0)
 position = Vector2(0, -7)
 shoot_delay = 2.0
 damage = 0
-bullet_speed = 50
+bullet_speed = 1
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("7_2m3if")]
 position = Vector2(0, -1)

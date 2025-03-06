@@ -120,7 +120,6 @@ visible = false
 
 [node name="AliveModule" parent="." instance=ExtResource("7_eowff")]
 visible = false
-max_hp = 3
 should_free_on_dead = false
 damage_stun_amount = 0.1
 invincibility_amount = 1.0

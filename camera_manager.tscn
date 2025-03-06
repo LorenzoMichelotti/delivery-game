@@ -3,5 +3,6 @@
 [ext_resource type="Script" path="res://actors/camera_shake.gd" id="1_gob6l"]
 
 [node name="Camera2D" type="Camera2D"]
+process_mode = 3
 zoom = Vector2(6, 6)
 script = ExtResource("1_gob6l")

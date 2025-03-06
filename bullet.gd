@@ -1,19 +1,25 @@
 class_name Bullet
 extends ActorInanimate
 
-@export var speed: float= 200.0
-@export var friction: float = 8
-@export var acceleration: float = 70
+@export var bullet_speed: GlobalConstants.BULLET_SPEED = GlobalConstants.BULLET_SPEED.FAST
 @export var direction: Vector2 = Vector2.RIGHT
 @export var piercing: int = 0
 
 @onready var damage_dealer_module: DamageDealerModule = $DamageDealerModule
+
+var speed: float
+var friction: float
+var acceleration: float
 
 var current_speed := 0
 var lifespan := 5.0
 var decaying = false
 
 func _ready():
+	speed = GlobalConstants.BULLET_SPEEDS[bullet_speed].speed
+	friction = GlobalConstants.BULLET_SPEEDS[bullet_speed].friction
+	acceleration = GlobalConstants.BULLET_SPEEDS[bullet_speed].acceleration
+	
 	get_tree().create_timer(lifespan).timeout.connect(_on_lifespan_timeout)
 	damage_dealer_module.type = type
 	match type:

@@ -60,11 +60,14 @@ position = Vector2(-20, -36)
 
 [node name="Spikes2" parent="." instance=ExtResource("6_llpjc")]
 position = Vector2(4, -36)
-start_delay = 1.0
+interval_delay = 2.25
 
 [node name="Spikes3" parent="." instance=ExtResource("6_llpjc")]
 position = Vector2(52, -36)
-start_delay = 2.0
+interval_delay = 2.5
 
 [node name="Tank" parent="." instance=ExtResource("7_ly4fu")]
 position = Vector2(84, -20)
+
+[node name="Tank2" parent="." instance=ExtResource("7_ly4fu")]
+position = Vector2(20, -124)

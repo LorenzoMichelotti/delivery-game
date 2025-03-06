@@ -38,8 +38,8 @@ func inventory_complete_delivery(delivery_id):
 	completed_deliveries += 1
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
-	if not GameManager.endless and GameManager.verify_level_win_condition():
-		complete_level()
+	#if not GameManager.endless and GameManager.verify_level_win_condition():
+		#complete_level()
 
 func on_level_changed():
 	player_is_ready = false
@@ -100,7 +100,6 @@ func complete_level():
 	if success:
 		return
 	success = GameManager.verify_level_win_condition()
-	get_tree().paused = true
 	var current_scene = get_tree().current_scene
 	if not success and current_scene.gameover_cutscene != null:
 		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)

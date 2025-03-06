@@ -10,6 +10,9 @@ func _on_button_pressed():
 	hide()
 	GameManager.set_game_mode(GameManager.GAMEMODE.PLAYING)
 
+func _restart_level():
+	get_tree().reload_current_scene()
+
 func _input(event):
 	if event.is_action_released("space"):
 		hide()

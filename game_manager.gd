@@ -103,6 +103,7 @@ func set_game_mode(new_game_mode: GAMEMODE):
 			get_tree().paused = true
 			return
 		GAMEMODE.GAMEOVER:
+			get_tree().paused = true
 			gameover()
 			return
 		GAMEMODE.PAUSED:
@@ -274,9 +275,7 @@ func can_deliver_item(delivery_id: int):
 	return false
 
 func deliver_item(delivery_id: int):
-	print("deliver_item")
 	deliveries.erase(delivery_id)
-	print(deliveries)
-	create_delivery()
-	print(deliveries)
-	if PlayerManager.gas_enabled: _scatter_fuel(rng.randi_range(1,3))
+	if not GameManager.verify_level_win_condition():
+		create_delivery()
+		if PlayerManager.gas_enabled: _scatter_fuel(rng.randi_range(1,3))
