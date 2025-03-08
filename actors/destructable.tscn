@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://doitea4saco28"]
+
+[ext_resource type="Script" path="res://actors/actor.gd" id="1_ax5x8"]
+[ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="2_1juyx"]
+[ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_m8owe"]
+[ext_resource type="Texture2D" uid="uid://xwe78i63kgcy" path="res://assets/destructables/building.png" id="2_ofehn"]
+[ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="3_qmcxr"]
+[ext_resource type="AudioStream" uid="uid://buhm6ci7avdfg" path="res://assets/sounds/Thunder.wav" id="4_tqrw7"]
+
+[node name="Node2D" type="CharacterBody2D"]
+script = ExtResource("1_ax5x8")
+type = 1
+
+[node name="Shadow" parent="." instance=ExtResource("2_1juyx")]
+position = Vector2(5.96046e-08, 0.5)
+scale = Vector2(0.75, 0.625)
+
+[node name="SpritePivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+material = ExtResource("2_m8owe")
+position = Vector2(0, -6)
+texture = ExtResource("2_ofehn")
+hframes = 3
+
+[node name="AliveModule" parent="." instance=ExtResource("3_qmcxr")]
+target_type = 1
+max_hp = 200
+can_be_knocked_down = false
+damage_stun_amount = 0.0
+invincibility_amount = 0.1
+on_death_points = 1000
+death_explosion_sfx_stream = ExtResource("4_tqrw7")

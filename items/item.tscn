@@ -44,7 +44,7 @@ _data = {
 "idle": SubResource("Animation_hivdq")
 }
 
-[node name="Item" type="Node2D"]
+[node name="Item" type="Node2D" groups=["item"]]
 z_index = 1
 script = ExtResource("1_wftca")
 

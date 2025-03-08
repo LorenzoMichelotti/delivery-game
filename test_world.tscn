@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://clrg2wu11gslg"]
+[gd_scene load_steps=12 format=4 uid="uid://clrg2wu11gslg"]
 
 [ext_resource type="Script" path="res://levels/world.gd" id="1_ma8nb"]
 [ext_resource type="Script" path="res://level_builder/level_completion/completion_requirement_script.gd" id="2_7w1mb"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="4_d4k7u"]
 [ext_resource type="PackedScene" uid="uid://blcq2516lf745" path="res://tilesets/hideable_tiles.tscn" id="5_do1e0"]
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://actors/player.tscn" id="5_tx0ij"]
+[ext_resource type="PackedScene" uid="uid://doitea4saco28" path="res://actors/destructable.tscn" id="6_8geoh"]
 [ext_resource type="PackedScene" uid="uid://qhhji15xlc4s" path="res://hazards/spikes.tscn" id="6_llpjc"]
 
 [sub_resource type="Resource" id="Resource_juj3s"]
@@ -41,6 +42,18 @@ tile_map_data = PackedByteArray("AAADAAIAAgAHAAIAAAADAAMAAgAAAAMAAAAEAAIAAgAAAAM
 tile_set = ExtResource("3_55suh")
 
 [node name="HideableTiles" parent="Tiles" instance=ExtResource("5_do1e0")]
+
+[node name="Node2D" parent="Tiles" instance=ExtResource("6_8geoh")]
+position = Vector2(28, -28)
+
+[node name="Node2D2" parent="Tiles" instance=ExtResource("6_8geoh")]
+position = Vector2(76, -20)
+
+[node name="Node2D3" parent="Tiles" instance=ExtResource("6_8geoh")]
+position = Vector2(-4, -60)
+
+[node name="Node2D4" parent="Tiles" instance=ExtResource("6_8geoh")]
+position = Vector2(44, -100)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

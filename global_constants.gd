@@ -43,5 +43,7 @@ const BULLET_SPEEDS = {
 enum TARGET_TYPES {
 	NONE,
 	TANK,
-	CAR
+	CAR,
+	TOWER,
+	ANY
 }

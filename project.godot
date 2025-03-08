@@ -31,6 +31,7 @@ npc=""
 hurt_box=""
 hit_box=""
 enemy=""
+item=""
 
 [input]
 

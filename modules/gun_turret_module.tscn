@@ -357,6 +357,7 @@ script = ExtResource("1_aqang")
 shoot_delay = 1.0
 
 [node name="Range" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 shape = SubResource("CircleShape2D_x3h87")
