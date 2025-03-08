@@ -8,6 +8,7 @@ extends Node2D
 @export var gameover_cutscene: CutsceneResource
 @export var success_cutscene: CutsceneResource
 
+@onready var road: TileMapLayer = $Tiles/Road
 @onready var game_ui: Control = $CanvasLayer/LevelUI
 
 # ATTENTION: THE ORDER OF THE COMPONENTS BELOW IS IMPORTANT
@@ -17,6 +18,7 @@ func _ready():
 	GameManager.current_level = level
 	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements
+	GameManager.road = road
 	
 	PlayerManager.on_level_changed()
 	completion_requirements.level_modifiers.apply_modifiers()

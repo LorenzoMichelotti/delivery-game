@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvxqim7m6kljp"]
+
+[ext_resource type="Script" path="res://modules/controllers/pathfinding_controller_module.gd" id="1_ivyjs"]
+
+[node name="RandomMovementModule" type="Node2D"]
+script = ExtResource("1_ivyjs")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.0
+path_postprocessing = 1
+simplify_path = true
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

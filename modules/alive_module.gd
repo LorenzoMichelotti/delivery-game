@@ -1,6 +1,7 @@
 class_name AliveModule
 extends Node2D
 
+@export var target_type : GlobalConstants.TARGET_TYPES
 @export var max_hp := 1
 @export var should_free_on_dead := true
 @export var can_be_knocked_down := true
@@ -28,6 +29,7 @@ func _ready():
 	actor = get_parent()
 	type = actor.type
 	hp = max_hp
+	died.connect(GameManager._on_acquire_target.bind(target_type))
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true, damage_dealer = null) -> bool:

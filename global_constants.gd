@@ -33,7 +33,15 @@ const BULLET_SPEEDS = {
 	},
 	BULLET_SPEED.SLOW: {
 		"speed": 50,
-		"friction": .005,
-		"acceleration": 10
+		"friction": .00005,
+		"acceleration": 15
 	}
+}
+
+
+# targets
+enum TARGET_TYPES {
+	NONE,
+	TANK,
+	CAR
 }

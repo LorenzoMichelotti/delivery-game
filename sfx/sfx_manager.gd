@@ -11,7 +11,7 @@ enum CHANNEL_CONFIG {
 
 const BUS_CONFIG = {
 	CHANNEL_CONFIG.BASIC: "Master",
-	CHANNEL_CONFIG.GUN: "Master",
+	CHANNEL_CONFIG.GUN: "Explosions",
 	CHANNEL_CONFIG.SPIKES: "Explosions",
 	CHANNEL_CONFIG.HITS: "Explosions",
 	CHANNEL_CONFIG.EXPLOSIONS: "Explosions",
@@ -35,7 +35,6 @@ func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC, r
 			channels[playback_channel][i].bus = BUS_CONFIG[playback_channel]
 			channels[playback_channel][i].pitch_scale = randf_range(.5, 1.5) if randomize_pitch else 1
 			add_child(channels[playback_channel][i])
-			print("created basic audiostream channel")
 		var channel: AudioStreamPlayer2D = channels[playback_channel][i]
 		if not channel.playing:
 			channel.stream = stream

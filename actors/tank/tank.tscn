@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_5qsot"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="2_cbxp3"]
 [ext_resource type="PackedScene" uid="uid://bqf5chdoirwek" path="res://modules/gun_turret_module.tscn" id="2_cyu6t"]
-[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="4_0gh2q"]
+[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/controllers/random_movement_module.tscn" id="4_0gh2q"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://c4bnu6brxis1w" path="res://actors/tank/directional_blendspace_2D.tres" id="5_cl3pm"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="7_2m3if"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="9_xtfgt"]
@@ -311,7 +311,8 @@ region_rect = Rect2(32, 0, 8, 8)
 
 [node name="AliveModule" parent="." instance=ExtResource("2_cbxp3")]
 position = Vector2(0, -1)
-max_hp = 100
+target_type = 1
+max_hp = 50
 can_be_knocked_down = false
 on_death_points = 10000
 
@@ -333,6 +334,7 @@ parameters/BlendSpace2D/blend_position = Vector2(0, 0)
 [node name="GunTurretModule" parent="." instance=ExtResource("2_cyu6t")]
 position = Vector2(0, -7)
 shoot_delay = 2.0
+crosshair_enabled = false
 damage = 1
 bullet_speed = 1
 

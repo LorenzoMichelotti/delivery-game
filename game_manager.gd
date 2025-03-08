@@ -2,18 +2,19 @@ extends Node2D
 
 var levels = {
 	1: {
-		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/01.tscn"),
 	},
 	2: {
-		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/02.tscn"),
 	},
 	3: {
-		"road_node_paths": ["Tiles/CityRoad", "Tiles/OffRoad"],
 		"scene": preload("res://levels/03.tscn"),
+	},
+	4: {
+		"scene": preload("res://levels/04.tscn"),
 	}
 }
+
 const item_scene = preload("res://items/item.tscn")
 const items = {
 	"gas": {
@@ -44,7 +45,7 @@ var current_level_retries: int = 0
 var skip_cutscenes = true
 var game_over_ui
 var pause_ui
-var roads: Array[TileMapLayer]
+var road: TileMapLayer
 
 enum GAMEMODE {
 	INITIALIZING,
@@ -63,9 +64,16 @@ var endless = false
 var npc_count = 5
 var npcs_alive = 0
 var random_gas_enabled = true
+var random_deliveries_enabled = true
 
 var deliveries = {}
 signal clear_items
+
+var acquired_targets = {}
+func _on_acquire_target(target_type: GlobalConstants.TARGET_TYPES):
+	if not acquired_targets.has(target_type):
+		acquired_targets[target_type] = 0
+	acquired_targets[target_type] += 1
 
 func _ready():
 	game_over_ui = game_over_scene.instantiate()
@@ -131,10 +139,6 @@ func pause_screen():
 	get_tree().current_scene.add_child.call_deferred(pause_ui)
 
 func on_level_changed():
-	roads = [
-		get_tree().current_scene.get_node("Tiles/CityRoad"), 
-		get_tree().current_scene.get_node("Tiles/OffRoad")
-	]
 	reset_map()
 
 func reset_level():
@@ -148,6 +152,7 @@ func reset_map():
 	_scatter_npcs(npc_count)
 
 func _clear_map():
+	acquired_targets.clear()
 	clear_items.emit()
 	deliveries.clear()
 
@@ -184,6 +189,8 @@ func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Arra
 	return shortest_distance_position
 
 func create_delivery():
+	if not random_deliveries_enabled:
+		return
 	var pickup_item_resource = items.pickup.resource.duplicate()
 	pickup_item_resource.texture = current_client.objects.pick_random()
 	var pickup_item: ItemScene = _spawn_item(pickup_item_resource)
@@ -203,7 +210,6 @@ func create_delivery():
 	}
 	
 func _spawn_item(item_resource: Resource) -> ItemScene:
-	var road: TileMapLayer = roads.pick_random()
 	var free_tiles = _get_free_tiles(road)
 	if free_tiles == null or free_tiles.size() <= 0:
 		print("ERROR: couldnt spawn item because there were no free tiles")
@@ -236,7 +242,6 @@ func _scatter_fuel(amount: int):
 	if not random_gas_enabled or not PlayerManager.gas_enabled:
 		return
 	for i in range(amount):
-		var road = roads.pick_random()
 		var free_tiles = _get_free_tiles(road)
 		if free_tiles == null or free_tiles.size() <= 0:
 			print("ERROR: couldnt spawn item because there were no free tiles")
@@ -253,11 +258,8 @@ func _scatter_fuel(amount: int):
 		
 func _scatter_npcs(amount: int):
 	for i in range(amount):
-		var road = roads.pick_random()
-		var free_tiles = _get_free_tiles(road)
-		if free_tiles == null or free_tiles.size() <= 0:
-			print("ERROR: couldnt spawn item because there were no free tiles")
-		var tile_position = free_tiles.pick_random()
+		var tiles = road.get_used_cells()
+		var tile_position = tiles.pick_random()
 		npcs_alive += 1
 		var police_car_npc = npcs.police_car.scene.instantiate()
 		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 

@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_k3kus"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]
-[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="5_cwb55"]
+[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/controllers/random_movement_module.tscn" id="5_cwb55"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="5_sxxkn"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="8_rfo5t"]
 
@@ -107,6 +107,7 @@ region_rect = Rect2(32, 0, 8, 8)
 
 [node name="AliveModule" parent="." instance=ExtResource("5_sxxkn")]
 position = Vector2(0, -1)
+target_type = 2
 on_death_points = 1000
 
 [node name="Node2D" parent="." instance=ExtResource("2_ays1p")]
@@ -124,7 +125,6 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="ItemBalloon" parent="." instance=ExtResource("4_v7a6i")]
 position = Vector2(0, -4)
 
-[node name="RandomMovementModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("5_cwb55")]
-pawn = NodePath("..")
+[node name="RandomMovementModule" parent="." instance=ExtResource("5_cwb55")]
 
 [node name="Shadow" parent="." instance=ExtResource("8_rfo5t")]

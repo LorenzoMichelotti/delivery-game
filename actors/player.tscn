@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="6_ibiqb"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="6_lmiaw"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="7_eowff"]
-[ext_resource type="PackedScene" uid="uid://bqnvu4th0t4ar" path="res://modules/player_controller_module.tscn" id="8_y1ilt"]
+[ext_resource type="PackedScene" uid="uid://bqnvu4th0t4ar" path="res://modules/controllers/player_controller_module.tscn" id="8_y1ilt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0

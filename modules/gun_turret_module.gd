@@ -3,6 +3,7 @@ extends Node2D
 @export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Gun.wav")
 @export var shoot_delay = 0.3
 @export var enabled = true
+@export var crosshair_enabled = true
 @export var damage = 10
 @export var bullet_speed: GlobalConstants.BULLET_SPEED = GlobalConstants.BULLET_SPEED.FAST
 @export var automatic_aim = true
@@ -21,11 +22,15 @@ var can_shoot = true
 var enemies_in_range: Array[Node2D] = []
 var closest_enemy_in_range: Node2D
 var actor: Actor
+var manual_disable = false
 
 func _ready():
 	actor = get_parent()
 	type = actor.type
-	crosshair_pivot.modulate = GlobalConstants.ACTOR_COLORS[type]
+	if crosshair_enabled:
+		crosshair_pivot.modulate = GlobalConstants.ACTOR_COLORS[type]
+	else:
+		crosshair_pivot.modulate.a = 0
 
 
 func _process(delta):
@@ -34,8 +39,19 @@ func _process(delta):
 		animation_tree.set("parameters/conditions/disappear", true)
 		return
 	update_animations()
-	if can_shoot and (automatic_shoot or (type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_pressed("space"))):
+	if automatic_shoot:
+		if type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_just_pressed("space"):
+			manual_disable = !manual_disable
+		if manual_disable:
+			animation_tree.set("parameters/conditions/appear", false)
+			animation_tree.set("parameters/conditions/disappear", true)
+			return
+		if can_shoot:
+			_shoot.call_deferred()
+			return
+	if can_shoot and type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_pressed("space"):
 		_shoot.call_deferred()
+		return
 
 
 func _shoot():

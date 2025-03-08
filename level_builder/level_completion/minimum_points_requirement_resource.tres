@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MinimumPointsCompletionRequirementResource" load_steps=2 format=3 uid="uid://nrnyu6q2pcrv"]
 
-[ext_resource type="Script" path="res://level_completion_requirements/minimum_points_requirement_script.gd" id="1_m0qhk"]
+[ext_resource type="Script" path="res://level_builder/level_completion/minimum_points_requirement_script.gd" id="1_m0qhk"]
 
 [resource]
 script = ExtResource("1_m0qhk")
