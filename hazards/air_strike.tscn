@@ -1,0 +1,285 @@
+[gd_scene load_steps=19 format=3 uid="uid://cx6sw52lxbe60"]
+
+[ext_resource type="Script" path="res://hazards/IntervalHazard.gd" id="1_ots61"]
+[ext_resource type="AudioStream" uid="uid://byalrkox1vhgc" path="res://assets/sounds/Explode.wav" id="2_s7ygl"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_qj658"]
+[ext_resource type="Texture2D" uid="uid://cx2tam7d068lk" path="res://assets/hazards/red_circle.png" id="3_qo3sm"]
+[ext_resource type="PackedScene" uid="uid://dbwtbu1n3s6vg" path="res://vfx/explosion_vfx.tscn" id="5_jprn0"]
+
+[sub_resource type="Animation" id="Animation_uyo2d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritePivot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritePivot:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpritePivot:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Node2D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_t57oo"]
+resource_name = "armed"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.733333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"_set_armed"
+}, {
+"args": [false],
+"method": &"_set_armed"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritePivot:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.8, 0.8), Vector2(3.6, 1.6)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritePivot:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0666667, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_p8iot"]
+resource_name = "arming"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritePivot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritePivot:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3, 0), Vector2(1.8, 0.9)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpritePivot:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_85jcf"]
+resource_name = "idle"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePivot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritePivot:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sk54s"]
+_data = {
+"RESET": SubResource("Animation_uyo2d"),
+"armed": SubResource("Animation_t57oo"),
+"arming": SubResource("Animation_p8iot"),
+"idle": SubResource("Animation_85jcf")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tepgo"]
+animation = &"armed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iwrx1"]
+animation = &"arming"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_im73m"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cf35p"]
+advance_mode = 2
+advance_condition = &"enabled"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnafw"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7g548"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_exsda"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wrh5g"]
+states/armed/node = SubResource("AnimationNodeAnimation_tepgo")
+states/armed/position = Vector2(684.667, 61.3333)
+states/arming/node = SubResource("AnimationNodeAnimation_iwrx1")
+states/arming/position = Vector2(536, 163.333)
+states/idle/node = SubResource("AnimationNodeAnimation_im73m")
+states/idle/position = Vector2(366.667, 100.222)
+transitions = ["idle", "arming", SubResource("AnimationNodeStateMachineTransition_cf35p"), "arming", "armed", SubResource("AnimationNodeStateMachineTransition_mnafw"), "armed", "idle", SubResource("AnimationNodeStateMachineTransition_7g548"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_exsda")]
+
+[node name="AirStrike" type="Node2D" node_paths=PackedStringArray("damage_dealer_module")]
+position = Vector2(0, -1)
+script = ExtResource("1_ots61")
+damage_dealer_module = NodePath("DamageDealerModule")
+stream_sfx = ExtResource("2_s7ygl")
+random_position = true
+
+[node name="SpritePivot" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(3, 1e-05)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+texture = ExtResource("3_qo3sm")
+
+[node name="DamageDealerModule" parent="." instance=ExtResource("3_qj658")]
+type = 3
+
+[node name="CollisionShape2D" parent="DamageDealerModule/HurtBox" index="0"]
+position = Vector2(0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sk54s")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_wrh5g")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/enabled = false
+
+[node name="Node2D" parent="." instance=ExtResource("5_jprn0")]
+position = Vector2(0, -6)
+amount = 10
+emission_sphere_radius = 12.0
+scale_amount_max = 1.3
+
+[editable path="DamageDealerModule"]

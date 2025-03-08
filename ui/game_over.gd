@@ -45,8 +45,11 @@ func play():
 	else:
 		audio_player.stream = lose_song
 		audio_player.play()
+		if PlayerManager.pawn.alive_module.hp <= 0:
+			title.set_text("YOU DIED")
+		else:
+			title.set_text("OUT OF GAS")
 		button.set_text("Start Over")
-		title.set_text("OUT OF GAS")
 		start_over = true
 	final_score_label.text = str(PlayerManager.points).pad_zeros(10)
 

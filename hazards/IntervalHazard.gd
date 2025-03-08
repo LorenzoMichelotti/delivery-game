@@ -3,6 +3,7 @@ extends Node2D
 @export var damage_dealer_module: DamageDealerModule
 @export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Sword_Slash.wav")
 @export var interval_delay: float = 2.0
+@export var random_position: bool = false
 
 func _ready():
 	_set_armed(false)
@@ -16,4 +17,6 @@ func _set_armed(armed: bool):
 	damage_dealer_module.enabled = armed
 
 func _start():
+	if random_position:
+		global_position = GameManager.road.map_to_local(GameManager.road.get_used_cells().pick_random())
 	$AnimationTree.set("parameters/conditions/enabled", true)

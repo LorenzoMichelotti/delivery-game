@@ -16,7 +16,6 @@ point_count = 2
 [node name="Node2D" type="CPUParticles2D"]
 material = SubResource("CanvasItemMaterial_f1a12")
 emitting = false
-amount = 10
 lifetime = 0.4
 one_shot = true
 speed_scale = 2.0

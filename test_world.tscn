@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://clrg2wu11gslg"]
+[gd_scene load_steps=14 format=4 uid="uid://clrg2wu11gslg"]
 
 [ext_resource type="Script" path="res://levels/world.gd" id="1_ma8nb"]
 [ext_resource type="Script" path="res://level_builder/level_completion/completion_requirement_script.gd" id="2_7w1mb"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://actors/player.tscn" id="5_tx0ij"]
 [ext_resource type="PackedScene" uid="uid://doitea4saco28" path="res://actors/destructable.tscn" id="6_8geoh"]
 [ext_resource type="PackedScene" uid="uid://qhhji15xlc4s" path="res://hazards/spikes.tscn" id="6_llpjc"]
+[ext_resource type="PackedScene" uid="uid://bfdqdodpe3pog" path="res://actors/tank/tank.tscn" id="7_ly4fu"]
+[ext_resource type="PackedScene" uid="uid://cx6sw52lxbe60" path="res://hazards/air_strike.tscn" id="7_ocq4x"]
 
 [sub_resource type="Resource" id="Resource_juj3s"]
 script = ExtResource("2_qaupl")
@@ -54,6 +56,27 @@ position = Vector2(-4, -60)
 
 [node name="Node2D4" parent="Tiles" instance=ExtResource("6_8geoh")]
 position = Vector2(44, -100)
+
+[node name="AirStrike" parent="Tiles" instance=ExtResource("7_ocq4x")]
+position = Vector2(-20, -37)
+
+[node name="AirStrike2" parent="Tiles" instance=ExtResource("7_ocq4x")]
+position = Vector2(52, -60)
+
+[node name="AirStrike3" parent="Tiles" instance=ExtResource("7_ocq4x")]
+position = Vector2(68, 12)
+
+[node name="Tank" parent="Tiles" instance=ExtResource("7_ly4fu")]
+position = Vector2(20, -76)
+
+[node name="Tank2" parent="Tiles" instance=ExtResource("7_ly4fu")]
+position = Vector2(68, -36)
+
+[node name="Tank3" parent="Tiles" instance=ExtResource("7_ly4fu")]
+position = Vector2(84, -108)
+
+[node name="Tank4" parent="Tiles" instance=ExtResource("7_ly4fu")]
+position = Vector2(-36, -124)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
