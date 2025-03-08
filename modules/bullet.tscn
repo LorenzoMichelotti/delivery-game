@@ -11,6 +11,7 @@ script = ExtResource("1_li8li")
 [node name="SpritePivot" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="SpritePivot"]
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_x12i4")
 hframes = 2
 vframes = 2

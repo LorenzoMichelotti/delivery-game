@@ -108,7 +108,7 @@ region_rect = Rect2(32, 0, 8, 8)
 [node name="AliveModule" parent="." instance=ExtResource("5_sxxkn")]
 position = Vector2(0, -1)
 target_type = 2
-on_death_points = 1000
+on_death_points = 100
 
 [node name="Node2D" parent="." instance=ExtResource("2_ays1p")]
 position = Vector2(1, 0)

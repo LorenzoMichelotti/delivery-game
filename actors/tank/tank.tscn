@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfdqdodpe3pog"]
+[gd_scene load_steps=20 format=3 uid="uid://bfdqdodpe3pog"]
 
 [ext_resource type="Script" path="res://actors/tank/tank.gd" id="1_c4hyv"]
 [ext_resource type="Texture2D" uid="uid://ikajd8qgfqpr" path="res://assets/cars/tank.png" id="1_fxolp"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="2_cbxp3"]
 [ext_resource type="PackedScene" uid="uid://bqf5chdoirwek" path="res://modules/gun_turret_module.tscn" id="2_cyu6t"]
 [ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/controllers/random_movement_module.tscn" id="4_0gh2q"]
+[ext_resource type="AudioStream" uid="uid://buhm6ci7avdfg" path="res://assets/sounds/Thunder.wav" id="5_6daes"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://c4bnu6brxis1w" path="res://actors/tank/directional_blendspace_2D.tres" id="5_cl3pm"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="7_2m3if"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="9_xtfgt"]
@@ -314,12 +315,14 @@ position = Vector2(0, -1)
 target_type = 1
 max_hp = 50
 can_be_knocked_down = false
-on_death_points = 10000
+on_death_points = 1000
+death_explosion_sfx_stream = ExtResource("5_6daes")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_hcm04")
 
 [node name="RandomMovementModule" parent="." instance=ExtResource("4_0gh2q")]
+speed = 25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

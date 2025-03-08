@@ -15,6 +15,11 @@ var initial_gas_usage = 10
 var gas_usage = 0
 
 var points = 0
+var point_multiplier = 1
+var base_point_multiplier = 1
+var base_multiplier_timer = 5
+var multiplier_timer = 5
+
 var completed_deliveries = 0
 var inventory_delivery_ids: Array[int] = []
 var gps_enabled = true
@@ -22,8 +27,16 @@ var gas_enabled = true
 var player_is_ready = false
 var tank_empty = false
 var success = false
+var timer: Timer
 
 signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
+signal point_multiplier_changed(point_multiplier: int)
+
+func _ready():
+	timer = Timer.new()
+	timer.one_shot = true
+	timer.timeout.connect(end_combo)
+	add_child(timer)
 
 func inventory_hold_delivery(delivery_id):
 	inventory_delivery_ids.append(delivery_id)
@@ -40,6 +53,20 @@ func inventory_complete_delivery(delivery_id):
 	inventory_delivery_ids_changed.emit(true)
 	#if not GameManager.endless and GameManager.verify_level_win_condition():
 		#complete_level()
+
+func increase_combo():
+	timer.stop()
+	point_multiplier += 1
+	point_multiplier_changed.emit(point_multiplier)
+	var multiplier_timer_discount = (point_multiplier % 2) - 1
+	if multiplier_timer_discount >= 0:
+		multiplier_timer -= multiplier_timer_discount 
+	timer.start()
+	
+func end_combo():
+	point_multiplier = base_point_multiplier
+	point_multiplier_changed.emit(point_multiplier)
+	multiplier_timer = base_multiplier_timer
 
 func on_level_changed():
 	player_is_ready = false
@@ -129,10 +156,12 @@ func reset_player():
 	
 func add_points(amount):
 	if tank_empty:
-		return 
+		return
 		
 	var previous_points = points
-	points += amount
+	points += amount * point_multiplier
+	
+	increase_combo()
 	
 	if not GameManager.endless and GameManager.verify_level_win_condition():
 		complete_level()

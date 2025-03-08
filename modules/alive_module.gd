@@ -10,6 +10,7 @@ extends Node2D
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
+@export var death_explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
 
 @onready var actor
 @onready var type: GlobalConstants.ACTOR_TYPES
@@ -146,12 +147,12 @@ func _play_death_tweener(perpetrator):
 	await tween.finished
 	shader.set_shader_parameter("active", false)
 	
-	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
+	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
 	VfxManager.display_explosion_effect(knockdown_position)
 	CameraManager.apply_shake()
 	
 	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER and on_death_points > 0:
-		VfxManager.display_number(str(on_death_points), knockdown_position)
+		VfxManager.display_number(str(on_death_points * PlayerManager.point_multiplier), knockdown_position)
 		PlayerManager.add_points(on_death_points)
 	
 	tween = get_tree().create_tween().bind_node(self)

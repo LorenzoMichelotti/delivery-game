@@ -11,6 +11,7 @@ func _ready():
 func _on_take_damage():
 	CameraManager.apply_quick_zoom()
 	SfxManager.play_sfx(player_lose_life_stream_sfx, SfxManager.CHANNEL_CONFIG.VOICES, false, 0.4)
+	PlayerManager.end_combo()
 
 func _on_die():
 	SfxManager.play_sfx(player_die_stream_sfx, SfxManager.CHANNEL_CONFIG.VOICES, false, 0.4)
