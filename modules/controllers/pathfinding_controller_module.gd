@@ -7,8 +7,7 @@ func _ready():
 	super()
 
 func _physics_process(delta):
-	
-	if NavigationServer2D.map_get_iteration_id(navigation_agent_2d.get_navigation_map()) == 0:
+	if (pawn and pawn.alive_module.is_dead) or not enabled or NavigationServer2D.map_get_iteration_id(navigation_agent_2d.get_navigation_map()) == 0:
 		return
 	if navigation_agent_2d.is_navigation_finished():
 		navigation_agent_2d.target_position = get_random_target_position()

@@ -7,5 +7,5 @@ script = ExtResource("1_ddd51")
 speed = 100.0
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(8, 0)
+target_position = Vector2(8.9, 0)
 collision_mask = 2

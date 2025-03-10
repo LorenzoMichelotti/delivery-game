@@ -142,7 +142,7 @@ func _play_death_tweener(perpetrator):
 	# actor sprite
 	tween.tween_property(actor.sprite_pivot, "global_position", knockdown_position, 0.1)
 	# actor shadow sprite
-	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockdown_position.x, knockdown_position.y + 1) , 0.3)
+	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockdown_position.x, knockdown_position.y) , 0.3)
 	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , 0.3)
 	tween.parallel().tween_property(actor.shadow, "scale", base_shadow_scale , 0.3)
 	

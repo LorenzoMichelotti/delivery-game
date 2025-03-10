@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="6_ibiqb"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="6_lmiaw"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="7_eowff"]
-[ext_resource type="PackedScene" uid="uid://bqnvu4th0t4ar" path="res://modules/controllers/player_controller_module.tscn" id="8_y1ilt"]
+[ext_resource type="PackedScene" uid="uid://cnki7wf0pqri2" path="res://modules/controllers/player_pathfinding_controller_module.tscn" id="11_rkwqa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -129,9 +129,8 @@ should_free_on_dead = false
 damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
-[node name="PlayerControllerModule" parent="." instance=ExtResource("8_y1ilt")]
-process_mode = 1
-visible = false
+[node name="PlayerControllerModule" parent="." instance=ExtResource("11_rkwqa")]
+speed = 75.0
 
 [connection signal="died" from="AliveModule" to="." method="_on_die"]
 [connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]

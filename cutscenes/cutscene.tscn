@@ -1581,9 +1581,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = -74.0
-offset_top = -548.0
+offset_top = -606.0
 offset_right = 532.0
-offset_bottom = 58.0
 grow_vertical = 0
 pivot_offset = Vector2(303, 606)
 texture = ExtResource("4_ffmrd")
@@ -1596,9 +1595,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -118.0
-offset_top = -148.0
+offset_top = -397.0
 offset_right = 512.0
-offset_bottom = 21.0
+offset_bottom = -228.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(315, 84)
@@ -1606,9 +1605,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_v52vv")
 
 [node name="ActorNameLabel" type="Label" parent="BackDrop/DialogueBox"]
 layout_mode = 1
-offset_top = -20.0
+offset_top = -46.0
 offset_right = 280.0
-offset_bottom = 32.0
+offset_bottom = 6.0
 theme_override_colors/font_color = Color(0.713726, 0, 0.560784, 1)
 theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 40
@@ -1620,8 +1619,7 @@ anchors_preset = -1
 anchor_top = 0.178
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 29.918
-offset_bottom = 30.0
+offset_top = -0.0820007
 grow_horizontal = 2
 grow_vertical = 2
 text = "Hello World..."
@@ -1655,8 +1653,9 @@ text = "Choice 2"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_cyjoa")
+&"": SubResource("AnimationLibrary_cyjoa")
 }
+speed_scale = 2.0
 
 [node name="Transition" type="Panel" parent="."]
 layout_mode = 1

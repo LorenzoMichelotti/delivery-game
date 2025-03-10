@@ -59,7 +59,7 @@ enum GAMEMODE {
 var current_game_mode = GAMEMODE.INITIALIZING
 var previous_game_mode = GAMEMODE.INITIALIZING
 var rng = RandomNumberGenerator.new()
-var endless = false
+var endless = true
 
 var npc_count = 5
 var npcs_alive = 0
@@ -68,6 +68,7 @@ var random_deliveries_enabled = true
 
 var deliveries = {}
 signal clear_items
+signal level_completion_requirement_met
 
 var acquired_targets = {}
 func _on_acquire_target(target_type: GlobalConstants.TARGET_TYPES):
@@ -126,8 +127,10 @@ func set_game_mode(new_game_mode: GAMEMODE):
 
 func verify_level_win_condition():
 	if current_completion_goal:
-		return current_completion_goal.verify_completion_requirement_met()
-	
+		var requirement_is_met = current_completion_goal.verify_completion_requirement_met()
+		if requirement_is_met: level_completion_requirement_met.emit()
+		return requirement_is_met
+
 func gameover():
 	game_over_ui.play.call_deferred()
 	
@@ -166,6 +169,22 @@ func get_closest_pickup_position(compare_position: Vector2):
 		if !delivery.item and !delivery.target:
 			return null
 		var position = delivery.item.global_position if delivery.item != null else delivery.target.global_position
+		var distance = compare_position.distance_to(position)
+		if shortest_distance == null || distance < shortest_distance:
+			shortest_distance = distance
+			shortest_distance_position = position
+	return shortest_distance_position
+	
+func get_closest_tunnel_position(compare_position: Vector2):
+	var tunnels = get_tree().get_nodes_in_group("tunnel")
+
+	if tunnels.size() <= 0:
+		return null
+		
+	var shortest_distance = null
+	var shortest_distance_position = null
+	for tunnel in tunnels:
+		var position = tunnel.global_position
 		var distance = compare_position.distance_to(position)
 		if shortest_distance == null || distance < shortest_distance:
 			shortest_distance = distance
@@ -223,7 +242,7 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 	spawned_item.tile_position = tile_position
 	spawned_item.road = road
 	spawned_item.global_position = to_global(road.map_to_local(tile_position)) 
-	get_tree().current_scene.get_node("Entities").add_child.call_deferred(spawned_item)
+	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(spawned_item)
 	return spawned_item
 
 func _get_free_tiles(road: TileMapLayer):
@@ -269,7 +288,7 @@ func _scatter_npcs(amount: int):
 
 func _on_npc_died():
 	npcs_alive -= 1
-	_scatter_npcs.call_deferred(1)
+	get_tree().create_timer(5).timeout.connect(_scatter_npcs.call_deferred.bind(1))
 
 func pickup_delivery_item(delivery_id: int):
 	deliveries[delivery_id].obtained = true

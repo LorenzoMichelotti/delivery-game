@@ -115,7 +115,7 @@ position = Vector2(1, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_pl34g")
+&"": SubResource("AnimationLibrary_pl34g")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

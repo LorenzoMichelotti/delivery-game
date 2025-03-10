@@ -23,7 +23,13 @@ var multiplier_timer = 5
 var completed_deliveries = 0
 var inventory_delivery_ids: Array[int] = []
 var gps_enabled = true
-var gas_enabled = true
+
+var gas_enabled = true:
+	set(value): 
+		gas_enabled = value
+		gas_enabled_changed.emit(gas_enabled)
+signal gas_enabled_changed(enabled: bool)
+
 var player_is_ready = false
 var tank_empty = false
 var success = false
@@ -75,14 +81,21 @@ func on_level_changed():
 	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasBar")
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
-	pawn = get_tree().current_scene.get_node("Map/Entities/Player")
 	CameraManager.set_pawn_to_follow(pawn)
-	pawn_spawn_position = pawn.global_position
-	pawn.alive_module.died.connect(empty_tank)
+	if pawn == null:
+		pawn = get_tree().current_scene.get_node("Map/Entities/Player")
+		set_pawn(pawn)
 	gas_usage = initial_gas_usage
 	
 	reset_player()
 	player_is_ready = true
+
+func set_pawn(new_pawn):
+	if new_pawn == null:
+		return
+	pawn = new_pawn
+	pawn_spawn_position = pawn.global_position
+	pawn.alive_module.died.connect(empty_tank)
 
 func _process(delta):
 	if Input.is_action_just_pressed("reload"):
@@ -131,6 +144,8 @@ func complete_level():
 	if success:
 		return
 	success = GameManager.verify_level_win_condition()
+	if GameManager.endless:
+		return
 	var current_scene = get_tree().current_scene
 	if not success and current_scene.gameover_cutscene != null:
 		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)
@@ -144,7 +159,7 @@ func reset_player():
 	pawn.controller.current_direction = Vector2.ZERO
 	pawn.controller.target_position = pawn_spawn_position
 	pawn.global_position = pawn_spawn_position
-	pawn.controller.input_queue.clear()
+	#pawn.controller.input_queue.clear()
 	inventory_delivery_ids.clear()
 	
 	gas_enabled = true

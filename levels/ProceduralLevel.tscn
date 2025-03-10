@@ -2,30 +2,32 @@
 
 [ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_1ab8m"]
 [ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_rxtjg"]
-[ext_resource type="Script" uid="uid://qqy5r6dfmags" path="res://level_builder/level_completion/destroy_tanks_requirement_script.gd" id="3_o8tfe"]
+[ext_resource type="Script" uid="uid://be0hnk3avkuth" path="res://level_builder/level_completion/minimum_deliveries_requirement_script.gd" id="2_u4h5d"]
 [ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="4_fd311"]
 [ext_resource type="Resource" uid="uid://cuxv4nasi6flb" path="res://cutscenes/01/01_success.tres" id="5_xbmo5"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="7_ikfri"]
 [ext_resource type="PackedScene" uid="uid://cm1hdsql4dxco" path="res://generators/generated_map.tscn" id="9_yworv"]
 
-[sub_resource type="Resource" id="Resource_56inf"]
+[sub_resource type="Resource" id="Resource_ufurt"]
 script = ExtResource("2_rxtjg")
-deliveries_enabled = false
+deliveries_enabled = true
 gas_enabled = false
 random_gas_enabled = false
-npc_count = 1
-player_gun_turret = true
+npc_count = 3
+player_gun_turret = false
+metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
-[sub_resource type="Resource" id="Resource_gg6ko"]
-script = ExtResource("3_o8tfe")
-minimum_targets_for_completion = 2
-goal_description = "DESTROY THE TANKS!!!"
-level_modifiers = SubResource("Resource_56inf")
+[sub_resource type="Resource" id="Resource_xuddq"]
+script = ExtResource("2_u4h5d")
+minimum_deliveries_for_completion = 1
+goal_description = "DELIVER ITEMS"
+level_modifiers = SubResource("Resource_ufurt")
+metadata/_custom_type_script = "uid://be0hnk3avkuth"
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1ab8m")
 level = 4
-completion_requirements = SubResource("Resource_gg6ko")
+completion_requirements = SubResource("Resource_xuddq")
 gameover_cutscene = ExtResource("4_fd311")
 success_cutscene = ExtResource("5_xbmo5")
 
@@ -35,3 +37,5 @@ success_cutscene = ExtResource("5_xbmo5")
 visible = false
 
 [node name="Map" parent="." instance=ExtResource("9_yworv")]
+
+[connection signal="map_generated" from="Map" to="." method="_on_map_generated"]
