@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dc3x0am078fuk"]
 
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_41mmn"]
-[ext_resource type="Script" path="res://items/item_scene.gd" id="1_wftca"]
+[ext_resource type="Script" uid="uid://bvw0djima48ja" path="res://items/item_scene.gd" id="1_wftca"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="3_vu4vb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oce5k"]
@@ -40,8 +40,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q7y18"]
 _data = {
-"RESET": SubResource("Animation_rcgd7"),
-"idle": SubResource("Animation_hivdq")
+&"RESET": SubResource("Animation_rcgd7"),
+&"idle": SubResource("Animation_hivdq")
 }
 
 [node name="Item" type="Node2D" groups=["item"]]

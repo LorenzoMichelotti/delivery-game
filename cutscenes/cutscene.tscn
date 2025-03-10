@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://cif4mc71u1frb"]
 
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_5qbo0"]
-[ext_resource type="Script" path="res://cutscenes/cutscene.gd" id="1_s755s"]
+[ext_resource type="Script" uid="uid://q2w5dh48stkn" path="res://cutscenes/cutscene.gd" id="1_s755s"]
 [ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01_intro.tres" id="2_hhjun"]
 [ext_resource type="Texture2D" uid="uid://7pvqxn3oorp7" path="res://assets/characters/actors/morgana/poirtraits/morgana1.png" id="4_ffmrd"]
 
@@ -1533,14 +1533,14 @@ tracks/17/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cyjoa"]
 _data = {
-"RESET": SubResource("Animation_eewoe"),
-"appear": SubResource("Animation_iy8a7"),
-"disappear": SubResource("Animation_g37ip"),
-"end_level": SubResource("Animation_5p8iv"),
-"initialize": SubResource("Animation_12ikm"),
-"next_dialogue": SubResource("Animation_2m5ip"),
-"no_cutscene_transition": SubResource("Animation_808ff"),
-"no_goals_no_cutscene_transition": SubResource("Animation_aoj8w")
+&"RESET": SubResource("Animation_eewoe"),
+&"appear": SubResource("Animation_iy8a7"),
+&"disappear": SubResource("Animation_g37ip"),
+&"end_level": SubResource("Animation_5p8iv"),
+&"initialize": SubResource("Animation_12ikm"),
+&"next_dialogue": SubResource("Animation_2m5ip"),
+&"no_cutscene_transition": SubResource("Animation_808ff"),
+&"no_goals_no_cutscene_transition": SubResource("Animation_aoj8w")
 }
 
 [sub_resource type="Gradient" id="Gradient_qv4c6"]

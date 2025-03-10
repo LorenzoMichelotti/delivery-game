@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=4 uid="uid://blcq2516lf745"]
 
 [ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="1_rpqqw"]
-[ext_resource type="Script" path="res://hideable_tiles.gd" id="2_g62cb"]
+[ext_resource type="Script" uid="uid://bk8x6a6w7uj2k" path="res://hideable_tiles.gd" id="2_g62cb"]
 
 [node name="HideableTiles" type="TileMapLayer"]
 light_mask = 1025

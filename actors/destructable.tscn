@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://doitea4saco28"]
 
-[ext_resource type="Script" path="res://actors/actor.gd" id="1_ax5x8"]
+[ext_resource type="Script" uid="uid://cqtvq8s8dq4vw" path="res://actors/actor.gd" id="1_ax5x8"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="2_1juyx"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_m8owe"]
 [ext_resource type="Texture2D" uid="uid://xwe78i63kgcy" path="res://assets/destructables/building.png" id="2_ofehn"]
@@ -25,7 +25,7 @@ hframes = 3
 
 [node name="AliveModule" parent="." instance=ExtResource("3_qmcxr")]
 target_type = 1
-max_hp = 200
+max_hp = 1000
 can_be_knocked_down = false
 damage_stun_amount = 0.0
 invincibility_amount = 0.1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b02s22ak1foph"]
 
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_5tonb"]
-[ext_resource type="Script" path="res://ui/item_balloon.gd" id="2_j0bld"]
+[ext_resource type="Script" uid="uid://72mwkqpfapcq" path="res://ui/item_balloon.gd" id="2_j0bld"]
 
 [sub_resource type="Animation" id="Animation_rsok1"]
 length = 0.001
@@ -136,9 +136,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_22yml"]
 _data = {
-"RESET": SubResource("Animation_rsok1"),
-"appear": SubResource("Animation_kt724"),
-"dissappear": SubResource("Animation_r6tfb")
+&"RESET": SubResource("Animation_rsok1"),
+&"appear": SubResource("Animation_kt724"),
+&"dissappear": SubResource("Animation_r6tfb")
 }
 
 [node name="ItemBalloon" type="Node2D"]

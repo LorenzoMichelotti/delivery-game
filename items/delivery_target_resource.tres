@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="DeliveryTargetItem" load_steps=4 format=3 uid="uid://dej737sel3qvn"]
 
 [ext_resource type="AudioStream" uid="uid://dl255btcayt31" path="res://assets/sounds/Collect_Big_Point.wav" id="1_mb1x0"]
-[ext_resource type="Script" path="res://items/delivery_target.gd" id="1_umvxr"]
+[ext_resource type="Script" uid="uid://d2ukqggyd2du5" path="res://items/delivery_target.gd" id="1_umvxr"]
 [ext_resource type="Texture2D" uid="uid://c6cdsa5kibqex" path="res://assets/client.png" id="2_5xsa8"]
 
 [resource]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://qhhji15xlc4s"]
 
-[ext_resource type="Script" path="res://hazards/IntervalHazard.gd" id="1_6wi26"]
+[ext_resource type="Script" uid="uid://5jvjv5sfqswy" path="res://hazards/IntervalHazard.gd" id="1_6wi26"]
 [ext_resource type="Texture2D" uid="uid://dxxff44lhgfbu" path="res://assets/hazards/spikes.png" id="1_s0c8p"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_ejbvc"]
 
@@ -85,10 +85,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sk54s"]
 _data = {
-"RESET": SubResource("Animation_uyo2d"),
-"armed": SubResource("Animation_t57oo"),
-"arming": SubResource("Animation_p8iot"),
-"idle": SubResource("Animation_85jcf")
+&"RESET": SubResource("Animation_uyo2d"),
+&"armed": SubResource("Animation_t57oo"),
+&"arming": SubResource("Animation_p8iot"),
+&"idle": SubResource("Animation_85jcf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tepgo"]

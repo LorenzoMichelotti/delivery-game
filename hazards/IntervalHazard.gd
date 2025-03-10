@@ -4,6 +4,7 @@ extends Node2D
 @export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Sword_Slash.wav")
 @export var interval_delay: float = 2.0
 @export var random_position: bool = false
+@export var shake_screen: bool = false
 
 func _ready():
 	_set_armed(false)
@@ -14,6 +15,7 @@ func _set_armed(armed: bool):
 		$AnimationTree.set("parameters/conditions/enabled", false)
 		get_tree().create_timer(interval_delay).timeout.connect(_start)
 		SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.SPIKES)
+		if shake_screen: CameraManager.apply_shake(2)
 	damage_dealer_module.enabled = armed
 
 func _start():

@@ -8,7 +8,7 @@ extends Node2D
 @export var gameover_cutscene: CutsceneResource
 @export var success_cutscene: CutsceneResource
 
-@onready var road: TileMapLayer = $Tiles/Road
+@onready var road: TileMapLayer = $Map/Tiles/Road
 @onready var game_ui: Control = $CanvasLayer/LevelUI
 
 # ATTENTION: THE ORDER OF THE COMPONENTS BELOW IS IMPORTANT

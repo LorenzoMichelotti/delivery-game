@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://cg0e6xtloabql"]
 
-[ext_resource type="Script" path="res://actors/player.gd" id="1_0lbjl"]
+[ext_resource type="Script" uid="uid://b5qq2aurco47k" path="res://actors/player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="3_m3new"]
 [ext_resource type="PackedScene" uid="uid://bqf5chdoirwek" path="res://modules/gun_turret_module.tscn" id="3_td6ek"]
@@ -49,8 +49,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
 _data = {
-"RESET": SubResource("Animation_peuc1"),
-"idle": SubResource("Animation_885hu")
+&"RESET": SubResource("Animation_peuc1"),
+&"idle": SubResource("Animation_885hu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxgv"]
@@ -76,7 +76,9 @@ script = ExtResource("1_0lbjl")
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
 shoot_delay = 0.2
+windup_shoot_delay = 0.1
 enabled = false
+damage = 100
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)
@@ -103,7 +105,7 @@ current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_pl34g")
+&"": SubResource("AnimationLibrary_pl34g")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

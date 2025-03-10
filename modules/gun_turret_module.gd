@@ -2,6 +2,7 @@ extends Node2D
 
 @export var stream_sfx: AudioStreamWAV = preload("res://assets/sounds/Gun.wav")
 @export var shoot_delay = 0.3
+@export var windup_shoot_delay = 0.5
 @export var enabled = true
 @export var crosshair_enabled = true
 @export var damage = 10
@@ -17,12 +18,16 @@ extends Node2D
 @onready var bullet_hole = $BulletHolePivot/bullet_hole
 @onready var crosshair_pivot = $CrossHairPivot
 @onready var area_range = $Range
+@onready var windup_timer = $WindupTimer
+@onready var muzzle_flash_sprite = $BulletHolePivot/bullet_hole/MuzzleFlashSprite
 
 var can_shoot = true
 var enemies_in_range: Array[Node2D] = []
 var closest_enemy_in_range: Node2D
 var actor: Actor
 var manual_disable = false
+var windup_tween: Tween
+var direction: Vector2
 
 func _ready():
 	actor = get_parent()
@@ -31,6 +36,15 @@ func _ready():
 		crosshair_pivot.modulate = GlobalConstants.ACTOR_COLORS[type]
 	else:
 		crosshair_pivot.modulate.a = 0
+	match type:
+		GlobalConstants.ACTOR_TYPES.PLAYER:
+			muzzle_flash_sprite.frame = 0
+		GlobalConstants.ACTOR_TYPES.ENEMY:
+			muzzle_flash_sprite.frame = 2
+		GlobalConstants.ACTOR_TYPES.HAZARD:
+			muzzle_flash_sprite.frame = 2
+		GlobalConstants.ACTOR_TYPES.FRIEND:
+			muzzle_flash_sprite.frame = 0
 
 
 func _process(delta):
@@ -47,29 +61,52 @@ func _process(delta):
 			animation_tree.set("parameters/conditions/disappear", true)
 			return
 		if can_shoot:
-			_shoot.call_deferred()
+			_start_shooting.call_deferred()
 			return
 	if can_shoot and type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_pressed("space"):
-		_shoot.call_deferred()
+		_start_shooting.call_deferred()
 		return
 
-
-func _shoot():
+func _start_shooting():
 	can_shoot = false
-	get_tree().create_timer(shoot_delay).timeout.connect(_set_can_shoot)
-	var bullet: Bullet = bullet_scene.instantiate()
+	
 	if automatic_aim:
 		if closest_enemy_in_range == null:
+			can_shoot = true
 			return
-		bullet.direction = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
+		direction = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
 	else:
-		bullet.direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
+		direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
+	
+	windup_timer.start(windup_shoot_delay)
+	if windup_tween:
+		windup_tween.kill()
+	windup_tween = create_tween()
+	muzzle_flash_sprite.show()
+	muzzle_flash_sprite.scale = Vector2.ZERO
+	windup_tween.tween_property(muzzle_flash_sprite, "scale", Vector2.ONE * 2, windup_shoot_delay)
+	windup_tween.parallel().tween_property(muzzle_flash_sprite, "modulate:a", 1, windup_shoot_delay/2)
+	windup_tween.set_loops().parallel().tween_property(muzzle_flash_sprite, "rotation", TAU, windup_shoot_delay).from(0)
+	windup_timer.timeout.connect(windup_tween.kill)
+	
+func _shoot():
+	if windup_tween:
+		windup_tween.kill()
+	windup_tween = create_tween()
+	windup_tween.tween_property(muzzle_flash_sprite, "scale", Vector2.ONE * 2, 0.05)
+	windup_tween.tween_property(muzzle_flash_sprite, "scale", Vector2.ZERO, 0.1)
+	windup_tween.parallel().tween_property(muzzle_flash_sprite, "modulate:a", 0, 0.1)
+	get_tree().create_timer(shoot_delay).timeout.connect(_set_can_shoot)
+	var bullet: Bullet = bullet_scene.instantiate()
+	bullet.direction = direction
 	SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.GUN, true)
 	bullet.bullet_speed = bullet_speed
 	bullet.global_position = bullet_hole.global_position
 	bullet.type = type
-	get_tree().current_scene.get_node("Entities").add_child(bullet)
+	get_tree().current_scene.get_node("Map/Entities").add_child(bullet)
 	bullet.damage_dealer_module.damage = damage
+	
+	windup_tween.finished.connect(windup_tween.kill)
 
 
 func _set_can_shoot():

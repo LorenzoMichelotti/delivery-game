@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=4 uid="uid://clrg2wu11gslg"]
 
-[ext_resource type="Script" path="res://levels/world.gd" id="1_ma8nb"]
-[ext_resource type="Script" path="res://level_builder/level_completion/completion_requirement_script.gd" id="2_7w1mb"]
-[ext_resource type="Script" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_qaupl"]
+[ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_ma8nb"]
+[ext_resource type="Script" uid="uid://cqpou3tk8n7yf" path="res://level_builder/level_completion/completion_requirement_script.gd" id="2_7w1mb"]
+[ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_qaupl"]
 [ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="3_55suh"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="4_d4k7u"]
 [ext_resource type="PackedScene" uid="uid://blcq2516lf745" path="res://tilesets/hideable_tiles.tscn" id="5_do1e0"]

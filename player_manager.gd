@@ -49,6 +49,7 @@ func inventory_complete_delivery(delivery_id):
 		else:
 			gas_usage = 0
 	completed_deliveries += 1
+	increase_combo()
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
 	#if not GameManager.endless and GameManager.verify_level_win_condition():
@@ -74,7 +75,7 @@ func on_level_changed():
 	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasBar")
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
-	pawn = get_tree().current_scene.get_node("Entities/Player")
+	pawn = get_tree().current_scene.get_node("Map/Entities/Player")
 	CameraManager.set_pawn_to_follow(pawn)
 	pawn_spawn_position = pawn.global_position
 	pawn.alive_module.died.connect(empty_tank)
@@ -84,6 +85,9 @@ func on_level_changed():
 	player_is_ready = true
 
 func _process(delta):
+	if Input.is_action_just_pressed("reload"):
+		get_tree().reload_current_scene()
+	
 	if !player_is_ready || GameManager.is_game_paused():
 		return
 	
@@ -160,8 +164,6 @@ func add_points(amount):
 		
 	var previous_points = points
 	points += amount * point_multiplier
-	
-	increase_combo()
 	
 	if not GameManager.endless and GameManager.verify_level_win_condition():
 		complete_level()

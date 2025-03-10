@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="FuelItem" load_steps=3 format=3 uid="uid://cyndbi7g4i41e"]
+[gd_resource type="Resource" script_class="FuelItem" load_steps=4 format=3 uid="uid://cyndbi7g4i41e"]
 
-[ext_resource type="Script" path="res://items/gas.gd" id="1_51fkl"]
+[ext_resource type="Script" uid="uid://q71k7q7bom21" path="res://items/gas.gd" id="1_51fkl"]
+[ext_resource type="AudioStream" uid="uid://ivuqg6a7ejor" path="res://assets/sounds/Pickup.wav" id="1_uw2g6"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_ldpjr"]
 
 [resource]
@@ -13,3 +14,4 @@ v_animation_grid_size = 8
 sprite_size = 1.0
 is_animated_sprite = true
 texture = ExtResource("2_ldpjr")
+pickup_sfx = ExtResource("1_uw2g6")

@@ -9,17 +9,17 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="Curve" id="Curve_ser8t"]
-max_value = 2.0
+_limits = [0.0, 2.0, 0.0, 1.0]
 _data = [Vector2(0, 1.04039), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Node2D" type="CPUParticles2D"]
 material = SubResource("CanvasItemMaterial_f1a12")
 emitting = false
+texture = ExtResource("1_cfgkp")
 lifetime = 0.4
 one_shot = true
 speed_scale = 2.0
-texture = ExtResource("1_cfgkp")
 emission_shape = 2
 emission_sphere_radius = 8.0
 gravity = Vector2(0, 0)

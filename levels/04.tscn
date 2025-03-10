@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=4 uid="uid://bis5sp347h6dt"]
 
-[ext_resource type="Script" path="res://levels/world.gd" id="1_7ikow"]
-[ext_resource type="Script" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_i8qcw"]
-[ext_resource type="Script" path="res://level_builder/level_completion/destroy_tanks_requirement_script.gd" id="3_cvst5"]
+[ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_7ikow"]
+[ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_i8qcw"]
+[ext_resource type="Script" uid="uid://qqy5r6dfmags" path="res://level_builder/level_completion/destroy_tanks_requirement_script.gd" id="3_cvst5"]
 [ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="5_t420s"]
 [ext_resource type="Resource" uid="uid://cuxv4nasi6flb" path="res://cutscenes/01/01_success.tres" id="6_c4kms"]
 [ext_resource type="PackedScene" uid="uid://blcq2516lf745" path="res://tilesets/hideable_tiles.tscn" id="7_h608m"]

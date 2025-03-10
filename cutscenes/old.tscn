@@ -1,11 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dq8ia10rm2e0x"]
 
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_6wo6l"]
-[ext_resource type="Script" path="res://cutscenes/cutscene.gd" id="2_0vk43"]
+[ext_resource type="Script" uid="uid://q2w5dh48stkn" path="res://cutscenes/cutscene.gd" id="2_0vk43"]
 [ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01_intro.tres" id="3_vbyvw"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rofja"]
-load_path = "res://.godot/imported/morgana.png-32dd25a8662cc0af5e9a8867e48c462c.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v52vv"]
 bg_color = Color(0.113721, 0.144464, 0.17416, 1)

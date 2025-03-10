@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://dp5fasrkd2ihc"]
 
-[ext_resource type="Script" path="res://items/pickup.gd" id="1_j6a8d"]
+[ext_resource type="Script" uid="uid://dr4nuv0vljqp4" path="res://items/pickup.gd" id="1_j6a8d"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_t5g2w"]
-[ext_resource type="Script" path="res://items/item_scene.gd" id="1_vpe83"]
+[ext_resource type="Script" uid="uid://bvw0djima48ja" path="res://items/item_scene.gd" id="1_vpe83"]
 [ext_resource type="AudioStream" uid="uid://ivuqg6a7ejor" path="res://assets/sounds/Pickup.wav" id="2_m1gl7"]
 
 [sub_resource type="Resource" id="Resource_vg0ff"]

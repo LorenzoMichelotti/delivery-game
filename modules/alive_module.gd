@@ -38,7 +38,8 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 		return false
 	
 	if not is_knockup:
-		VfxManager.display_number(str(damage).pad_zeros(2), Vector2(actor.global_position.x, actor.global_position.y -8), Color.RED)
+		VfxManager.display_number(str(damage * PlayerManager.point_multiplier).pad_zeros(2), Vector2(actor.global_position.x, actor.global_position.y -8))
+		PlayerManager.add_points(damage)
 		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 		VfxManager.display_explosion_effect(actor.global_position)
 		CameraManager.apply_shake()
@@ -64,6 +65,7 @@ func die(perpetrator):
 	is_dead = true
 	died.emit()
 	
+	PlayerManager.increase_combo()
 	_play_death_tweener(perpetrator)
 
 func _play_hit_tweener(is_knockup: bool):

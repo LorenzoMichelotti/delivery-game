@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://cibaxdfigpu3p"]
 
-[ext_resource type="Script" path="res://actors/npc.gd" id="1_yi3ig"]
+[ext_resource type="Script" uid="uid://dp3fxv1mu60fq" path="res://actors/npc.gd" id="1_yi3ig"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_k3kus"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
@@ -59,9 +59,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
 _data = {
-"RESET": SubResource("Animation_peuc1"),
-"appear": SubResource("Animation_cuerq"),
-"idle": SubResource("Animation_885hu")
+&"RESET": SubResource("Animation_peuc1"),
+&"appear": SubResource("Animation_cuerq"),
+&"idle": SubResource("Animation_885hu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r64j7"]

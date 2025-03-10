@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://koqbt2sldy7j"]
 
-[ext_resource type="Script" path="res://ui/paused.gd" id="1_hfwvg"]
+[ext_resource type="Script" uid="uid://biervap0fogoh" path="res://ui/paused.gd" id="1_hfwvg"]
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="2_h2m8g"]
 
 [sub_resource type="Animation" id="Animation_ek3pc"]
@@ -323,8 +323,8 @@ tracks/12/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xv3yx"]
 _data = {
-"RESET": SubResource("Animation_ek3pc"),
-"appear": SubResource("Animation_dscx3")
+&"RESET": SubResource("Animation_ek3pc"),
+&"appear": SubResource("Animation_dscx3")
 }
 
 [node name="Paused" type="CanvasLayer"]

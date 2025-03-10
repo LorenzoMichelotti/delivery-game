@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://bfdqdodpe3pog"]
 
-[ext_resource type="Script" path="res://actors/tank/tank.gd" id="1_c4hyv"]
+[ext_resource type="Script" uid="uid://je2eb5ocdjka" path="res://actors/tank/tank.gd" id="1_c4hyv"]
 [ext_resource type="Texture2D" uid="uid://ikajd8qgfqpr" path="res://assets/cars/tank.png" id="1_fxolp"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_5qsot"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="2_cbxp3"]
@@ -279,11 +279,11 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4mesq"]
 _data = {
-"RESET": SubResource("Animation_dk54i"),
-"down": SubResource("Animation_f3wwd"),
-"left": SubResource("Animation_8vrhp"),
-"right": SubResource("Animation_epxp6"),
-"up": SubResource("Animation_druxd")
+&"RESET": SubResource("Animation_dk54i"),
+&"down": SubResource("Animation_f3wwd"),
+&"left": SubResource("Animation_8vrhp"),
+&"right": SubResource("Animation_epxp6"),
+&"up": SubResource("Animation_druxd")
 }
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dc23y"]
@@ -313,20 +313,21 @@ region_rect = Rect2(32, 0, 8, 8)
 [node name="AliveModule" parent="." instance=ExtResource("2_cbxp3")]
 position = Vector2(0, -1)
 target_type = 1
-max_hp = 50
+max_hp = 200
 can_be_knocked_down = false
 on_death_points = 1000
 death_explosion_sfx_stream = ExtResource("5_6daes")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_hcm04")
+disabled = true
 
 [node name="RandomMovementModule" parent="." instance=ExtResource("4_0gh2q")]
 speed = 25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_4mesq")
+&"": SubResource("AnimationLibrary_4mesq")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

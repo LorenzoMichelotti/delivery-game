@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://cx6sw52lxbe60"]
 
-[ext_resource type="Script" path="res://hazards/IntervalHazard.gd" id="1_ots61"]
+[ext_resource type="Script" uid="uid://5jvjv5sfqswy" path="res://hazards/IntervalHazard.gd" id="1_ots61"]
 [ext_resource type="AudioStream" uid="uid://byalrkox1vhgc" path="res://assets/sounds/Explode.wav" id="2_s7ygl"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_qj658"]
 [ext_resource type="Texture2D" uid="uid://cx2tam7d068lk" path="res://assets/hazards/red_circle.png" id="3_qo3sm"]
-[ext_resource type="PackedScene" uid="uid://dbwtbu1n3s6vg" path="res://vfx/explosion_vfx.tscn" id="5_jprn0"]
+[ext_resource type="PackedScene" uid="uid://dshw025wnv7d8" path="res://vfx/explosion_vfx_big.tscn" id="5_1o8w1"]
 
 [sub_resource type="Animation" id="Animation_uyo2d"]
 length = 0.001
@@ -56,18 +56,6 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Node2D:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_t57oo"]
 resource_name = "armed"
@@ -78,7 +66,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.733333),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -112,17 +100,19 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/3/type = "value"
+tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Node2D:emitting")
+tracks/3/path = NodePath("BigExplosion")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"values": [{
+"args": [],
+"method": &"explode"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_p8iot"]
@@ -207,10 +197,10 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sk54s"]
 _data = {
-"RESET": SubResource("Animation_uyo2d"),
-"armed": SubResource("Animation_t57oo"),
-"arming": SubResource("Animation_p8iot"),
-"idle": SubResource("Animation_85jcf")
+&"RESET": SubResource("Animation_uyo2d"),
+&"armed": SubResource("Animation_t57oo"),
+&"arming": SubResource("Animation_p8iot"),
+&"idle": SubResource("Animation_85jcf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tepgo"]
@@ -252,6 +242,7 @@ script = ExtResource("1_ots61")
 damage_dealer_module = NodePath("DamageDealerModule")
 stream_sfx = ExtResource("2_s7ygl")
 random_position = true
+shake_screen = true
 
 [node name="SpritePivot" type="Node2D" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -268,7 +259,7 @@ position = Vector2(0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_sk54s")
+&"": SubResource("AnimationLibrary_sk54s")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -276,10 +267,6 @@ tree_root = SubResource("AnimationNodeStateMachine_wrh5g")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/enabled = false
 
-[node name="Node2D" parent="." instance=ExtResource("5_jprn0")]
-position = Vector2(0, -6)
-amount = 10
-emission_sphere_radius = 12.0
-scale_amount_max = 1.3
+[node name="BigExplosion" parent="." instance=ExtResource("5_1o8w1")]
 
 [editable path="DamageDealerModule"]
