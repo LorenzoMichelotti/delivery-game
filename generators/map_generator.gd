@@ -83,13 +83,6 @@ func generate(new_value: bool = true) -> void:
 	print("spawning player")
 	_spawn_player_pawn()
 
-func _get_neighbouring_tile_positions(tile_position: Vector2i) -> Dictionary[NEIGHBOURING_POSITIONS, Vector2i]:
-	var neighbouring_tiles: Dictionary[NEIGHBOURING_POSITIONS, Vector2i] = {}
-	for neighbouring_position in neighbouring_positions.keys():
-		neighbouring_tiles[neighbouring_position] = Vector2i(tile_position.x + neighbouring_positions[neighbouring_position].x, tile_position.y + neighbouring_positions[neighbouring_position].y)
-	
-	return neighbouring_tiles
-
 func _spawn_player_pawn():
 	if current_player_pawn != null:
 		current_player_pawn.queue_free()
@@ -104,6 +97,13 @@ func _fill_with_grass():
 			road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[TERRAIN.GRASS])
 			grass_positions.append(cell_position)
 	road_tilemap_layer.set_cells_terrain_connect(grass_positions, TERRAIN_SET.MAIN, TERRAIN.GRASS)
+
+func _get_neighbouring_tile_positions(tile_position: Vector2i) -> Dictionary[NEIGHBOURING_POSITIONS, Vector2i]:
+	var neighbouring_tiles: Dictionary[NEIGHBOURING_POSITIONS, Vector2i] = {}
+	for neighbouring_position in neighbouring_positions.keys():
+		neighbouring_tiles[neighbouring_position] = Vector2i(tile_position.x + neighbouring_positions[neighbouring_position].x, tile_position.y + neighbouring_positions[neighbouring_position].y)
+	
+	return neighbouring_tiles
 
 func _generate_path():
 	print("cleaning previous data...")
