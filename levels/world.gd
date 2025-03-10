@@ -18,7 +18,8 @@ func _ready():
 
 # ATTENTION: THE ORDER OF THE COMPONENTS BELOW IS IMPORTANT
 func _on_map_generated():
-	GameManager.current_level = level
+	if not GameManager.endless: # when in endless mode, the game manager manages the level count
+		GameManager.current_level = level
 	GameManager.current_client = current_client
 	GameManager.current_completion_goal = completion_requirements
 	GameManager.road = $Map/Tiles/Road

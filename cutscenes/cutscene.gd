@@ -19,12 +19,14 @@ func _ready():
 	hide()
 	for i in range(choice_buttons.size()):
 		choice_buttons[i].pressed.connect(_load_choice_dialogue.bind(i))
+	$Transition/DayLabel.text = "01"
+	GameManager.level_changed.connect(_update_day_label)
 
 func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 	is_playing = false
 	GameManager.set_game_mode(GameManager.GAMEMODE.CUTSCENE)
 	if new_cutscene == null:
-		$Transition/DayLabel.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
+		$Transition/DayLabel.text = "DAY " + str(GameManager.current_level + 1).pad_zeros(2)
 		$Transition/GoalDescription.text = GameManager.current_completion_goal.goal_description
 		$Transition/GoalDescription.show()
 		$Transition/DayLabel.show()
@@ -147,3 +149,6 @@ func _play_level_start_song():
 	print("_play_level_start_song")
 	audio_player.stream = level_start_song
 	audio_player.play()
+	
+func _update_day_label():
+	$Transition/DayLabel.text = str(GameManager.current_level + 1).pad_zeros(2)

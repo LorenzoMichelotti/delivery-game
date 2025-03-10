@@ -167,7 +167,9 @@ func reset_player():
 	current_gas = max_gas
 	tank_empty = false
 	
-	points = 0
+	if not GameManager.endless:
+		points = 0
+	
 	completed_deliveries = 0
 	success = false
 	update_points_label(points)

@@ -9,9 +9,7 @@ func _ready():
 	GameManager.level_completion_requirement_met.connect(open)
 
 func _next_level():
-	# placeholder
-	get_tree().reload_current_scene.call_deferred()
-
+	GameManager.next_level.call_deferred()
 
 func _on_area_2d_body_entered(body):
 	if is_open and body.is_in_group("player"):

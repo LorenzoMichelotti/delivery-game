@@ -68,6 +68,7 @@ var random_deliveries_enabled = true
 
 var deliveries = {}
 signal clear_items
+signal level_changed
 signal level_completion_requirement_met
 
 var acquired_targets = {}
@@ -79,7 +80,6 @@ func _on_acquire_target(target_type: GlobalConstants.TARGET_TYPES):
 func _ready():
 	game_over_ui = game_over_scene.instantiate()
 	add_child.call_deferred(game_over_ui)
-	#change_level(1)
 
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
@@ -93,10 +93,18 @@ func change_level(level: int):
 	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
 	
 func next_level():
+	if endless:
+		current_level += 1
+		get_tree().reload_current_scene()
+		level_changed.emit()
+		return
+	
 	var next_level_number = current_level + 1
 	if next_level_number > levels.size():
 		next_level_number = 1
+	level_changed.emit()
 	change_level(next_level_number)
+	return
 
 func is_game_paused():
 	return current_game_mode != GAMEMODE.PLAYING
