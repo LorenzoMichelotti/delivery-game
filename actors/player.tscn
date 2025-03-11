@@ -130,7 +130,7 @@ damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
 [node name="PlayerControllerModule" parent="." instance=ExtResource("11_rkwqa")]
-speed = 75.0
+speed = 100.0
 
 [connection signal="died" from="AliveModule" to="." method="_on_die"]
 [connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]

@@ -1,4 +1,5 @@
 extends Node2D
+@export var win_song: AudioStreamWAV = preload("res://assets/sounds/Level_Complete.wav")
 
 var levels = {
 	1: {
@@ -81,6 +82,10 @@ func _ready():
 	game_over_ui = game_over_scene.instantiate()
 	add_child.call_deferred(game_over_ui)
 
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
+
 func change_level(level: int):
 	set_game_mode(GAMEMODE.INITIALIZING)
 	if level != current_level:
@@ -136,7 +141,9 @@ func set_game_mode(new_game_mode: GAMEMODE):
 func verify_level_win_condition():
 	if current_completion_goal:
 		var requirement_is_met = current_completion_goal.verify_completion_requirement_met()
-		if requirement_is_met: level_completion_requirement_met.emit()
+		if requirement_is_met: 
+			level_completion_requirement_met.emit()
+			SfxManager.play_sfx(win_song, SfxManager.CHANNEL_CONFIG.VOICES)
 		return requirement_is_met
 
 func gameover():

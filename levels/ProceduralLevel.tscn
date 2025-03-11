@@ -14,7 +14,7 @@ deliveries_enabled = true
 gas_enabled = false
 random_gas_enabled = false
 npc_count = 3
-player_gun_turret = false
+player_gun_turret = true
 metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
 [sub_resource type="Resource" id="Resource_xuddq"]

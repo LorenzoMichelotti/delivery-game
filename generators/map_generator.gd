@@ -19,6 +19,7 @@ extends Node2D
 @onready var player_pawn = preload("res://actors/player.tscn")
 @onready var entities = $Entities
 @onready var tunnel_scene: PackedScene = preload("res://tunnel.tscn")
+@onready var tank_scene: PackedScene = preload("res://actors/tank/tank.tscn")
 
 signal map_generated
 
@@ -56,6 +57,7 @@ var terrain_tile_atlas_positions: Dictionary[TERRAIN, Vector2i] = {
 var road_positions: Array[Vector2i] = []
 var grass_positions: Array[Vector2i] = []
 var tunnels: Array[Node2D] = []
+var tanks: Array[Actor] = []
 var current_player_pawn: CharacterBody2D
 var rng
 
@@ -79,7 +81,7 @@ func generate(new_value: bool = true) -> void:
 	print("map generated!")
 	print("spawning player")
 	_spawn_player_pawn()
-	print("spawning door")
+	_spawn_tanks()
 	map_generated.emit()
 
 func _generate_walker():
@@ -103,6 +105,7 @@ func _generate_walker():
 		grass_positions.erase(cell_position)
 		road_positions.append(cell_position)
 		
+	print("spawning doors")
 	_spawn_exits(walker.get_exit_positions())
 
 func _spawn_player_pawn():
@@ -111,6 +114,22 @@ func _spawn_player_pawn():
 	current_player_pawn = player_pawn.instantiate()
 	current_player_pawn.global_position = road_tilemap_layer.map_to_local(road_positions.pick_random())
 	entities.add_child(current_player_pawn)
+
+func _spawn_tanks():
+	if tanks.size() > 0:
+		for t in tanks:
+			if t != null:
+				t.queue_free()
+	tanks.clear()
+	var should_spawn_tanks = randi_range(0,1)
+	if should_spawn_tanks == 0:
+		return
+	var tank_count = randi_range(0, 2)
+	for i in range(tank_count):
+		var tank = tank_scene.instantiate()
+		tank.global_position = road_tilemap_layer.map_to_local(road_positions.pick_random())
+		tanks.append(tank)
+		entities.add_child(tank)
 	
 func _fill_with(terrain: TERRAIN):
 	for row in range(grid_size + (border_size * 2)):
