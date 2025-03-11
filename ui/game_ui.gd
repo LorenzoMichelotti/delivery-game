@@ -25,10 +25,10 @@ func hide_gasbar_if_gas_disabled(enabled: bool):
 		gas_bar_container.hide()
 
 func update_goals():
-	if GameManager.current_completion_goal == null:
+	if LevelManager.current_completion_requirements == null:
 		return
-	goal_description.text = GameManager.current_completion_goal.goal_description
-	goal_value.text = GameManager.current_completion_goal.get_value()
+	goal_description.text = LevelManager.current_completion_requirements.goal_description
+	goal_value.text = LevelManager.current_completion_requirements.get_value()
 
 func update_health_bar():
 	if PlayerManager.pawn == null:

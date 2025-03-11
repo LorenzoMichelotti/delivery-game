@@ -18,34 +18,34 @@ func _ready():
 	for i in range(2):
 		pickup_pool.append(null)
 
-func display_pickup_effect(position: Vector2):
+func display_pickup_effect(new_position: Vector2):
 	for i in len(pickup_pool):
 		if pickup_pool[i] == null:
 			pickup_pool[i] = pickup_scene.instantiate()
 			get_tree().current_scene.add_child.call_deferred(pickup_pool[i])
 		if not pickup_pool[i].emitting:
-			pickup_pool[i].global_position = position
+			pickup_pool[i].global_position = new_position
 			pickup_pool[i].emitting = true
 			return
 
-func display_explosion_effect(position: Vector2):
+func display_explosion_effect(new_position: Vector2):
 	for i in len(explosion_pool):
 		if explosion_pool[i] == null:
 			explosion_pool[i] = explosion_scene.instantiate()
 			get_tree().current_scene.add_child(explosion_pool[i])
 		if not explosion_pool[i].emitting:
-			explosion_pool[i].global_position = position
+			explosion_pool[i].global_position = new_position
 			explosion_pool[i].emitting = true
 			return
 		
-func display_number(text: String, position: Vector2, color: Color = Color.WHITE):
+func display_number(text: String, new_position: Vector2, color: Color = Color.WHITE):
 	for i in len(number_pool):
 		if number_pool[i] == null:
 			number_pool[i] = floating_text_scene.instantiate()
 			add_child.call_deferred(number_pool[i])
 			number_pool[i].hide()
 		if not number_pool[i].visible:
-			number_pool[i].global_position = position 
+			number_pool[i].global_position = new_position 
 			number_pool[i].global_position.y -= 8 
 			number_pool[i].modulate = color 
 			number_pool[i].set_text(text)  # Set the text value

@@ -8,8 +8,8 @@ extends Node2D
 func _ready():
 	hide()
 
-func update_item_balloon(hide: bool, animation_frame: int = 0, texture: Texture2D = null, is_animated: bool = true):
-	if hide:
+func update_item_balloon(should_hide: bool, animation_frame: int = 0, texture: Texture2D = null, is_animated: bool = true):
+	if should_hide:
 		anim_player.play("dissappear")
 		return
 	item_sprite.texture = texture

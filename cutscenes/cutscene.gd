@@ -20,14 +20,14 @@ func _ready():
 	for i in range(choice_buttons.size()):
 		choice_buttons[i].pressed.connect(_load_choice_dialogue.bind(i))
 	$Transition/DayLabel.text = "01"
-	GameManager.level_changed.connect(_update_day_label)
+	LevelManager.level_changed.connect(_update_day_label)
 
 func play(new_cutscene: CutsceneResource, new_game_ui: Control):
 	is_playing = false
 	GameManager.set_game_mode(GameManager.GAMEMODE.CUTSCENE)
 	if new_cutscene == null:
-		$Transition/DayLabel.text = "DAY " + str(GameManager.current_level + 1).pad_zeros(2)
-		$Transition/GoalDescription.text = GameManager.current_completion_goal.goal_description
+		$Transition/DayLabel.text = "DAY " + str(LevelManager.current_level + 1).pad_zeros(2)
+		$Transition/GoalDescription.text = LevelManager.current_completion_requirements.goal_description
 		$Transition/GoalDescription.show()
 		$Transition/DayLabel.show()
 		$Transition/GoalTitle.show()
@@ -119,8 +119,8 @@ func _end_cutscene():
 	print("end cutscene")
 	if not current_dialogue.gameover:
 		# show points if this is not a level ending cutscene
-		$Transition/GoalDescription.text = GameManager.current_completion_goal.goal_description
-		$Transition/DayLabel.text = "DAY " + str(GameManager.current_day).pad_zeros(2)
+		$Transition/GoalDescription.text = LevelManager.current_completion_goal.goal_description
+		$Transition/DayLabel.text = "DAY " + str(LevelManager.current_level).pad_zeros(2)
 		$Transition/GoalDescription.show()
 		$Transition/DayLabel.show()
 		$Transition/GoalTitle.show()
@@ -129,11 +129,10 @@ func _end_cutscene():
 		$Transition/DayLabel.hide()
 		$Transition/GoalTitle.hide()
 	is_playing = false
-	#GameManager.set_watched_level_cutscene()
 	animation_player.play("disappear")
 
 func _resume_gameplay():
-	if (current_dialogue and current_dialogue.gameover) or GameManager.verify_level_win_condition() or (GameManager.skip_cutscenes and PlayerManager.tank_empty):
+	if (current_dialogue and current_dialogue.gameover) or LevelManager.verify_level_win_condition() or (GameManager.skip_cutscenes and PlayerManager.tank_empty):
 		if game_ui:
 			game_ui.hide()
 		GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
@@ -151,4 +150,4 @@ func _play_level_start_song():
 	audio_player.play()
 	
 func _update_day_label():
-	$Transition/DayLabel.text = str(GameManager.current_level + 1).pad_zeros(2)
+	$Transition/DayLabel.text = str(LevelManager.current_level + 1).pad_zeros(2)

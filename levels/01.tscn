@@ -1,8 +1,6 @@
-[gd_scene load_steps=12 format=4 uid="uid://cqt4f44r0r3oe"]
+[gd_scene load_steps=8 format=4 uid="uid://cqt4f44r0r3oe"]
 
 [ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_402su"]
-[ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_fit03"]
-[ext_resource type="Script" uid="uid://be0hnk3avkuth" path="res://level_builder/level_completion/minimum_deliveries_requirement_script.gd" id="3_ta4hy"]
 [ext_resource type="Resource" uid="uid://ddva8uehed6yh" path="res://cutscenes/02/02_intro.tres" id="4_e7ncp"]
 [ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="5_qyylk"]
 [ext_resource type="Resource" uid="uid://cuxv4nasi6flb" path="res://cutscenes/01/01_success.tres" id="6_ccqdp"]
@@ -10,23 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://cg0e6xtloabql" path="res://actors/player.tscn" id="8_4gw4f"]
 [ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="9_63atp"]
 
-[sub_resource type="Resource" id="Resource_a0g6c"]
-script = ExtResource("2_fit03")
-deliveries_enabled = true
-gas_enabled = false
-random_gas_enabled = false
-npc_count = 3
-player_gun_turret = false
-
-[sub_resource type="Resource" id="Resource_whx7c"]
-script = ExtResource("3_ta4hy")
-minimum_deliveries_for_completion = 1
-goal_description = "DELIVER 1 ITEM"
-level_modifiers = SubResource("Resource_a0g6c")
-
 [node name="World" type="Node2D"]
 script = ExtResource("1_402su")
-completion_requirements = SubResource("Resource_whx7c")
 start_cutscene = ExtResource("4_e7ncp")
 gameover_cutscene = ExtResource("5_qyylk")
 success_cutscene = ExtResource("6_ccqdp")

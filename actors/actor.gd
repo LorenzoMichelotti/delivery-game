@@ -14,10 +14,10 @@ func _ready():
 	set_phase(phase)
 	
 func _on_take_damage():
-	if alive_module.hp < alive_module.max_hp * 1/3:
+	if alive_module.hp < alive_module.max_hp * int(1/3):
 		set_phase(2)
 		return
-	if alive_module.hp < alive_module.max_hp * 2/3:
+	if alive_module.hp < alive_module.max_hp * int(2/3):
 		# phase 1
 		set_phase(1)
 		return

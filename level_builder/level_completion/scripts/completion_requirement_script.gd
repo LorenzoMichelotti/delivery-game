@@ -9,3 +9,4 @@ func verify_completion_requirement_met():
 
 func get_value() -> String:
 	return ""
+	

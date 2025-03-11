@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://d3gvy2yxx2yjq"]
 
 [ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_41nci"]
-[ext_resource type="Script" uid="uid://be0hnk3avkuth" path="res://level_builder/level_completion/minimum_deliveries_requirement_script.gd" id="2_2q8un"]
+[ext_resource type="Script" uid="uid://be0hnk3avkuth" path="res://level_builder/level_completion/scripts/minimum_deliveries_requirement_script.gd" id="2_2q8un"]
 [ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_63w17"]
 [ext_resource type="Resource" uid="uid://3e0b7sv3aeu4" path="res://cutscenes/01/01_intro.tres" id="3_1a0bx"]
 [ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="4_eh6w6"]

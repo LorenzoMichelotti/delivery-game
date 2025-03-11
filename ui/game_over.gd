@@ -24,7 +24,7 @@ func _restart_or_go_to_next_level():
 	if start_over:
 		get_tree().reload_current_scene()
 		return
-	GameManager.next_level()
+	LevelManager.next_level()
 
 func _update_points_label():
 	if visible:
@@ -36,7 +36,7 @@ func pause():
 func play():
 	animation_tree.set("parameters/conditions/appear", true)
 	animation_tree.set("parameters/conditions/disappear", false)
-	if GameManager.verify_level_win_condition():
+	if LevelManager.verify_level_win_condition():
 		audio_player.stream = win_song
 		audio_player.play()
 		button.set_text("Next Level")

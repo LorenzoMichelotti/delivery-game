@@ -1,20 +1,4 @@
 extends Node2D
-@export var win_song: AudioStreamWAV = preload("res://assets/sounds/Level_Complete.wav")
-
-var levels = {
-	1: {
-		"scene": preload("res://levels/01.tscn"),
-	},
-	2: {
-		"scene": preload("res://levels/02.tscn"),
-	},
-	3: {
-		"scene": preload("res://levels/03.tscn"),
-	},
-	4: {
-		"scene": preload("res://levels/04.tscn"),
-	}
-}
 
 const item_scene = preload("res://items/item.tscn")
 const items = {
@@ -39,10 +23,6 @@ const npcs = {
 @onready var game_over_scene: PackedScene = preload("res://ui/GameOver.tscn")
 @onready var pause_scene: PackedScene = preload("res://ui/Pause.tscn")
 
-var current_level: int = 0
-var current_day: int = 0
-var current_completion_goal: CompletionRequirementResource
-var current_level_retries: int = 0
 var skip_cutscenes = true
 var game_over_ui
 var pause_ui
@@ -67,10 +47,8 @@ var npcs_alive = 0
 var random_gas_enabled = true
 var random_deliveries_enabled = true
 
-var deliveries = {}
+var level_deliveries = {}
 signal clear_items
-signal level_changed
-signal level_completion_requirement_met
 
 var acquired_targets = {}
 func _on_acquire_target(target_type: GlobalConstants.TARGET_TYPES):
@@ -85,31 +63,6 @@ func _ready():
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
-
-func change_level(level: int):
-	set_game_mode(GAMEMODE.INITIALIZING)
-	if level != current_level:
-		current_day += 1
-		current_level = level
-		current_level_retries = 0
-	else:
-		current_level_retries += 1
-	var level_data = levels[level]
-	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
-	
-func next_level():
-	if endless:
-		current_level += 1
-		get_tree().reload_current_scene()
-		level_changed.emit()
-		return
-	
-	var next_level_number = current_level + 1
-	if next_level_number > levels.size():
-		next_level_number = 1
-	level_changed.emit()
-	change_level(next_level_number)
-	return
 
 func is_game_paused():
 	return current_game_mode != GAMEMODE.PLAYING
@@ -138,14 +91,6 @@ func set_game_mode(new_game_mode: GAMEMODE):
 		GAMEMODE.PLAYING:
 			get_tree().paused = false
 
-func verify_level_win_condition():
-	if current_completion_goal:
-		var requirement_is_met = current_completion_goal.verify_completion_requirement_met()
-		if requirement_is_met: 
-			level_completion_requirement_met.emit()
-			SfxManager.play_sfx(win_song, SfxManager.CHANNEL_CONFIG.VOICES)
-		return requirement_is_met
-
 func gameover():
 	game_over_ui.play.call_deferred()
 	
@@ -166,21 +111,21 @@ func reset_level():
 func reset_map():
 	_clear_map()
 	create_delivery()
-	if PlayerManager.gas_enabled: _scatter_fuel(5)
+	_scatter_fuel(5)
 	_scatter_npcs(npc_count)
 
 func _clear_map():
 	acquired_targets.clear()
 	clear_items.emit()
-	deliveries.clear()
+	level_deliveries.clear()
 
 func get_closest_pickup_position(compare_position: Vector2):
-	if deliveries.size() <= 0:
+	if level_deliveries.size() <= 0:
 		return null
 	var shortest_distance = null
 	var shortest_distance_position = null
-	for delivery_id in deliveries.keys():
-		var delivery = deliveries[delivery_id]
+	for delivery_id in level_deliveries.keys():
+		var delivery = level_deliveries[delivery_id]
 		if !delivery.item and !delivery.target:
 			return null
 		var position = delivery.item.global_position if delivery.item != null else delivery.target.global_position
@@ -212,7 +157,7 @@ func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Arra
 	var shortest_distance = null
 	var shortest_distance_position = null
 	for delivery_id in delivery_ids:
-		var delivery = deliveries[delivery_id]
+		var delivery = level_deliveries[delivery_id]
 		if delivery.target == null:
 			return null
 		var position = delivery.target.global_position if delivery.target != null else delivery.item
@@ -231,13 +176,13 @@ func create_delivery():
 	var target: ItemScene = _spawn_item(items.delivery_target.resource.duplicate())
 	target.color = current_client.color
 	
-	var delivery_id = deliveries.size() + 1
+	var delivery_id = level_deliveries.size() + 1
 	
 	pickup_item.item.delivery_id = delivery_id
 	target.item.delivery_id = delivery_id
 	pickup_item.item.picked_up.connect(target.item.on_delivery_item_picked_up.bind(target))
 	
-	deliveries[delivery_id] = {
+	level_deliveries[delivery_id] = {
 		"item": pickup_item,
 		"obtained": false,
 		"target": target
@@ -261,7 +206,7 @@ func _spawn_item(item_resource: Resource) -> ItemScene:
 	return spawned_item
 
 func _get_free_tiles(road: TileMapLayer):
-	var road_tiles: Array[Vector2i] = road.get_used_cells()
+	var road_tiles: Array[Vector2i] = LevelManager.road_positions
 	var free_tiles = road_tiles.filter(
 		func(tile_position: Vector2i): 
 			if !road.get_cell_tile_data(tile_position).get_custom_data("occupied"): 
@@ -288,12 +233,12 @@ func _scatter_fuel(amount: int):
 		gas_item.tile_position = tile_position
 		gas_item.road = road
 		gas_item.global_position = to_global(road.map_to_local(tile_position)) 
-		get_tree().current_scene.get_node("Entities").add_child.call_deferred(gas_item)
+		get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(gas_item)
 		
 func _scatter_npcs(amount: int):
 	for i in range(amount):
-		var tiles = road.get_used_cells()
-		var tile_position = tiles.pick_random()
+		var road_tiles: Array[Vector2i] = LevelManager.road_positions
+		var tile_position = road_tiles.pick_random()
 		npcs_alive += 1
 		var police_car_npc = npcs.police_car.scene.instantiate()
 		police_car_npc.global_position = to_global(road.map_to_local(tile_position)) 
@@ -306,15 +251,15 @@ func _on_npc_died():
 	get_tree().create_timer(5).timeout.connect(_scatter_npcs.call_deferred.bind(1))
 
 func pickup_delivery_item(delivery_id: int):
-	deliveries[delivery_id].obtained = true
+	level_deliveries[delivery_id].obtained = true
 
 func can_deliver_item(delivery_id: int):
-	if deliveries.has(delivery_id) and deliveries[delivery_id].obtained == true:
+	if level_deliveries.has(delivery_id) and level_deliveries[delivery_id].obtained == true:
 		return true
 	return false
 
 func deliver_item(delivery_id: int):
-	deliveries.erase(delivery_id)
-	if not GameManager.verify_level_win_condition():
+	level_deliveries.erase(delivery_id)
+	if not LevelManager.verify_level_win_condition():
 		create_delivery()
 		_scatter_fuel(rng.randi_range(1,3))

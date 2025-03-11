@@ -33,7 +33,7 @@ func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC, r
 			channels[playback_channel][i] = AudioStreamPlayer2D.new()
 			channels[playback_channel][i].attenuation = .2
 			channels[playback_channel][i].bus = BUS_CONFIG[playback_channel]
-			channels[playback_channel][i].pitch_scale = randf_range(.5, 1.5) if randomize_pitch else 1
+			channels[playback_channel][i].pitch_scale = randf_range(0.5, 1.5) if randomize_pitch else 1.0
 			add_child(channels[playback_channel][i])
 		var channel: AudioStreamPlayer2D = channels[playback_channel][i]
 		if not channel.playing:

@@ -14,8 +14,24 @@ var current_gas = 100
 var initial_gas_usage = 10
 var gas_usage = 0
 
-var points = 0
-var point_multiplier = 1
+var points: int = 0:
+	set(new_points):
+		points = new_points
+		points_changed.emit(points)
+signal points_changed(points: int)
+
+var current_level_points: int = 0:
+	set(new_current_level_points):
+		current_level_points = new_current_level_points
+		current_level_points_changed.emit(current_level_points)
+signal current_level_points_changed(current_level_points: int)
+
+var point_multiplier = 1:
+	set(new_point_multiplier):
+		point_multiplier = new_point_multiplier
+		point_multiplier_changed.emit(point_multiplier)
+signal point_multiplier_changed(point_multiplier: int)
+
 var base_point_multiplier = 1
 var base_multiplier_timer = 5
 var multiplier_timer = 5
@@ -32,11 +48,9 @@ signal gas_enabled_changed(enabled: bool)
 
 var player_is_ready = false
 var tank_empty = false
-var success = false
 var timer: Timer
 
 signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
-signal point_multiplier_changed(point_multiplier: int)
 
 func _ready():
 	timer = Timer.new()
@@ -46,7 +60,7 @@ func _ready():
 
 func inventory_hold_delivery(delivery_id):
 	inventory_delivery_ids.append(delivery_id)
-	inventory_delivery_ids_changed.emit(false, GameManager.deliveries[delivery_id].item.item.animation_frame, GameManager.deliveries[delivery_id].item.item.texture, GameManager.deliveries[delivery_id].item.item.is_animated_sprite)
+	inventory_delivery_ids_changed.emit(false, GameManager.level_deliveries[delivery_id].item.item.animation_frame, GameManager.level_deliveries[delivery_id].item.item.texture, GameManager.level_deliveries[delivery_id].item.item.is_animated_sprite)
 
 func inventory_complete_delivery(delivery_id):
 	if gas_enabled:
@@ -64,7 +78,6 @@ func inventory_complete_delivery(delivery_id):
 func increase_combo():
 	timer.stop()
 	point_multiplier += 1
-	point_multiplier_changed.emit(point_multiplier)
 	var multiplier_timer_discount = (point_multiplier % 2) - 1
 	if multiplier_timer_discount >= 0:
 		multiplier_timer -= multiplier_timer_discount 
@@ -72,7 +85,6 @@ func increase_combo():
 	
 func end_combo():
 	point_multiplier = base_point_multiplier
-	point_multiplier_changed.emit(point_multiplier)
 	multiplier_timer = base_multiplier_timer
 
 func on_level_changed():
@@ -140,28 +152,14 @@ func empty_tank():
 		return 
 	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
 
-func complete_level():
-	if success:
-		return
-	success = GameManager.verify_level_win_condition()
-	if GameManager.endless:
-		return
-	var current_scene = get_tree().current_scene
-	if not success and current_scene.gameover_cutscene != null:
-		CutsceneManager.cutscene_player.play.call_deferred(current_scene.gameover_cutscene, current_scene.game_ui)
-		return 
-	if success and current_scene.success_cutscene != null:
-		CutsceneManager.cutscene_player.play.call_deferred(current_scene.success_cutscene, current_scene.game_ui)
-		return 
-	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
-
 func reset_player():
 	pawn.controller.current_direction = Vector2.ZERO
 	pawn.controller.target_position = pawn_spawn_position
 	pawn.global_position = pawn_spawn_position
-	#pawn.controller.input_queue.clear()
+	
 	inventory_delivery_ids.clear()
 	
+	current_level_points = 0
 	gas_enabled = true
 	gas_usage = initial_gas_usage
 	current_gas = max_gas
@@ -171,7 +169,6 @@ func reset_player():
 		points = 0
 	
 	completed_deliveries = 0
-	success = false
 	update_points_label(points)
 	update_gas_bar()
 	
@@ -182,8 +179,9 @@ func add_points(amount):
 	var previous_points = points
 	points += amount * point_multiplier
 	
-	if not GameManager.endless and GameManager.verify_level_win_condition():
-		complete_level()
+	#if not GameManager.endless and GameManager.verify_level_win_condition():
+		#complete_level()
+	
 	
 	var points_tween = create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	points_tween.set_loops(1).tween_method(update_points_label, previous_points, points, .5)
@@ -194,6 +192,6 @@ func add_points(amount):
 	loop_tween.tween_property(points_label, "scale", Vector2(1, 1), .1)
 	loop_tween.finished.connect(points_tween.kill)
 
-func update_points_label(points: int):
-	points_label.text = str(points).pad_zeros(10)
+func update_points_label(new_points: int):
+	points_label.text = str(new_points).pad_zeros(10)
 	

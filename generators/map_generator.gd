@@ -76,8 +76,6 @@ func generate(new_value: bool = true) -> void:
 	_generate_walker()
 	print("connecting terrains...")
 	_connect_terrains()
-	print(grass_positions.size())
-	print(road_positions.size())
 	print("map generated!")
 	print("spawning player")
 	_spawn_player_pawn()
@@ -153,54 +151,6 @@ func _get_connected_terrain_positions(tile_position: Vector2i, terrain: TERRAIN)
 	for neighbouring_position in neighbouring_positions.keys():
 		connected_positions[neighbouring_position] = road_tilemap_layer.get_cell_atlas_coords(Vector2i(tile_position.x + neighbouring_positions[neighbouring_position].x, tile_position.y + neighbouring_positions[neighbouring_position].y)) == terrain_tile_atlas_positions[terrain]
 	return connected_positions
-
-func _generate_maze():
-	print("cleaning previous data...")
-	road_tilemap_layer.clear()
-	road_positions.clear()
-	grass_positions.clear()
-	
-	print("filling with grass...")
-	_fill_with_grass()
-	
-	var cell_position = grass_positions.pick_random()
-	while cell_position.x < border_size or cell_position.x >= grid_size + border_size or cell_position.y < border_size or cell_position.y >= grid_size + border_size: # border
-		cell_position = grass_positions.pick_random()
-	road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[TERRAIN.OFFROAD])
-	road_positions.append(cell_position)
-	grass_positions.erase(cell_position)
-	var tries = 0
-	var border_cells = 0
-	var current_path_size = 0
-	if path_size > grid_size * grid_size / 2:
-		path_size = floor(grid_size * grid_size / 2)
-	while current_path_size < path_size:
-		cell_position = grass_positions.pick_random()
-		if cell_position.x < border_size or cell_position.x >= grid_size + border_size or cell_position.y < border_size or cell_position.y >= grid_size + border_size: # border
-			border_cells += 1
-			tries += 1
-			continue
-		var visited_walls_count = 0
-		var neighbouring_tiles: Dictionary[NEIGHBOURING_POSITIONS, Vector2i] = _get_neighbouring_tile_positions(cell_position)
-		var visited_tile_neighbouring_position: NEIGHBOURING_POSITIONS
-		if road_tilemap_layer.get_cell_atlas_coords(neighbouring_tiles[NEIGHBOURING_POSITIONS.TOP]) == terrain_tile_atlas_positions[TERRAIN.OFFROAD]:
-			visited_walls_count += 1
-		if  road_tilemap_layer.get_cell_atlas_coords(neighbouring_tiles[NEIGHBOURING_POSITIONS.RIGHT]) == terrain_tile_atlas_positions[TERRAIN.OFFROAD]:
-			visited_walls_count += 1
-		if  road_tilemap_layer.get_cell_atlas_coords(neighbouring_tiles[NEIGHBOURING_POSITIONS.BOT]) == terrain_tile_atlas_positions[TERRAIN.OFFROAD]:
-			visited_walls_count += 1
-		if  road_tilemap_layer.get_cell_atlas_coords(neighbouring_tiles[NEIGHBOURING_POSITIONS.LEFT]) == terrain_tile_atlas_positions[TERRAIN.OFFROAD]:
-			visited_walls_count += 1
-		if visited_walls_count == 1:
-			_create_road_tile(cell_position)
-			current_path_size += 1
-			tries += 1
-			continue
-		tries += 1
-	print("took ", str(tries), " tries to generate roads")
-	if path_size - current_path_size >= path_size/2:
-		print("restarting path generation because path_size was too short: ", current_path_size)
-		_generate_maze()
 
 func _create_road_tile(cell_position):
 	road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[TERRAIN.OFFROAD])

@@ -10,7 +10,7 @@ func apply_modifiers():
 	pass
 
 func verify_completion_requirement_met():
-	return PlayerManager.points >= minimum_points_for_completion
+	return PlayerManager.current_level_points >= minimum_points_for_completion
 
 func get_value() -> String:
-	return str(PlayerManager.points) + "/" + str(minimum_points_for_completion)
+	return str(PlayerManager.current_level_points) + "/" + str(minimum_points_for_completion)

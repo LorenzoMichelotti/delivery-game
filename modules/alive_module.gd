@@ -33,7 +33,7 @@ func _ready():
 	died.connect(GameManager._on_acquire_target.bind(target_type))
 
 
-func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true, damage_dealer = null) -> bool:
+func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	
@@ -168,7 +168,7 @@ func _get_random_knockup_position() -> Vector2:
 	return Vector2(actor.global_position.x + randi_range(-8, 8), actor.global_position.y - 10)
 
 func _get_random_knockdown_position(knockup_position: Vector2) -> Vector2:
-	return Vector2(knockup_position.x, randi_range(knockup_position.y + 8, knockup_position.y -8))
+	return Vector2(knockup_position.x, randi_range(int(knockup_position.y + 8), int(knockup_position.y -8)))
 	
 func _should_take_damage(perpetrator: GlobalConstants.ACTOR_TYPES) -> bool:
 	match type:
