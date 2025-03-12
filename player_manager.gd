@@ -58,7 +58,7 @@ func _ready():
 
 func inventory_hold_delivery(delivery_id):
 	inventory_delivery_ids.append(delivery_id)
-	inventory_delivery_ids_changed.emit(false, GameManager.level_deliveries[delivery_id].item.item.animation_frame, GameManager.level_deliveries[delivery_id].item.item.texture, GameManager.level_deliveries[delivery_id].item.item.is_animated_sprite)
+	inventory_delivery_ids_changed.emit(false, EntityManager.deliveries[delivery_id].item.item.animation_frame, EntityManager.deliveries[delivery_id].item.item.texture, EntityManager.deliveries[delivery_id].item.item.is_animated_sprite)
 
 func inventory_complete_delivery(delivery_id):
 	if gas_enabled:

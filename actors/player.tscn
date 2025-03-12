@@ -79,7 +79,7 @@ windup_shoot_delay = 0.1
 enabled = false
 damage = 100
 automatic_aim = false
-aim_speed = 30
+aim_speed = 60
 automatic_shoot = false
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]

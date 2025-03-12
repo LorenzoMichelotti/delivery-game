@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="MinimumDeliveriesCompletionRequirementResource" load_steps=4 format=3 uid="uid://cfqwlbo32a1mh"]
+[gd_resource type="Resource" script_class="MinimumDeliveriesCompletionRequirementResource" load_steps=5 format=3 uid="uid://cfqwlbo32a1mh"]
 
+[ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="1_2s2ct"]
 [ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="1_pvisv"]
 [ext_resource type="Script" uid="uid://be0hnk3avkuth" path="res://level_builder/level_completion/scripts/minimum_deliveries_requirement_script.gd" id="1_tybow"]
 
@@ -16,6 +17,7 @@ metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 [resource]
 script = ExtResource("1_tybow")
 minimum_deliveries_for_completion = 3
+client = ExtResource("1_2s2ct")
 goal_description = "COMPLETE DELIVERIES"
 level_modifiers = SubResource("Resource_2s2ct")
 metadata/_custom_type_script = "uid://be0hnk3avkuth"

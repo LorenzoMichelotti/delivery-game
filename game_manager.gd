@@ -48,9 +48,6 @@ var npcs_alive = 0
 var random_gas_enabled = true
 var random_deliveries_enabled = true
 
-var level_deliveries = {}
-signal clear_items
-
 var acquired_targets = {}
 func _on_acquire_target(target_type: GlobalConstants.TARGET_TYPES):
 	if not acquired_targets.has(target_type):
@@ -104,135 +101,19 @@ func pause_screen():
 	get_tree().current_scene.add_child.call_deferred(pause_ui)
 
 func on_level_changed():
-	reset_map()
-
-func reset_map():
-	_clear_map()
-	create_delivery()
-	#_scatter_fuel(5)
-	#_scatter_npcs(npc_count)
-
-func _clear_map():
 	acquired_targets.clear()
-	clear_items.emit()
-	level_deliveries.clear()
-
-func get_closest_pickup_position(compare_position: Vector2):
-	if level_deliveries.size() <= 0:
-		return null
-	var shortest_distance = null
-	var shortest_distance_position = null
-	for delivery_id in level_deliveries.keys():
-		var delivery = level_deliveries[delivery_id]
-		if !delivery.item and !delivery.target:
-			return null
-		var position = delivery.item.global_position if delivery.item != null else delivery.target.global_position
-		var distance = compare_position.distance_to(position)
-		if shortest_distance == null || distance < shortest_distance:
-			shortest_distance = distance
-			shortest_distance_position = position
-	return shortest_distance_position
-	
-func get_closest_tunnel_position(compare_position: Vector2):
-	var tunnels = get_tree().get_nodes_in_group("tunnel")
-
-	if tunnels.size() <= 0:
-		return null
-		
-	var shortest_distance = null
-	var shortest_distance_position = null
-	for tunnel in tunnels:
-		var position = tunnel.global_position
-		var distance = compare_position.distance_to(position)
-		if shortest_distance == null || distance < shortest_distance:
-			shortest_distance = distance
-			shortest_distance_position = position
-	return shortest_distance_position
-
-func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Array[int]):
-	if delivery_ids.size() <= 0:
-		return null
-	var shortest_distance = null
-	var shortest_distance_position = null
-	for delivery_id in delivery_ids:
-		var delivery = level_deliveries[delivery_id]
-		if delivery.target == null:
-			return null
-		var position = delivery.target.global_position if delivery.target != null else delivery.item
-		var distance = compare_position.distance_to(position)
-		if shortest_distance == null || distance < shortest_distance:
-			shortest_distance = distance
-			shortest_distance_position = position
-	return shortest_distance_position
-
-func create_delivery():
-	if not random_deliveries_enabled:
-		return
-	var pickup_item_resource = items.pickup.resource.duplicate()
-	pickup_item_resource.texture = current_client.objects.pick_random()
-	var pickup_item: ItemScene = _spawn_item(pickup_item_resource)
-	var target: ItemScene = _spawn_item(items.delivery_target.resource.duplicate())
-	target.color = current_client.color
-	
-	var delivery_id = level_deliveries.size() + 1
-	
-	pickup_item.item.delivery_id = delivery_id
-	target.item.delivery_id = delivery_id
-	pickup_item.item.picked_up.connect(target.item.on_delivery_item_picked_up.bind(target))
-	
-	level_deliveries[delivery_id] = {
-		"item": pickup_item,
-		"obtained": false,
-		"target": target
-	}
-	
-func _spawn_item(item_resource: Resource) -> ItemScene:
-	var free_tiles = _get_free_tiles(road)
-	if free_tiles == null or free_tiles.size() <= 0:
-		print("ERROR: couldnt spawn item because there were no free tiles")
-	var tile_position = free_tiles.pick_random()
-	var tile_data = road.get_cell_tile_data(tile_position)
-	tile_data.set_custom_data("occupied", true)
-	var spawned_item = item_scene.instantiate()
-	spawned_item.z_index += 2
-	clear_items.connect(spawned_item.queue_free)
-	spawned_item.item = item_resource
-	spawned_item.tile_position = tile_position
-	spawned_item.road = road
-	spawned_item.global_position = to_global(road.map_to_local(tile_position)) 
-	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(spawned_item)
-	return spawned_item
 
 func _get_free_tiles(road: TileMapLayer):
-	var road_tiles: Array[Vector2i] = LevelManager.road_positions
-	var free_tiles = road_tiles.filter(
+	var free_tiles = LevelManager.road_positions.filter(
 		func(tile_position: Vector2i): 
 			if !road.get_cell_tile_data(tile_position).get_custom_data("occupied"): 
 				return tile_position
 	)
 	if free_tiles.size() <= 0:
 		# fallback cause sometimes it doesnt find any free tiles....
-		free_tiles = road_tiles
+		free_tiles = LevelManager.road_positions
 	return free_tiles
 
-func _scatter_fuel(amount: int):
-	if not random_gas_enabled or not PlayerManager.gas_enabled:
-		return
-	for i in range(amount):
-		var free_tiles = _get_free_tiles(road)
-		if free_tiles == null or free_tiles.size() <= 0:
-			print("ERROR: couldnt spawn item because there were no free tiles")
-		var tile_position = free_tiles.pick_random()
-		var tile_data = road.get_cell_tile_data(tile_position)
-		tile_data.set_custom_data("occupied", true)
-		var gas_item = item_scene.instantiate()
-		clear_items.connect(gas_item.queue_free)
-		gas_item.item = items.gas.resource.duplicate()
-		gas_item.tile_position = tile_position
-		gas_item.road = road
-		gas_item.global_position = to_global(road.map_to_local(tile_position)) 
-		get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(gas_item)
-		
 func _scatter_npcs(amount: int):
 	for i in range(amount):
 		var road_tiles: Array[Vector2i] = LevelManager.road_positions
@@ -247,17 +128,3 @@ func _scatter_npcs(amount: int):
 func _on_npc_died():
 	npcs_alive -= 1
 	get_tree().create_timer(5).timeout.connect(_scatter_npcs.call_deferred.bind(1))
-
-func pickup_delivery_item(delivery_id: int):
-	level_deliveries[delivery_id].obtained = true
-
-func can_deliver_item(delivery_id: int):
-	if level_deliveries.has(delivery_id) and level_deliveries[delivery_id].obtained == true:
-		return true
-	return false
-
-func deliver_item(delivery_id: int):
-	level_deliveries.erase(delivery_id)
-	if not LevelManager.verify_level_win_condition():
-		create_delivery()
-		_scatter_fuel(rng.randi_range(1,3))

@@ -29,7 +29,7 @@ func _ready():
 	area2d.connect("body_entered", _on_area_2d_body_entered)
 	
 	if item is DeliveryTargetItem:
-		item_balloon.update_item_balloon(false, GameManager.level_deliveries[item.delivery_id].item.item.animation_frame, GameManager.level_deliveries[item.delivery_id].item.item.texture, GameManager.level_deliveries[item.delivery_id].item.item.is_animated_sprite)
+		item_balloon.update_item_balloon(false, EntityManager.deliveries[item.delivery_id].item.item.animation_frame, EntityManager.deliveries[item.delivery_id].item.item.texture, EntityManager.deliveries[item.delivery_id].item.item.is_animated_sprite)
 
 func _on_area_2d_body_entered(body: Node2D):
 	if body.is_in_group("player"):

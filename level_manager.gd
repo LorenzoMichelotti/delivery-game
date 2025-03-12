@@ -26,6 +26,7 @@ const levels = {
 }
 
 var current_completion_requirements: CompletionRequirementResource = MINIMUM_POINTS_REQUIREMENT_RESOURCE
+
 var tile_map_layer: TileMapLayer
 var road_positions: Array[Vector2i] = []
 var is_level_completed = false

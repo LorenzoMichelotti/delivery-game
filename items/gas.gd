@@ -9,4 +9,4 @@ func on_pickup(item_scene: ItemScene):
 	SfxManager.play_sfx(pickup_sfx)
 	var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)
 	tween.tween_property(item_scene.sprite_pivot, "scale", Vector2.ZERO, .2)
-	tween.finished.connect(item_scene.queue_free)
+	tween.finished.connect(item_scene.queue_free.call_deferred)

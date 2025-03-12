@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://game_manager.gd"
 LevelManager="*res://level_manager.tscn"
+EntityManager="*res://entity_manager.gd"
 PlayerManager="*res://player_manager.gd"
 VfxManager="*res://vfx/vfx_manager.gd"
 SfxManager="*res://sfx/sfx_manager.gd"

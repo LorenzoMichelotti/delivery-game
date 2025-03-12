@@ -1,6 +1,7 @@
 class_name CompletionRequirementResource
 extends Resource
 
+@export var client: ActorResource
 @export var goal_description: String
 @export var level_modifiers: LevelModifierResource
 

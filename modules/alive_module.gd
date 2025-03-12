@@ -163,7 +163,7 @@ func _play_death_tweener(perpetrator):
 	tween.parallel().tween_property(actor.sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
 	tween.parallel().tween_property(actor.shadow, "modulate:a", 0 , .4)
 	if should_free_on_dead:
-		tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
+		tween.finished.connect(get_parent().queue_free.call_deferred)  # Remove NPC after fade
 
 func _get_random_knockup_position() -> Vector2:
 	return Vector2(actor.global_position.x + randi_range(-8, 8), actor.global_position.y - 10)

@@ -41,7 +41,7 @@ func _physics_process(delta):
 			tween.tween_property(self, "modulate:a", 0, .1)
 			tween.parallel().tween_property(self, "scale", Vector2.ZERO, .2)
 			await tween.finished
-			queue_free()
+			queue_free.call_deferred()
 	else:
 		current_speed += acceleration
 		if current_speed >= speed:
@@ -51,4 +51,4 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_lifespan_timeout():
-	queue_free()
+	queue_free.call_deferred()
