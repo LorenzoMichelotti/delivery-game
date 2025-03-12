@@ -13,6 +13,8 @@ var max_gas = 100
 var current_gas = 100
 var initial_gas_usage = 10
 var gas_usage = 0
+var max_hp = 3
+var current_hp = 3
 
 var points: int = 0:
 	set(new_points):
@@ -96,6 +98,9 @@ func set_curent_pawn(new_pawn):
 	if new_pawn == null:
 		new_pawn = get_tree().current_scene.get_node("Map/Entities/Player")
 	pawn = new_pawn
+	pawn.alive_module.max_hp = max_hp
+	pawn.alive_module.hp = current_hp
+	pawn.alive_module.took_damage.connect(func(damage): current_hp -= damage)
 	CameraManager.set_pawn_to_follow(pawn)
 	pawn_spawn_position = pawn.global_position
 	pawn.alive_module.died.connect(empty_tank)
@@ -143,21 +148,22 @@ func empty_tank():
 		return 
 	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)
 
-func reset_player():
+func reset_player(hard = false):
 	pawn.controller.current_direction = Vector2.ZERO
 	pawn.controller.target_position = pawn_spawn_position
 	pawn.global_position = pawn_spawn_position
 	
 	inventory_delivery_ids.clear()
 	
+	if hard: # hard reset
+		current_hp = max_hp
+		points = 0
+	
 	current_level_points = 0
 	gas_enabled = true
 	gas_usage = initial_gas_usage
 	current_gas = max_gas
 	tank_empty = false
-	
-	if not GameManager.endless:
-		points = 0
 	
 	completed_deliveries = 0
 	update_points_label(points)

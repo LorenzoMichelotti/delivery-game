@@ -18,8 +18,6 @@ success_cutscene = ExtResource("5_xbmo5")
 visible = false
 
 [node name="Map" parent="." instance=ExtResource("9_yworv")]
-grid_size = 9
 border_size = 3
-path_size = 40
 
 [connection signal="map_generated" from="Map" to="." method="_on_map_generated"]

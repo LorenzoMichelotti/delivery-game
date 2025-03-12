@@ -13,7 +13,7 @@ func _ready():
 	alive_module.took_damage.connect(_on_take_damage)
 	set_phase(phase)
 	
-func _on_take_damage():
+func _on_take_damage(_damage):
 	if alive_module.hp < alive_module.max_hp * int(1/3):
 		set_phase(2)
 		return

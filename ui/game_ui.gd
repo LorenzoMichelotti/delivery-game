@@ -33,8 +33,8 @@ func update_goals():
 func update_health_bar():
 	if PlayerManager.pawn == null:
 		return
-	health_bar.scale.x = health_bar_backdrop.scale.x * PlayerManager.pawn.alive_module.hp / PlayerManager.pawn.alive_module.max_hp
-	health_bar_label.text = str(PlayerManager.pawn.alive_module.hp) + "/" + str(PlayerManager.pawn.alive_module.max_hp)
+	health_bar.scale.x = health_bar_backdrop.scale.x * PlayerManager.current_hp / PlayerManager.max_hp
+	health_bar_label.text = str(PlayerManager.current_hp) + "/" + str(PlayerManager.max_hp)
 
 func update_multiplier(new_multiplier: int):
 	point_multiplier.text = "X" + str(new_multiplier)

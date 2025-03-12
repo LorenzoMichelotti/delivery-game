@@ -21,7 +21,7 @@ var is_dead := false
 var is_taking_damage := false
 var has_invincibility := false
 signal died
-signal took_damage
+signal took_damage(damage)
 
 var tween: Tween
 
@@ -48,7 +48,7 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 	if has_invincibility or is_taking_damage:
 		return true # absorb bullets
 	
-	took_damage.emit()
+	took_damage.emit(damage)
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:

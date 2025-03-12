@@ -71,8 +71,6 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 2
 script = ExtResource("1_0lbjl")
-type = null
-phase = null
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
@@ -80,6 +78,9 @@ shoot_delay = 0.2
 windup_shoot_delay = 0.1
 enabled = false
 damage = 100
+automatic_aim = false
+aim_speed = 30
+automatic_shoot = false
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)

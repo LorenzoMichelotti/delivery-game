@@ -87,6 +87,14 @@ func next_level():
 	change_level(next_level_number)
 	return
 
+func new_run():
+	current_level = 0
+	PlayerManager.reset_player(true)
+	_update_completion_requirements()
+	get_tree().reload_current_scene()
+	level_changed.emit()
+	return
+
 func verify_level_win_condition():
 	if current_completion_requirements:
 		var requirement_is_met = current_completion_requirements.verify_completion_requirement_met()

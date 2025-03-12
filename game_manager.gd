@@ -106,10 +106,6 @@ func pause_screen():
 func on_level_changed():
 	reset_map()
 
-func reset_level():
-	reset_map()
-	PlayerManager.reset_player()
-
 func reset_map():
 	_clear_map()
 	create_delivery()

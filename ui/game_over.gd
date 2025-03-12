@@ -22,7 +22,10 @@ func _input(event):
 
 func _restart_or_go_to_next_level():
 	if start_over:
-		get_tree().reload_current_scene()
+		if LevelManager.endless_mode:
+			LevelManager.new_run()
+		else:
+			get_tree().reload_current_scene()
 		return
 	LevelManager.next_level()
 
@@ -45,7 +48,7 @@ func play():
 	else:
 		audio_player.stream = lose_song
 		audio_player.play()
-		if PlayerManager.pawn.alive_module.hp <= 0:
+		if PlayerManager.current_hp <= 0:
 			title.set_text("YOU DIED")
 		else:
 			title.set_text("OUT OF GAS")
