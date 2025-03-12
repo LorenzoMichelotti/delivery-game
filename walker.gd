@@ -9,6 +9,7 @@ var direction = Vector2i.RIGHT
 var borders: Rect2 = Rect2()
 var outer_borders: int = 1
 var step_history: Array[Vector2i] = []
+var road_history: Array[Vector2i] = []
 var steps_since_turn = 0
 var rooms = []
 var exits: Array[Vector2i] = []
@@ -17,6 +18,7 @@ func _init(starting_position: Vector2i, new_borders: Rect2, _outer_borders: int)
 	assert(new_borders.has_point(starting_position))
 	position = starting_position
 	step_history.append(starting_position)
+	road_history.append(starting_position)
 	borders = new_borders
 	outer_borders = _outer_borders
 
@@ -28,11 +30,12 @@ func walk(steps):
 		
 		if step():
 			step_history.append(position)
+			road_history.append(position)
 		else:
 			change_direction()
 	_generate_left_exit()
 	_generate_right_exit()
-	return step_history
+	return {"step_history": step_history, "road_history": road_history}
 
 func step():
 	var target_position = position + direction
@@ -65,14 +68,7 @@ func place_room(position):
 			var new_step = top_left_corner + Vector2i(x, y)
 			if borders.has_point(new_step):
 				step_history.append(new_step)
-
-func get_end_room():
-	var end_room = rooms.pop_front()
-	var starting_position = step_history.front()
-	for room in rooms:
-		if starting_position.distance_to(room.position) > starting_position.distance_to(end_room.position):
-			end_room = room
-	return end_room
+				road_history.append(new_step)
 
 func get_exit_positions():
 	return exits

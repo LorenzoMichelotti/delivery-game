@@ -5,6 +5,7 @@ extends Resource
 @export var gas_enabled = false
 @export var random_gas_enabled = false
 @export var npc_count = 3
+@export var tank_count = 5
 @export var player_gun_turret = false
 
 func apply_modifiers():

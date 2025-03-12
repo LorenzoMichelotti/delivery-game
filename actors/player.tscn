@@ -69,9 +69,10 @@ states/idle/position = Vector2(522, 107.333)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ndkef"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_c02ud")]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-process_mode = 3
 z_index = 2
 script = ExtResource("1_0lbjl")
+type = null
+phase = null
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)

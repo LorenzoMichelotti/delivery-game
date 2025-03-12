@@ -6,7 +6,7 @@ const MINIMUM_DELIVERIES_REQUIREMENT_RESOURCE = preload("res://level_builder/lev
 const WIN_SONG_STREAM: AudioStreamWAV = preload("res://assets/sounds/Level_Complete.wav")
 
 const COMPLETION_REQUIREMENTS: Array[CompletionRequirementResource] = [
-	#MINIMUM_POINTS_REQUIREMENT_RESOURCE,
+	MINIMUM_POINTS_REQUIREMENT_RESOURCE,
 	MINIMUM_DELIVERIES_REQUIREMENT_RESOURCE
 ]
 
@@ -25,7 +25,7 @@ const levels = {
 	}
 }
 
-var current_completion_requirements: CompletionRequirementResource
+var current_completion_requirements: CompletionRequirementResource = MINIMUM_POINTS_REQUIREMENT_RESOURCE
 var tile_map_layer: TileMapLayer
 var road_positions: Array[Vector2i] = []
 var is_level_completed = false
@@ -38,10 +38,10 @@ signal level_completion_requirement_met
 func _ready():
 	_update_completion_requirements()
 
-func complete_level():
+func complete_level(verify = true):
 	if is_level_completed:
 		return
-	is_level_completed = LevelManager.verify_level_win_condition()
+	is_level_completed = LevelManager.verify_level_win_condition() if verify else true
 	if GameManager.endless:
 		return
 	var current_scene = get_tree().current_scene
@@ -64,10 +64,15 @@ func change_level(level: int):
 	_update_completion_requirements()
 	get_tree().change_scene_to_packed.call_deferred(level_data.scene)
 	
-func _update_completion_requirements():
+func _update_completion_requirements(custom_requirement: CompletionRequirementResource = null):
+	if custom_requirement != null:
+		current_completion_requirements = custom_requirement
 	current_completion_requirements = COMPLETION_REQUIREMENTS.pick_random()
 
 func next_level():
+	if PlayerManager.pawn.alive_module.is_dead:
+		return
+		
 	if endless_mode:
 		current_level += 1
 		_update_completion_requirements()
@@ -86,7 +91,7 @@ func verify_level_win_condition():
 	if current_completion_requirements:
 		var requirement_is_met = current_completion_requirements.verify_completion_requirement_met()
 		if requirement_is_met: 
-			level_completion_requirement_met.emit()
 			SfxManager.play_sfx(WIN_SONG_STREAM, SfxManager.CHANNEL_CONFIG.VOICES)
-			get_tree().create_timer(1).timeout.connect(complete_level)
+			level_completion_requirement_met.emit()
+			get_tree().create_timer(2).timeout.connect(complete_level.bind(false))
 		return requirement_is_met

@@ -34,6 +34,7 @@ func _ready():
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
+	print(get_parent().name, " took damage from ", perpetrator)
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	

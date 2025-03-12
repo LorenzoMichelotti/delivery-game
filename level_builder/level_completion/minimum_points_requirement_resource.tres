@@ -9,11 +9,12 @@ deliveries_enabled = true
 gas_enabled = false
 random_gas_enabled = false
 npc_count = 3
+tank_count = 0
 player_gun_turret = true
 metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
 [resource]
 script = ExtResource("1_m0qhk")
-minimum_points_for_completion = 1000
-goal_description = "REACH 1000 POINTS"
+minimum_points_for_completion = 100000
+goal_description = "REACH 100000 POINTS"
 level_modifiers = SubResource("Resource_6d38v")

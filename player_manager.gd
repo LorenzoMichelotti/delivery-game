@@ -4,7 +4,7 @@ extends Node
 @onready var gas_bar: Panel
 @onready var gas_label: Label
 @onready var points_label: Label
-@onready var pawn: Node2D
+@onready var pawn: Actor
 @onready var pawn_spawn_position: Vector2
 @onready var gps_scene: PackedScene = preload("res://ui/gps.tscn")
 @onready var gps_arrow: Node2D
@@ -20,11 +20,7 @@ var points: int = 0:
 		points_changed.emit(points)
 signal points_changed(points: int)
 
-var current_level_points: int = 0:
-	set(new_current_level_points):
-		current_level_points = new_current_level_points
-		current_level_points_changed.emit(current_level_points)
-signal current_level_points_changed(current_level_points: int)
+var current_level_points: int = 0
 
 var point_multiplier = 1:
 	set(new_point_multiplier):
@@ -72,8 +68,6 @@ func inventory_complete_delivery(delivery_id):
 	increase_combo()
 	inventory_delivery_ids.erase(delivery_id)
 	inventory_delivery_ids_changed.emit(true)
-	#if not GameManager.endless and GameManager.verify_level_win_condition():
-		#complete_level()
 
 func increase_combo():
 	timer.stop()
@@ -93,19 +87,16 @@ func on_level_changed():
 	gas_bar = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasBar")
 	gas_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/Panel/GasBarContainer/GasLabel")
 	points_label = get_tree().current_scene.get_node("CanvasLayer/LevelUI/PointsControl/Points")
-	CameraManager.set_pawn_to_follow(pawn)
-	if pawn == null:
-		pawn = get_tree().current_scene.get_node("Map/Entities/Player")
-		set_pawn(pawn)
 	gas_usage = initial_gas_usage
 	
 	reset_player()
 	player_is_ready = true
 
-func set_pawn(new_pawn):
+func set_curent_pawn(new_pawn):
 	if new_pawn == null:
-		return
+		new_pawn = get_tree().current_scene.get_node("Map/Entities/Player")
 	pawn = new_pawn
+	CameraManager.set_pawn_to_follow(pawn)
 	pawn_spawn_position = pawn.global_position
 	pawn.alive_module.died.connect(empty_tank)
 
@@ -177,11 +168,9 @@ func add_points(amount):
 		return
 		
 	var previous_points = points
+	current_level_points += amount * point_multiplier
 	points += amount * point_multiplier
-	
-	#if not GameManager.endless and GameManager.verify_level_win_condition():
-		#complete_level()
-	
+	LevelManager.verify_level_win_condition()
 	
 	var points_tween = create_tween().bind_node(self).set_trans(Tween.TRANS_CUBIC)
 	points_tween.set_loops(1).tween_method(update_points_label, previous_points, points, .5)

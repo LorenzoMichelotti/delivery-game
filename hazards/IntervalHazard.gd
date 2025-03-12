@@ -12,6 +12,9 @@ func _ready():
 
 func _set_armed(armed: bool):
 	if armed:
+		for area in damage_dealer_module.hurt_box.get_overlapping_areas():
+			if area.get_parent() is AliveModule:
+				damage_dealer_module.deal_damage(area.get_parent())
 		$AnimationTree.set("parameters/conditions/enabled", false)
 		get_tree().create_timer(interval_delay).timeout.connect(_start)
 		SfxManager.play_sfx(stream_sfx, SfxManager.CHANNEL_CONFIG.SPIKES)
@@ -20,5 +23,5 @@ func _set_armed(armed: bool):
 
 func _start():
 	if random_position:
-		global_position = GameManager.road.map_to_local(GameManager.road.get_used_cells().pick_random())
+		global_position = LevelManager.tile_map_layer.map_to_local(LevelManager.road_positions.pick_random())
 	$AnimationTree.set("parameters/conditions/enabled", true)

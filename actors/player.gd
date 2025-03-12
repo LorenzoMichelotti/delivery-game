@@ -6,7 +6,7 @@ extends Actor
 @onready var controller: PlayerPathfindingControllerModule = $PlayerControllerModule
 
 func _ready():
-	PlayerManager.set_pawn(self)
+	PlayerManager.set_curent_pawn(self)
 	PlayerManager.inventory_delivery_ids_changed.connect(item_balloon.update_item_balloon)
 
 func _on_take_damage():

@@ -24,7 +24,7 @@ var channels = {
 	CHANNEL_CONFIG.HITS: [null, null, null, null],
 	CHANNEL_CONFIG.EXPLOSIONS: [null, null],
 	CHANNEL_CONFIG.SPIKES: [null, null, null],
-	CHANNEL_CONFIG.VOICES: [null, null, null]
+	CHANNEL_CONFIG.VOICES: [null, null, null, null, null]
 }
 
 func play_sfx(stream: AudioStreamWAV, playback_channel = CHANNEL_CONFIG.BASIC, randomize_pitch = false, from_position: float = 0.0):

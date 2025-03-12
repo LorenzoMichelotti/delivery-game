@@ -43,6 +43,7 @@ var rng = RandomNumberGenerator.new()
 var endless = true
 
 var npc_count = 5
+
 var npcs_alive = 0
 var random_gas_enabled = true
 var random_deliveries_enabled = true
@@ -61,6 +62,7 @@ func _ready():
 	add_child.call_deferred(game_over_ui)
 
 func _unhandled_input(event):
+	print("ababa")
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
 
@@ -111,8 +113,8 @@ func reset_level():
 func reset_map():
 	_clear_map()
 	create_delivery()
-	_scatter_fuel(5)
-	_scatter_npcs(npc_count)
+	#_scatter_fuel(5)
+	#_scatter_npcs(npc_count)
 
 func _clear_map():
 	acquired_targets.clear()

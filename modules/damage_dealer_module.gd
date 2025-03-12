@@ -13,9 +13,13 @@ func _ready():
 	hurt_box.area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area):
-	if enabled and area.is_in_group("hit_box") and area.get_parent():
+	if enabled and area.is_in_group("hit_box"):
 		if (area.get_parent() as AliveModule).take_damage(damage, type, is_knockup) and is_bullet:
 			get_parent().queue_free()
+
+func deal_damage(alive_module: AliveModule):
+	if alive_module.take_damage(damage, type, is_knockup) and is_bullet:
+		get_parent().queue_free()
 
 func enable():
 	enabled = true

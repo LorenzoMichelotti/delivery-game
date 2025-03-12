@@ -16,22 +16,38 @@ extends Node2D
 
 @onready var road_tilemap_layer = $Tiles/Road
 @onready var background_tilemap_layer = $Tiles/Background
-@onready var player_pawn = preload("res://actors/player.tscn")
-@onready var entities = $Entities
+@onready var player_pawn_scene = preload("res://actors/player.tscn")
+@onready var entities_container = $Entities
 @onready var tunnel_scene: PackedScene = preload("res://tunnel.tscn")
 @onready var tank_scene: PackedScene = preload("res://actors/tank/tank.tscn")
+@onready var spike_scene: PackedScene = preload("res://hazards/spikes.tscn")
+@onready var air_strike: PackedScene = preload("res://hazards/air_strike.tscn")
 
 signal map_generated
 
 enum TERRAIN_SET {
 	MAIN
 }
+
 enum TERRAIN {
 	OFFROAD,
 	CITY,
 	FOREST,
 	GRASS
 }
+
+const TILE_SOURCES = {
+	TERRAIN.OFFROAD: 1,
+	TERRAIN.GRASS: 1,
+	TERRAIN.CITY: 2
+}
+
+const TERRAIN_TILE_ATLAS_POSITIONS: Dictionary[TERRAIN, Vector2i] = {
+	TERRAIN.OFFROAD: Vector2i(1,0),
+	TERRAIN.GRASS: Vector2i(0,0),
+	TERRAIN.CITY: Vector2i(1,0)
+}
+
 
 enum NEIGHBOURING_POSITIONS {
 	TOP,
@@ -49,16 +65,21 @@ const neighbouring_positions: Dictionary[NEIGHBOURING_POSITIONS, Vector2i] = {
 	NEIGHBOURING_POSITIONS.BOT: Vector2i(0, 1),
 }
 
-var terrain_tile_atlas_positions: Dictionary[TERRAIN, Vector2i] = {
-	TERRAIN.OFFROAD: Vector2i(1,0),
-	TERRAIN.GRASS: Vector2i(0,0)
+var road_positions: Array[Vector2i] = []
+var all_road_positions: Array[Vector2i] = []
+var off_road_positions: Array[Vector2i] = []
+var city_road_positions: Array[Vector2i] = []
+
+var TERRAIN_POSITIONS = {
+	TERRAIN.OFFROAD: off_road_positions,
+	TERRAIN.CITY: city_road_positions
 }
 
-var road_positions: Array[Vector2i] = []
 var grass_positions: Array[Vector2i] = []
 var tunnels: Array[Node2D] = []
 var tanks: Array[Actor] = []
-var current_player_pawn: CharacterBody2D
+var entities: Array = []
+
 var rng
 
 func _ready():
@@ -70,17 +91,33 @@ func _ready():
 
 func generate(new_value: bool = true) -> void:
 	rng = RandomNumberGenerator.new()
+	_clear_entities()
 	
 	print("map generation started")
 	print("generating path...")
-	_generate_walker()
+	var walker = _generate_walker()
 	print("connecting terrains...")
 	_connect_terrains()
 	print("map generated!")
+	
+	print("spawning entities")
+	print("spawning tunnels")
+	for exit_position in walker.get_exit_positions():
+		_spawn_entities(tunnel_scene, 1, road_tilemap_layer.map_to_local(exit_position))
 	print("spawning player")
-	_spawn_player_pawn()
-	_spawn_tanks()
+	_spawn_entities(player_pawn_scene)
+	print("spawning tanks")
+	_spawn_entities(tank_scene, LevelManager.current_completion_requirements.level_modifiers.tank_count)
+	_spawn_entities(spike_scene, randi_range(0,2))
+	_spawn_entities(air_strike, randi_range(0,2))
+	
 	map_generated.emit()
+
+func _clear_entities():
+	for entity in entities:
+		if entity != null:
+			entity.queue_free.call_deferred()
+	entities.clear()
 
 func _generate_walker():
 	print("cleaning previous data...")
@@ -98,42 +135,26 @@ func _generate_walker():
 	var walker = Walker.new(Vector2i(border_size, border_size), Rect2(border_size, border_size, grid_size, grid_size), border_size)
 	var map = walker.walk(grid_size * grid_size)
 	
-	for cell_position in map:
-		road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[TERRAIN.OFFROAD])
-		grass_positions.erase(cell_position)
+	for cell_position in map.road_history:
+		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
 		road_positions.append(cell_position)
-		
-	print("spawning doors")
-	_spawn_exits(walker.get_exit_positions())
+	for cell_position in map.step_history:
+		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
+	
+	return walker
 
-func _spawn_player_pawn():
-	if current_player_pawn != null:
-		current_player_pawn.queue_free()
-	current_player_pawn = player_pawn.instantiate()
-	current_player_pawn.global_position = road_tilemap_layer.map_to_local(road_positions.pick_random())
-	entities.add_child(current_player_pawn)
-
-func _spawn_tanks():
-	if tanks.size() > 0:
-		for t in tanks:
-			if t != null:
-				t.queue_free()
-	tanks.clear()
-	var should_spawn_tanks = randi_range(0,1)
-	if should_spawn_tanks == 0:
-		return
-	var tank_count = randi_range(0, 2)
-	for i in range(tank_count):
-		var tank = tank_scene.instantiate()
-		tank.global_position = road_tilemap_layer.map_to_local(road_positions.pick_random())
-		tanks.append(tank)
-		entities.add_child(tank)
+func _spawn_entities(scene, amount = 1, position = road_tilemap_layer.map_to_local(road_positions.pick_random())):
+	for i in range(amount):
+		var entity = scene.instantiate()
+		entity.global_position = position
+		entities.append(entity)
+		entities_container.add_child(entity)
 	
 func _fill_with(terrain: TERRAIN):
 	for row in range(grid_size + (border_size * 2)):
 		for col in range(grid_size + (border_size * 2)):
 			var cell_position = Vector2i(row, col)
-			road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[terrain])
+			road_tilemap_layer.set_cell(cell_position, TILE_SOURCES[terrain], TERRAIN_TILE_ATLAS_POSITIONS[terrain])
 			grass_positions.append(cell_position)
 	road_tilemap_layer.set_cells_terrain_connect(grass_positions, TERRAIN_SET.MAIN, terrain)
 	
@@ -149,35 +170,18 @@ func _get_neighbouring_tile_positions(tile_position: Vector2i) -> Dictionary[NEI
 func _get_connected_terrain_positions(tile_position: Vector2i, terrain: TERRAIN) -> Dictionary[NEIGHBOURING_POSITIONS, bool]:
 	var connected_positions: Dictionary[NEIGHBOURING_POSITIONS, bool] = {}
 	for neighbouring_position in neighbouring_positions.keys():
-		connected_positions[neighbouring_position] = road_tilemap_layer.get_cell_atlas_coords(Vector2i(tile_position.x + neighbouring_positions[neighbouring_position].x, tile_position.y + neighbouring_positions[neighbouring_position].y)) == terrain_tile_atlas_positions[terrain]
+		connected_positions[neighbouring_position] = road_tilemap_layer.get_cell_atlas_coords(Vector2i(tile_position.x + neighbouring_positions[neighbouring_position].x, tile_position.y + neighbouring_positions[neighbouring_position].y)) == TERRAIN_TILE_ATLAS_POSITIONS[terrain]
 	return connected_positions
 
-func _create_road_tile(cell_position):
-	road_tilemap_layer.set_cell(cell_position, 1, terrain_tile_atlas_positions[TERRAIN.OFFROAD])
+func _create_road_tile(cell_position, terrain):
+	road_tilemap_layer.set_cell(cell_position, TILE_SOURCES[terrain], TERRAIN_TILE_ATLAS_POSITIONS[terrain])
 	grass_positions.erase(cell_position)
-	road_positions.append(cell_position)
+	all_road_positions.append(cell_position)
 
 func _connect_terrains():
-	road_tilemap_layer.set_cells_terrain_connect(road_positions, TERRAIN_SET.MAIN, TERRAIN.OFFROAD)
+	road_tilemap_layer.set_cells_terrain_connect(all_road_positions, TERRAIN_SET.MAIN, TERRAIN.OFFROAD)
 	road_tilemap_layer.set_cells_terrain_connect(grass_positions, TERRAIN_SET.MAIN, TERRAIN.GRASS)
 
 func _neighbour_is_null_or_not_connected(neighbour_position, road_atlas_position):
 	return (road_tilemap_layer.get_cell_tile_data(neighbour_position) == null or 
 		road_tilemap_layer.get_cell_atlas_coords(neighbour_position) != road_atlas_position)
-
-func _spawn_exits(exit_positions: Array[Vector2i]):
-	if tunnels.size() > 0:
-		for t in tunnels:
-			if t != null:
-				t.queue_free()
-	tunnels.clear()
-	for exit_pos in exit_positions:
-		var tunnel = tunnel_scene.instantiate()
-		tunnel.global_position = road_tilemap_layer.map_to_local(exit_pos)
-		tunnels.append(tunnel)
-		entities.add_child(tunnel)
-		if not Engine.is_editor_hint():
-			if exit_pos.x == 0:
-				tunnel.frame = 0
-			if exit_pos.x == grid_size + (border_size * 2):
-				tunnel.frame = 1
