@@ -38,7 +38,6 @@ const BULLET_SPEEDS = {
 	}
 }
 
-
 # targets
 enum TARGET_TYPES {
 	NONE,

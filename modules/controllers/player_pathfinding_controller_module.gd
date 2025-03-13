@@ -6,9 +6,10 @@ extends BaseControllerModuleResource
 func _ready():
 	navigation_agent_2d.target_position = get_parent().global_position
 	navigation_agent_2d.navigation_finished.connect(_on_nav_finished)
+	super()
 
 func _physics_process(delta):
-	if (pawn and pawn.alive_module.is_dead) or not enabled or NavigationServer2D.map_get_iteration_id(navigation_agent_2d.get_navigation_map()) == 0:
+	if not pawn or pawn.alive_module.is_dead or pawn.alive_module.is_taking_damage or not enabled or NavigationServer2D.map_get_iteration_id(navigation_agent_2d.get_navigation_map()) == 0:
 		return
 	
 	get_input_target_position()

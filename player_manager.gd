@@ -31,8 +31,8 @@ var point_multiplier = 1:
 signal point_multiplier_changed(point_multiplier: int)
 
 var base_point_multiplier = 1
-var base_multiplier_timer = 5
-var multiplier_timer = 5
+var base_multiplier_timer = 60
+var multiplier_timer = 60
 
 var completed_deliveries = 0
 var inventory_delivery_ids: Array[int] = []

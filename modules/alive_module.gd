@@ -30,7 +30,7 @@ func _ready():
 	actor = get_parent()
 	type = actor.type
 	hp = max_hp
-	died.connect(GameManager._on_acquire_target.bind(target_type))
+	died.connect(LevelManager._on_acquire_target.bind(target_type))
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
