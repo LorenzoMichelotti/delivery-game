@@ -1,6 +1,7 @@
 class_name AliveModule
 extends Node2D
 
+@export var target_type : GlobalConstants.TARGET_TYPES
 @export var max_hp := 1
 @export var should_free_on_dead := true
 @export var can_be_knocked_down := true
@@ -9,6 +10,7 @@ extends Node2D
 @export var on_death_points := 0
 @export var hit_sfx_stream = preload("res://assets/sounds/Hit.wav")
 @export var explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
+@export var death_explosion_sfx_stream = preload("res://assets/sounds/Explode.wav")
 
 @onready var actor
 @onready var type: GlobalConstants.ACTOR_TYPES
@@ -19,6 +21,7 @@ var is_dead := false
 var is_taking_damage := false
 var has_invincibility := false
 signal died
+signal took_damage(damage)
 
 var tween: Tween
 
@@ -27,14 +30,17 @@ func _ready():
 	actor = get_parent()
 	type = actor.type
 	hp = max_hp
+	died.connect(GameManager._on_acquire_target.bind(target_type))
 
 
-func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true, damage_dealer = null) -> bool:
+func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
+	print(get_parent().name, " took damage from ", perpetrator)
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	
 	if not is_knockup:
-		VfxManager.display_number(str(damage).pad_zeros(2), actor.global_position, Color.RED)
+		VfxManager.display_number(str(damage * PlayerManager.point_multiplier).pad_zeros(2), Vector2(actor.global_position.x, actor.global_position.y -8))
+		PlayerManager.add_points(damage)
 		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 		VfxManager.display_explosion_effect(actor.global_position)
 		CameraManager.apply_shake()
@@ -42,8 +48,7 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 	if has_invincibility or is_taking_damage:
 		return true # absorb bullets
 	
-	if type == GlobalConstants.ACTOR_TYPES.PLAYER:
-		CameraManager.apply_quick_zoom()
+	took_damage.emit(damage)
 	
 	var new_hp = hp - damage
 	if new_hp <= 0:
@@ -61,6 +66,7 @@ func die(perpetrator):
 	is_dead = true
 	died.emit()
 	
+	PlayerManager.increase_combo()
 	_play_death_tweener(perpetrator)
 
 func _play_hit_tweener(is_knockup: bool):
@@ -137,19 +143,19 @@ func _play_death_tweener(perpetrator):
 	# actor sprite
 	tween.tween_property(actor.sprite_pivot, "global_position", knockdown_position, 0.1)
 	# actor shadow sprite
-	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockdown_position.x, knockdown_position.y + 1) , 0.3)
+	tween.parallel().tween_property(actor.shadow, "global_position", Vector2(knockdown_position.x, knockdown_position.y) , 0.3)
 	tween.parallel().tween_property(actor.shadow, "modulate:a", base_shadow_alpha , 0.3)
 	tween.parallel().tween_property(actor.shadow, "scale", base_shadow_scale , 0.3)
 	
 	await tween.finished
 	shader.set_shader_parameter("active", false)
 	
-	SfxManager.play_sfx(explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
+	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
 	VfxManager.display_explosion_effect(knockdown_position)
 	CameraManager.apply_shake()
 	
 	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER and on_death_points > 0:
-		VfxManager.display_number(str(on_death_points), knockdown_position)
+		VfxManager.display_number(str(on_death_points * PlayerManager.point_multiplier), knockdown_position)
 		PlayerManager.add_points(on_death_points)
 	
 	tween = get_tree().create_tween().bind_node(self)
@@ -157,13 +163,13 @@ func _play_death_tweener(perpetrator):
 	tween.parallel().tween_property(actor.sprite_pivot, "modulate:a", 0, 0.6)  # Fade out effect
 	tween.parallel().tween_property(actor.shadow, "modulate:a", 0 , .4)
 	if should_free_on_dead:
-		tween.finished.connect(get_parent().queue_free)  # Remove NPC after fade
+		tween.finished.connect(get_parent().queue_free.call_deferred)  # Remove NPC after fade
 
 func _get_random_knockup_position() -> Vector2:
 	return Vector2(actor.global_position.x + randi_range(-8, 8), actor.global_position.y - 10)
 
 func _get_random_knockdown_position(knockup_position: Vector2) -> Vector2:
-	return Vector2(knockup_position.x, randi_range(knockup_position.y + 8, knockup_position.y -8))
+	return Vector2(knockup_position.x, randi_range(int(knockup_position.y + 8), int(knockup_position.y -8)))
 	
 func _should_take_damage(perpetrator: GlobalConstants.ACTOR_TYPES) -> bool:
 	match type:

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnki7wf0pqri2"]
+
+[ext_resource type="Script" uid="uid://bgeythvn5oyf6" path="res://modules/controllers/player_pathfinding_controller_module.gd" id="1_s45ok"]
+
+[node name="PlayerControllerModule" type="Node2D"]
+script = ExtResource("1_s45ok")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+path_max_distance = 10.0
+path_postprocessing = 1
+simplify_path = true
+debug_use_custom = true
+debug_path_custom_color = Color(0.816705, 0, 0.166139, 1)

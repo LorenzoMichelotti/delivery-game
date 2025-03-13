@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=4 uid="uid://blcq2516lf745"]
+
+[ext_resource type="TileSet" uid="uid://ctis3yhqfv7ph" path="res://tilesets/city.tres" id="1_rpqqw"]
+[ext_resource type="Script" uid="uid://bk8x6a6w7uj2k" path="res://hideable_tiles.gd" id="2_g62cb"]
+
+[node name="HideableTiles" type="TileMapLayer"]
+light_mask = 1025
+z_index = 8
+tile_map_data = PackedByteArray("AAADAAEAAgAHAAEAAAD+//L/AgAHAAEAAAADAPb/AgAHAAEAAAAFAPb/AgAHAAEAAAAHAPL/AgAHAAEAAAALAPj/AgAHAAEAAAD+//v/AgAHAAEAAAAAAPD/AgAAAAEAAAALAAEAAgAHAAEAAAD+/wEAAgAHAAEAAAAAAAEAAgAAAAEAAAACAP3/AgAHAAEAAAADAP3/AgAHAAEAAAAEAPv/AgAAAAEAAAAIAAEAAgAAAAEAAAAFAAQAAgAAAAEAAAA=")
+tile_set = ExtResource("1_rpqqw")
+script = ExtResource("2_g62cb")

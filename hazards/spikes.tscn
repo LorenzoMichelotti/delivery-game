@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://qhhji15xlc4s"]
 
-[ext_resource type="Script" path="res://hazards/IntervalHazard.gd" id="1_6wi26"]
+[ext_resource type="Script" uid="uid://5jvjv5sfqswy" path="res://hazards/IntervalHazard.gd" id="1_6wi26"]
 [ext_resource type="Texture2D" uid="uid://dxxff44lhgfbu" path="res://assets/hazards/spikes.png" id="1_s0c8p"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="3_ejbvc"]
 
@@ -69,7 +69,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_85jcf"]
 resource_name = "idle"
-length = 2.0
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -85,10 +85,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sk54s"]
 _data = {
-"RESET": SubResource("Animation_uyo2d"),
-"armed": SubResource("Animation_t57oo"),
-"arming": SubResource("Animation_p8iot"),
-"idle": SubResource("Animation_85jcf")
+&"RESET": SubResource("Animation_uyo2d"),
+&"armed": SubResource("Animation_t57oo"),
+&"arming": SubResource("Animation_p8iot"),
+&"idle": SubResource("Animation_85jcf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tepgo"]
@@ -100,13 +100,9 @@ animation = &"arming"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_im73m"]
 animation = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j6580"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cf35p"]
 advance_mode = 2
 advance_condition = &"enabled"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cf35p"]
-switch_mode = 2
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnafw"]
 switch_mode = 2
@@ -116,14 +112,17 @@ advance_mode = 2
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_exsda"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wrh5g"]
 states/armed/node = SubResource("AnimationNodeAnimation_tepgo")
 states/armed/position = Vector2(684.667, 61.3333)
 states/arming/node = SubResource("AnimationNodeAnimation_iwrx1")
 states/arming/position = Vector2(536, 163.333)
 states/idle/node = SubResource("AnimationNodeAnimation_im73m")
-states/idle/position = Vector2(344.667, 140.667)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_j6580"), "idle", "arming", SubResource("AnimationNodeStateMachineTransition_cf35p"), "arming", "armed", SubResource("AnimationNodeStateMachineTransition_mnafw"), "armed", "idle", SubResource("AnimationNodeStateMachineTransition_7g548")]
+states/idle/position = Vector2(366.667, 100.222)
+transitions = ["idle", "arming", SubResource("AnimationNodeStateMachineTransition_cf35p"), "arming", "armed", SubResource("AnimationNodeStateMachineTransition_mnafw"), "armed", "idle", SubResource("AnimationNodeStateMachineTransition_7g548"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_exsda")]
 
 [node name="Spikes" type="Node2D" node_paths=PackedStringArray("damage_dealer_module")]
 position = Vector2(0, -1)

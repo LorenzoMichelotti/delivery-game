@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://cg0e6xtloabql"]
 
-[ext_resource type="Script" path="res://actors/player.gd" id="1_0lbjl"]
+[ext_resource type="Script" uid="uid://b5qq2aurco47k" path="res://actors/player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="3_m3new"]
 [ext_resource type="PackedScene" uid="uid://bqf5chdoirwek" path="res://modules/gun_turret_module.tscn" id="3_td6ek"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="6_ibiqb"]
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="6_lmiaw"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="7_eowff"]
-[ext_resource type="PackedScene" uid="uid://bqnvu4th0t4ar" path="res://modules/player_controller_module.tscn" id="8_y1ilt"]
+[ext_resource type="PackedScene" uid="uid://cnki7wf0pqri2" path="res://modules/controllers/player_pathfinding_controller_module.tscn" id="11_rkwqa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -49,8 +49,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
 _data = {
-"RESET": SubResource("Animation_peuc1"),
-"idle": SubResource("Animation_885hu")
+&"RESET": SubResource("Animation_peuc1"),
+&"idle": SubResource("Animation_885hu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxgv"]
@@ -74,7 +74,13 @@ script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
-shoot_delay = 0.1
+shoot_delay = 0.2
+windup_shoot_delay = 0.1
+enabled = false
+damage = 100
+automatic_aim = false
+aim_speed = 60
+automatic_shoot = false
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)
@@ -101,7 +107,7 @@ current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_pl34g")
+&"": SubResource("AnimationLibrary_pl34g")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -113,6 +119,7 @@ position = Vector2(0, -9)
 
 [node name="GpsPivot" parent="." instance=ExtResource("5_6tncn")]
 visible = false
+z_index = 9
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("6_lmiaw")]
 visible = false
@@ -124,6 +131,9 @@ should_free_on_dead = false
 damage_stun_amount = 0.1
 invincibility_amount = 1.0
 
-[node name="PlayerControllerModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("8_y1ilt")]
-visible = false
-pawn = NodePath("..")
+[node name="PlayerControllerModule" parent="." instance=ExtResource("11_rkwqa")]
+speed = 100.0
+
+[connection signal="died" from="AliveModule" to="." method="_on_die"]
+[connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]
+[connection signal="took_damage" from="AliveModule" to="." method="_on_take_damage"]

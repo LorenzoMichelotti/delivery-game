@@ -1,11 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://bqf5chdoirwek"]
+[gd_scene load_steps=28 format=3 uid="uid://bqf5chdoirwek"]
 
-[ext_resource type="Script" path="res://modules/gun_turret_module.gd" id="1_aqang"]
+[ext_resource type="Script" uid="uid://c3epdxlxc1rmh" path="res://modules/gun_turret_module.gd" id="1_aqang"]
 [ext_resource type="Texture2D" uid="uid://bjtcd1s5bh0jh" path="res://assets/guns/gun_turret.png" id="2_ke4gh"]
+[ext_resource type="Texture2D" uid="uid://bcyoly6ibmtk6" path="res://assets/effects/muzzle_flash_effect.png" id="2_v6fpn"]
 [ext_resource type="AnimationNodeBlendSpace2D" uid="uid://ca0o38or6s742" path="res://animations/gun_turret_direction_blend_space.tres" id="3_jqf7y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3h87"]
-radius = 51.0
+radius = 47.0106
 
 [sub_resource type="Animation" id="Animation_is7k4"]
 length = 0.001
@@ -296,18 +297,18 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xqhbe"]
 _data = {
-"RESET": SubResource("Animation_is7k4"),
-"appear": SubResource("Animation_e40vv"),
-"disappear": SubResource("Animation_2cxal"),
-"down": SubResource("Animation_eb1wu"),
-"down_left": SubResource("Animation_aalgu"),
-"down_right": SubResource("Animation_7fx6q"),
-"hide": SubResource("Animation_lno24"),
-"left": SubResource("Animation_1scgf"),
-"right": SubResource("Animation_7p6qg"),
-"up": SubResource("Animation_jr83o"),
-"up_left": SubResource("Animation_o5miv"),
-"up_right": SubResource("Animation_ttvjv")
+&"RESET": SubResource("Animation_is7k4"),
+&"appear": SubResource("Animation_e40vv"),
+&"disappear": SubResource("Animation_2cxal"),
+&"down": SubResource("Animation_eb1wu"),
+&"down_left": SubResource("Animation_aalgu"),
+&"down_right": SubResource("Animation_7fx6q"),
+&"hide": SubResource("Animation_lno24"),
+&"left": SubResource("Animation_1scgf"),
+&"right": SubResource("Animation_7p6qg"),
+&"up": SubResource("Animation_jr83o"),
+&"up_left": SubResource("Animation_o5miv"),
+&"up_right": SubResource("Animation_ttvjv")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nj857"]
@@ -367,6 +368,12 @@ shape = SubResource("CircleShape2D_x3h87")
 [node name="bullet_hole" type="Node2D" parent="BulletHolePivot"]
 position = Vector2(5, 0)
 
+[node name="MuzzleFlashSprite" type="Sprite2D" parent="BulletHolePivot/bullet_hole"]
+visible = false
+texture = ExtResource("2_v6fpn")
+hframes = 2
+vframes = 2
+
 [node name="SpritePivot" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite2D" parent="SpritePivot"]
@@ -377,7 +384,7 @@ frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_xqhbe")
+&"": SubResource("AnimationLibrary_xqhbe")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -389,6 +396,15 @@ parameters/DirectionBlendSpace/blend_position = Vector2(0, 0)
 
 [node name="CrossHairPivot" type="Node2D" parent="."]
 
+[node name="CrossHairShadow" type="Sprite2D" parent="CrossHairPivot"]
+modulate = Color(0, 0, 0, 0.68)
+position = Vector2(1, 1)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_ke4gh")
+hframes = 3
+vframes = 3
+frame = 4
+
 [node name="CrossHair" type="Sprite2D" parent="CrossHairPivot"]
 scale = Vector2(1.3, 1.3)
 texture = ExtResource("2_ke4gh")
@@ -396,5 +412,10 @@ hframes = 3
 vframes = 3
 frame = 4
 
+[node name="WindupTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="area_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="area_exited" from="Range" to="." method="_on_range_body_exited"]
+[connection signal="timeout" from="WindupTimer" to="." method="_shoot"]

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://qph2lh27cyds" path="res://assets/crosshari.png" id="1_bu13x"]
 
 [sub_resource type="Curve" id="Curve_ser8t"]
-max_value = 2.0
+_limits = [0.0, 2.0, 0.0, 1.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 

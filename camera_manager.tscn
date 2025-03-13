@@ -1,7 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://b5pc5qt2ij5g3"]
 
-[ext_resource type="Script" path="res://actors/camera_shake.gd" id="1_gob6l"]
+[ext_resource type="Script" uid="uid://cexieuvi0eecs" path="res://actors/camera_shake.gd" id="1_gob6l"]
 
 [node name="Camera2D" type="Camera2D"]
+process_mode = 3
 zoom = Vector2(6, 6)
 script = ExtResource("1_gob6l")

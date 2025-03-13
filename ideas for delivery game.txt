@@ -13,3 +13,28 @@ ideas for delivery game
 - enemies have life and take multiple hits
 	- knockups and damage are separate
 	- taking damage as a external component
+
+- compete with another delivery car
+
+
+####
+WHAT WE HAVE CURRENTLY
+
+- stage progression
+- destructible NPC cars
+- damaging hazards (spikes)
+- enemy cars
+- tank special unit
+- gun turret (player, enemy or hazard)
+- sound effects
+- camera effects (shake, zoom)
+- pause menu
+- gameover menu
+- cutscenes
+
+WHAT WE SHOULD DO NEXT
+
+- design 1 levels with nothing
+- design 3 levels with spikes
+- design 5 levels with npc cars and spikes (run over all the cars)
+- design 5 levels with npcs carrying items and spikes (run over car, pick up the item and deliver it)

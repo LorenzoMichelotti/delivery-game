@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PickupItem" load_steps=4 format=3 uid="uid://cdxg5ci0a0lg1"]
 
 [ext_resource type="AudioStream" uid="uid://dyur836ooqxqc" path="res://assets/sounds/New_Pickup.wav" id="1_016js"]
-[ext_resource type="Script" path="res://items/pickup.gd" id="1_wgjga"]
+[ext_resource type="Script" uid="uid://dr4nuv0vljqp4" path="res://items/pickup.gd" id="1_wgjga"]
 [ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="2_ghbe0"]
 
 [resource]

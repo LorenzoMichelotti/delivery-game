@@ -36,8 +36,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s1aq8"]
 _data = {
-"RESET": SubResource("Animation_rt78a"),
-"idle": SubResource("Animation_j8ofc")
+&"RESET": SubResource("Animation_rt78a"),
+&"idle": SubResource("Animation_j8ofc")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xcpg2"]

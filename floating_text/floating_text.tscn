@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d1chg7twodxt6"]
 
-[ext_resource type="Script" path="res://floating_text/floating_text.gd" id="1_ps007"]
+[ext_resource type="Script" uid="uid://33f5h80qt8d1" path="res://floating_text/floating_text.gd" id="1_ps007"]
 [ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="2_y356s"]
 
 [node name="FloatingText" type="Label"]

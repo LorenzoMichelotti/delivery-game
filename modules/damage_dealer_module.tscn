@@ -1,11 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3wxhev3telpw"]
 
-[ext_resource type="Script" path="res://modules/damage_dealer_module.gd" id="1_afd73"]
+[ext_resource type="Script" uid="uid://brnfvop17o027" path="res://modules/damage_dealer_module.gd" id="1_afd73"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jh5cv"]
-size = Vector2(10, 7.56061)
+size = Vector2(18, 11)
 
 [node name="DamageDealerModule" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_afd73")
 
 [node name="HurtBox" type="Area2D" parent="." groups=["hurt_box"]]

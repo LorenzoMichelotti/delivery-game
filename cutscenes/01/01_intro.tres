@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="CutsceneResource" load_steps=22 format=3 uid="uid://3e0b7sv3aeu4"]
 
-[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_r3fto"]
+[ext_resource type="Script" uid="uid://cjbs85ev7n1rb" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_r3fto"]
 [ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="2_oipaf"]
-[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="3_5m566"]
+[ext_resource type="Script" uid="uid://depingq8f4qj" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="3_5m566"]
 [ext_resource type="Texture2D" uid="uid://blls3rbi1oujc" path="res://assets/characters/actors/morgana/box1.png" id="4_2lq1p"]
 [ext_resource type="Texture2D" uid="uid://20myn24y7anp" path="res://assets/characters/actors/morgana/box2.png" id="5_xdmh4"]
 [ext_resource type="Texture2D" uid="uid://bsypj17ekjgg0" path="res://assets/characters/actors/morgana/box3.png" id="6_7yoq2"]
 [ext_resource type="Texture2D" uid="uid://7pvqxn3oorp7" path="res://assets/characters/actors/morgana/poirtraits/morgana1.png" id="7_t3hri"]
-[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="8_s5o3k"]
+[ext_resource type="Script" uid="uid://o0kxrtw522v1" path="res://assets/characters/data/actor_resource_script.gd" id="8_s5o3k"]
 [ext_resource type="Texture2D" uid="uid://ck06nbqjuisay" path="res://assets/characters/actors/morgana/poirtraits/morgana2.png" id="9_00mj7"]
-[ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="10_8gt4d"]
+[ext_resource type="Script" uid="uid://cabg7ln8o4csc" path="res://cutscenes/cutscene_resource_script.gd" id="10_8gt4d"]
 
 [sub_resource type="Resource" id="Resource_eltwu"]
 script = ExtResource("8_s5o3k")

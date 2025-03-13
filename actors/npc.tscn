@@ -1,11 +1,11 @@
 [gd_scene load_steps=19 format=3 uid="uid://cibaxdfigpu3p"]
 
-[ext_resource type="Script" path="res://actors/npc.gd" id="1_yi3ig"]
+[ext_resource type="Script" uid="uid://dp3fxv1mu60fq" path="res://actors/npc.gd" id="1_yi3ig"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
 [ext_resource type="Material" uid="uid://bkwojd1f3ysbu" path="res://vfx/actor_material.tres" id="2_k3kus"]
 [ext_resource type="Texture2D" uid="uid://ffev0xq6cjol" path="res://assets/cars/police_car.png" id="3_bhchp"]
 [ext_resource type="PackedScene" uid="uid://b02s22ak1foph" path="res://ui/item_balloon.tscn" id="4_v7a6i"]
-[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/random_movement_module.tscn" id="5_cwb55"]
+[ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/controllers/random_movement_module.tscn" id="5_cwb55"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="5_sxxkn"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="8_rfo5t"]
 
@@ -59,9 +59,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl34g"]
 _data = {
-"RESET": SubResource("Animation_peuc1"),
-"appear": SubResource("Animation_cuerq"),
-"idle": SubResource("Animation_885hu")
+&"RESET": SubResource("Animation_peuc1"),
+&"appear": SubResource("Animation_cuerq"),
+&"idle": SubResource("Animation_885hu")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r64j7"]
@@ -107,14 +107,15 @@ region_rect = Rect2(32, 0, 8, 8)
 
 [node name="AliveModule" parent="." instance=ExtResource("5_sxxkn")]
 position = Vector2(0, -1)
-on_death_points = 1000
+target_type = 2
+on_death_points = 100
 
 [node name="Node2D" parent="." instance=ExtResource("2_ays1p")]
 position = Vector2(1, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_pl34g")
+&"": SubResource("AnimationLibrary_pl34g")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -124,7 +125,6 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="ItemBalloon" parent="." instance=ExtResource("4_v7a6i")]
 position = Vector2(0, -4)
 
-[node name="RandomMovementModule" parent="." node_paths=PackedStringArray("pawn") instance=ExtResource("5_cwb55")]
-pawn = NodePath("..")
+[node name="RandomMovementModule" parent="." instance=ExtResource("5_cwb55")]
 
 [node name="Shadow" parent="." instance=ExtResource("8_rfo5t")]

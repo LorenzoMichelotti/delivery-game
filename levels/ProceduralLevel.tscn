@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://5lg1bxmiilug"]
+
+[ext_resource type="Script" uid="uid://dyfyl00lkyb3j" path="res://levels/world.gd" id="1_1ab8m"]
+[ext_resource type="Resource" uid="uid://3pkk8kbef8mg" path="res://cutscenes/01/01_gameover.tres" id="4_fd311"]
+[ext_resource type="Resource" uid="uid://cuxv4nasi6flb" path="res://cutscenes/01/01_success.tres" id="5_xbmo5"]
+[ext_resource type="PackedScene" uid="uid://bjv1gqoxxwfaf" path="res://ui/level_ui.tscn" id="7_ikfri"]
+[ext_resource type="PackedScene" uid="uid://cm1hdsql4dxco" path="res://generators/generated_map.tscn" id="9_yworv"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_1ab8m")
+level = 4
+gameover_cutscene = ExtResource("4_fd311")
+success_cutscene = ExtResource("5_xbmo5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelUI" parent="CanvasLayer" instance=ExtResource("7_ikfri")]
+visible = false
+
+[node name="Map" parent="." instance=ExtResource("9_yworv")]
+border_size = 3
+
+[connection signal="map_generated" from="Map" to="." method="_on_map_generated"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwee4m3me8g4v"]
+[gd_scene load_steps=7 format=3 uid="uid://cwee4m3me8g4v"]
 
-[ext_resource type="Script" path="res://items/gas.gd" id="1_iv1ye"]
+[ext_resource type="Script" uid="uid://q71k7q7bom21" path="res://items/gas.gd" id="1_iv1ye"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="1_rbkri"]
-[ext_resource type="Script" path="res://items/item_scene.gd" id="1_s44pw"]
+[ext_resource type="Script" uid="uid://bvw0djima48ja" path="res://items/item_scene.gd" id="1_s44pw"]
+[ext_resource type="AudioStream" uid="uid://ivuqg6a7ejor" path="res://assets/sounds/Pickup.wav" id="2_mgww7"]
 
 [sub_resource type="Resource" id="Resource_w61pi"]
 script = ExtResource("1_iv1ye")
@@ -14,6 +15,7 @@ v_animation_grid_size = 8
 sprite_size = 1.0
 is_animated_sprite = true
 texture = ExtResource("1_rbkri")
+pickup_sfx = ExtResource("2_mgww7")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mfm1p"]
 size = Vector2(8, 8)

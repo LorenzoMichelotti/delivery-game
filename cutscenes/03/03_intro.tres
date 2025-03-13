@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="CutsceneResource" load_steps=17 format=3 uid="uid://bg8ew2flxsmae"]
 
-[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_hcal1"]
+[ext_resource type="Script" uid="uid://cjbs85ev7n1rb" path="res://cutscenes/cutscene_dialogue_resource_script.gd" id="1_hcal1"]
 [ext_resource type="Resource" uid="uid://ch6jfo4uyls8r" path="res://assets/characters/actors/axy/axy.tres" id="2_ixy8n"]
-[ext_resource type="Script" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="2_y2f6t"]
-[ext_resource type="Script" path="res://cutscenes/cutscene_resource_script.gd" id="3_poya0"]
+[ext_resource type="Script" uid="uid://depingq8f4qj" path="res://cutscenes/cutscene_dialogue_choice_resource_script.gd" id="2_y2f6t"]
+[ext_resource type="Script" uid="uid://cabg7ln8o4csc" path="res://cutscenes/cutscene_resource_script.gd" id="3_poya0"]
 [ext_resource type="Texture2D" uid="uid://dlqjwh6b06133" path="res://assets/characters/actors/axy/burger.png" id="4_schiu"]
 [ext_resource type="Texture2D" uid="uid://dvjdx1hovbhf7" path="res://assets/characters/actors/axy/milkshake.png" id="5_ler3p"]
 [ext_resource type="Texture2D" uid="uid://1qks5bq5v34r" path="res://assets/characters/actors/axy/pie.png" id="6_yr45t"]
 [ext_resource type="Texture2D" uid="uid://d3fpwsat300mc" path="res://assets/characters/actors/axy/poirtraits/axy3.png" id="7_1rr7l"]
-[ext_resource type="Script" path="res://assets/characters/data/actor_resource_script.gd" id="8_a3a0v"]
+[ext_resource type="Script" uid="uid://o0kxrtw522v1" path="res://assets/characters/data/actor_resource_script.gd" id="8_a3a0v"]
 [ext_resource type="Texture2D" uid="uid://bsa3pqmxbiuag" path="res://assets/characters/actors/axy/poirtraits/axy2.png" id="9_0cigs"]
 
 [sub_resource type="Resource" id="Resource_6hs53"]
