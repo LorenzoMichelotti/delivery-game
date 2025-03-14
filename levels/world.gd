@@ -30,4 +30,3 @@ func _on_map_generated():
 	GameManager.on_level_changed()
 	CutsceneManager.on_level_changed()
 	CutsceneManager.cutscene_player.play.call_deferred(start_cutscene, game_ui)
-	

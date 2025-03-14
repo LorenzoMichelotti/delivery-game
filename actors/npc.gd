@@ -7,6 +7,8 @@ class_name Npc
 		$SpritePivot/Sprite2D.texture = t
 
 const TRUCK_TEXTURE = preload("res://assets/cars/truck.png")
+const THUNDER = preload("res://assets/sounds/Thunder.wav")
+
 @onready var random_movement_module = $RandomMovementModule
 @onready var item_balloon = $ItemBalloon
 
@@ -18,6 +20,7 @@ var delivery_id: int = -1:
 			alive_module.max_hp = 300
 			item_balloon.update_item_balloon.call_deferred(false, EntityManager.deliveries[delivery_id].item.item.animation_frame, EntityManager.deliveries[delivery_id].item.item.texture, EntityManager.deliveries[delivery_id].item.item.is_animated_sprite)
 			random_movement_module.speed = 70.0
+			alive_module.death_explosion_sfx_stream = THUNDER
 			alive_module.died.connect(_on_death)
 signal inventory_delivery_ids_changed(hide: bool, animation_frame: int, texture: Texture2D, is_animated: bool)
 

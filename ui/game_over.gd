@@ -33,21 +33,21 @@ func pause():
 func play():
 	animation_tree.set("parameters/conditions/appear", true)
 	animation_tree.set("parameters/conditions/disappear", false)
-	if LevelManager.verify_level_win_condition():
-		audio_player.stream = win_song
-		audio_player.play()
-		button.set_text("Next Level")
-		title.set_text("LEVEL COMPLETE")
-		start_over = false
+	#if LevelManager.verify_level_win_condition():
+		#audio_player.stream = win_song
+		#audio_player.play()
+		#button.set_text("Next Level")
+		#title.set_text("LEVEL COMPLETE")
+		#start_over = false
+	#else:
+	audio_player.stream = lose_song
+	audio_player.play()
+	if PlayerManager.current_hp <= 0:
+		title.set_text("YOU DIED")
 	else:
-		audio_player.stream = lose_song
-		audio_player.play()
-		if PlayerManager.current_hp <= 0:
-			title.set_text("YOU DIED")
-		else:
-			title.set_text("OUT OF GAS")
-		button.set_text("Start Over")
-		start_over = true
+		title.set_text("OUT OF GAS")
+	button.set_text("Start Over")
+	start_over = true
 	final_score_label.text = str(PlayerManager.points).pad_zeros(10)
 
 func _disappear():

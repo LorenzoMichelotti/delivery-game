@@ -37,6 +37,11 @@ enum TERRAIN {
 	GRASS
 }
 
+const ROAD_TERRAINS = [
+	TERRAIN.OFFROAD,
+	TERRAIN.CITY
+]
+
 const TILE_SOURCES = {
 	TERRAIN.OFFROAD: 1,
 	TERRAIN.GRASS: 1,
@@ -149,14 +154,16 @@ func _generate_walker():
 	var walker = Walker.new(Vector2i(border_size, border_size), Rect2(border_size, border_size, grid_size, grid_size), border_size)
 	var map = walker.walk(grid_size * grid_size)
 	
+	var current_terrain = TERRAIN.OFFROAD
+	
 	for cell_position in map.road_history:
-		_create_road_tile(cell_position, TERRAIN.CITY) 
+		_create_road_tile(cell_position, current_terrain) 
 		road_positions.append(cell_position)
 	for cell_position in map.step_history:
-		_create_road_tile(cell_position, TERRAIN.CITY) 
+		_create_road_tile(cell_position, current_terrain) 
 	
 	print("connecting terrains...")
-	_connect_terrains()
+	_connect_terrains(current_terrain)
 	
 	print("map generated!")
 	
@@ -190,8 +197,8 @@ func _create_road_tile(cell_position, terrain):
 	grass_positions.erase(cell_position)
 	all_road_positions.append(cell_position)
 
-func _connect_terrains():
-	road_tilemap_layer.set_cells_terrain_connect(all_road_positions, TERRAIN_SET.MAIN, TERRAIN.OFFROAD)
+func _connect_terrains(current_terrain):
+	road_tilemap_layer.set_cells_terrain_connect(all_road_positions, TERRAIN_SET.MAIN, current_terrain)
 	road_tilemap_layer.set_cells_terrain_connect(grass_positions, TERRAIN_SET.MAIN, TERRAIN.GRASS)
 
 func _neighbour_is_null_or_not_connected(neighbour_position, road_atlas_position):

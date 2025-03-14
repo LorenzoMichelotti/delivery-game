@@ -120,6 +120,7 @@ func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
 	VfxManager.display_explosion_effect(actor.global_position)
+	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	
 	var shader = actor.sprite.material as ShaderMaterial
@@ -153,7 +154,7 @@ func _play_death_tweener(perpetrator):
 	await tween.finished
 	shader.set_shader_parameter("active", false)
 	
-	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
+	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	VfxManager.display_explosion_effect(knockdown_position)
 	CameraManager.apply_shake()
 	
