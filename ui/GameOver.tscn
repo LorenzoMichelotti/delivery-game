@@ -458,7 +458,7 @@ tracks/11/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"_restart_or_go_to_next_level"
+"method": &"_restart"
 }]
 }
 tracks/12/type = "value"

@@ -18,7 +18,7 @@ extends Node2D
 @onready var area2d: Area2D = $Area2D
 @onready var sprite_pivot := $SpritePivot
 @onready var sprite := $SpritePivot/Sprite2D
-@onready var item_balloon := $SpritePivot/ItemBalloon
+@onready var item_balloon := $ItemBalloon
 
 var can_be_picked_up: bool = true
 var tile_position: Vector2i
@@ -56,6 +56,7 @@ func set_can_be_picked_up():
 	var tween = create_tween()
 	await tween.tween_property(self, "scale", Vector2.ONE * 1.2, 0.3).finished
 	tween.kill()
+	scale = Vector2.ONE * 1.2
 	
 	for area in area2d.get_overlapping_areas():
 		if area.is_in_group("hit_box") and area.get_parent().actor.is_in_group("player"):

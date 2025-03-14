@@ -20,14 +20,8 @@ func _input(event):
 	if visible and event.is_action_released("space"):
 		_disappear()
 
-func _restart_or_go_to_next_level():
-	if start_over:
-		if LevelManager.endless_mode:
-			LevelManager.new_run()
-		else:
-			get_tree().reload_current_scene()
-		return
-	LevelManager.next_level()
+func _restart():
+	LevelManager.new_run()
 
 func _update_points_label():
 	if visible:

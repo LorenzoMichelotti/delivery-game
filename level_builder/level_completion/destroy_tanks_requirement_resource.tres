@@ -15,7 +15,7 @@ player_gun_turret = true
 npc_count = 3
 randomize_npc_count = false
 tank_count = 1
-randomize_tank_count = false
+randomize_tank_count = true
 metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
 [resource]

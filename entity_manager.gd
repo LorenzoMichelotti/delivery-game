@@ -5,6 +5,8 @@ const ACTORS = {
 	"npc": preload("res://actors/npc.tscn")
 }
 
+
+
 var entities = []
 var deliveries = {}
 
@@ -16,12 +18,12 @@ func spawn_entity(scene, global_position = LevelManager.tile_map_layer.map_to_lo
 	entities.append(entity)
 	if get_tree().current_scene == null:
 		return null
-	get_tree().current_scene.get_node("Map/Entities").add_child(entity)
+	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(entity)
 	return entity
 
 func regenerate_entity(scene, global_position = LevelManager.tile_map_layer.map_to_local(LevelManager.road_positions.pick_random()), regenerate: bool = false):
 	if is_inside_tree():
-		spawn_entity(scene, LevelManager.tile_map_layer.map_to_local(LevelManager.road_positions.pick_random()), regenerate)
+		spawn_entity.call_deferred(scene, LevelManager.tile_map_layer.map_to_local(LevelManager.road_positions.pick_random()), regenerate)
 
 func _clear_entities():
 	for entity in entities:
@@ -41,11 +43,11 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 	pickup_item_resource.texture = LevelManager.current_completion_requirements.client.objects.pick_random()
 	
 	var delivery_id = deliveries.size() + 1
-	var target: ItemScene = _spawn_item(Items.DELIVERY_TARGET_RES.duplicate(), _get_position_away_from_position(pickup_position, valid_positions, tile_map_layer), tile_map_layer)
+	var target: ItemScene = await _spawn_item(Items.DELIVERY_TARGET_RES.duplicate(), _get_position_away_from_position(pickup_position, valid_positions, tile_map_layer), tile_map_layer)
 	target.color = LevelManager.current_completion_requirements.client.color
 	target.item.delivery_id = delivery_id
 	
-	var pickup_item: ItemScene = _spawn_item(pickup_item_resource, pickup_position, tile_map_layer)
+	var pickup_item: ItemScene = await _spawn_item(pickup_item_resource, pickup_position, tile_map_layer)
 	pickup_item.item.delivery_id = delivery_id
 	pickup_item.item.picked_up.connect(target.item.on_delivery_item_picked_up.bind(target))
 
@@ -58,6 +60,7 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 	if LevelManager.current_completion_requirements.level_modifiers.mobile_delivery:
 		pickup_item.set_cant_be_picked_up()
 		var npc: Npc = spawn_entity(ACTORS.npc, tile_map_layer.to_global(tile_map_layer.map_to_local(pickup_position)))
+		await get_tree().process_frame
 		npc.delivery_id = delivery_id
 	
 	return deliveries[delivery_id]

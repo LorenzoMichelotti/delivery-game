@@ -78,9 +78,7 @@ shoot_delay = 0.2
 windup_shoot_delay = 0.1
 enabled = false
 damage = 100
-automatic_aim = false
 aim_speed = 60
-automatic_shoot = false
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
 position = Vector2(1, 0)

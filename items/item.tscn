@@ -57,9 +57,6 @@ hframes = 8
 vframes = 8
 frame = 20
 
-[node name="ItemBalloon" parent="SpritePivot" instance=ExtResource("3_vu4vb")]
-position = Vector2(0, -1)
-
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -69,3 +66,6 @@ shape = SubResource("RectangleShape2D_oce5k")
 libraries = {
 &"": SubResource("AnimationLibrary_q7y18")
 }
+
+[node name="ItemBalloon" parent="." instance=ExtResource("3_vu4vb")]
+position = Vector2(0, -1)

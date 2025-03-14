@@ -89,6 +89,7 @@ func generate(new_value: bool = true) -> void:
 	LevelManager.tile_map_layer = road_tilemap_layer
 	LevelManager.road_positions = road_positions
 	generate_entities(walker)
+	await get_tree().process_frame
 	map_generated.emit()
 
 func generate_entities(walker):
@@ -107,7 +108,7 @@ func generate_entities(walker):
 	for i in range(LevelManager.current_completion_requirements.level_modifiers.npc_count):
 		EntityManager.spawn_entity(police_scene, _get_position_away_from_position(player_position), true)
 	print("spawning tanks")
-	for i in range(LevelManager.current_completion_requirements.level_modifiers.tank_count):
+	for i in range(LevelManager.current_completion_requirements.level_modifiers.tank_count if LevelManager.current_completion_requirements.level_modifiers.randomize_tank_count else randi_range(LevelManager.current_completion_requirements.level_modifiers.tank_count, LevelManager.current_completion_requirements.level_modifiers.tank_count + 1)):
 		EntityManager.spawn_entity(tank_scene, _get_position_away_from_position(player_position))
 	print("spawning spikes")
 	for i in range(randi_range(0,2)):
@@ -149,10 +150,10 @@ func _generate_walker():
 	var map = walker.walk(grid_size * grid_size)
 	
 	for cell_position in map.road_history:
-		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
+		_create_road_tile(cell_position, TERRAIN.CITY) 
 		road_positions.append(cell_position)
 	for cell_position in map.step_history:
-		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
+		_create_road_tile(cell_position, TERRAIN.CITY) 
 	
 	print("connecting terrains...")
 	_connect_terrains()

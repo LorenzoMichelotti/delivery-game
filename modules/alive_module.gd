@@ -2,7 +2,10 @@ class_name AliveModule
 extends Node2D
 
 @export var target_type : GlobalConstants.TARGET_TYPES
-@export var max_hp := 1
+@export var max_hp := 1:
+	set(new_max_hp):
+		max_hp = new_max_hp
+		hp = max_hp
 @export var should_free_on_dead := true
 @export var can_be_knocked_down := true
 @export var damage_stun_amount := .2

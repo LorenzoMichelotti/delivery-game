@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var cross_hair_activation_distance = 50
+@export var cross_hair_activation_distance = 65
 @export var enabled = true
 @onready var animation_tree = $AnimationTree
 @onready var distance_label = $Label

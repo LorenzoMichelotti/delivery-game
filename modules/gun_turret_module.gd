@@ -20,6 +20,7 @@ extends Node2D
 @onready var area_range = $Range
 @onready var windup_timer = $WindupTimer
 @onready var muzzle_flash_sprite = $BulletHolePivot/bullet_hole/MuzzleFlashSprite
+@export var can_be_manually_disabled = false
 
 var can_shoot = true
 var enemies_in_range: Array[Node2D] = []
@@ -54,7 +55,7 @@ func _process(delta):
 		return
 	update_animations()
 	if automatic_shoot:
-		if type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_just_pressed("space"):
+		if can_be_manually_disabled and type == GlobalConstants.ACTOR_TYPES.PLAYER and Input.is_action_just_pressed("space"):
 			manual_disable = !manual_disable
 		if manual_disable:
 			animation_tree.set("parameters/conditions/appear", false)
