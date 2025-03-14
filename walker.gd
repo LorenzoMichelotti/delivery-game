@@ -33,8 +33,7 @@ func walk(steps):
 			road_history.append(position)
 		else:
 			change_direction()
-	_generate_left_exit()
-	_generate_right_exit()
+	generate_random_exits()
 	return {"step_history": step_history, "road_history": road_history}
 
 func step():
@@ -73,42 +72,55 @@ func place_room(position):
 func get_exit_positions():
 	return exits
 
-func _generate_left_exit():
+func _generate_exit(direction: Vector2i):
 	var exit_tiles = []
 	var success = false
 	var tries = 0
+	
 	while not success and tries < 10:
-		for i in range(borders.size.x + (outer_borders * 2)):
-			exit_tiles.clear()
-			var exit_position = Vector2i(0, randi_range(borders.position.y, borders.size.y))
-			for border_tile in range(((borders.size.x + (outer_borders * 2)) - 1) / 3):
-				exit_tiles.append(exit_position)
-				exit_position += Vector2i.RIGHT
-				if step_history.has(exit_position):
-					success = true
-					exit_tiles.append(exit_position)
-					exits.append(exit_tiles.front())
-					for exit in exit_tiles:
-						step_history.append(exit)
-					return
+		exit_tiles.clear()
+		var exit_position: Vector2i
+		var max_range: Array
 		
-func _generate_right_exit():
-	var exit_tiles = []
-	var success = false
-	var tries = 0
-	while not success and tries < 10:
-		for i in range((borders.size.x + (outer_borders * 2)) - 1):
-			exit_tiles.clear()
-			var exit_position = Vector2i((borders.size.x + (outer_borders * 2)) - 1, randi_range(borders.position.y, borders.size.y))
-			for border_tile in range(((borders.size.x + (outer_borders * 2)) - 1) / 3):
+		match direction:
+			Vector2i.RIGHT:
+				exit_position = Vector2i(0, randi_range(borders.position.y, borders.size.y))
+				max_range = range(((borders.size.x + (outer_borders * 2)) - 1) / 3)
+			Vector2i.LEFT:
+				exit_position = Vector2i((borders.size.x + (outer_borders * 2)) - 1, randi_range(borders.position.y, borders.size.y))
+				max_range = range(((borders.size.x + (outer_borders * 2)) - 1) / 3)
+			Vector2i.DOWN:
+				exit_position = Vector2i(randi_range(borders.position.x, borders.size.x), 0)
+				max_range = range(((borders.size.y + (outer_borders * 2)) - 1) / 3)
+			Vector2i.UP:
+				exit_position = Vector2i(randi_range(borders.position.x, borders.size.x), (borders.size.y + (outer_borders * 2)) - 1)
+				max_range = range(((borders.size.y + (outer_borders * 2)) - 1) / 3)
+			_:
+				return
+		
+		for border_tile in range(((borders.size.x + (outer_borders * 2)) - 1) / 3):
+			exit_tiles.append(exit_position)
+			exit_position += direction
+
+			if step_history.has(exit_position):
+				success = true
 				exit_tiles.append(exit_position)
-				exit_position += Vector2i.LEFT
-				if step_history.has(exit_position):
-					success = true
-					exit_tiles.append(exit_position)
-					exits.append(exit_tiles.front())
-					for exit in exit_tiles:
-						step_history.append(exit)
-					return
-			print(exit_tiles)
-			tries += 1
+				exits.append(exit_tiles.front())
+				for exit in exit_tiles:
+					step_history.append(exit)
+				return
+		
+		tries += 1
+		
+func generate_all_exits():
+	_generate_exit(Vector2i.UP)
+	_generate_exit(Vector2i.RIGHT)
+	_generate_exit(Vector2i.DOWN)
+	_generate_exit(Vector2i.LEFT)
+
+func generate_random_exits():
+	var directions = DIRECTIONS.duplicate()
+	directions.shuffle()
+	var exit_count = randi_range(1, 4)
+	for i in range(exit_count):
+		_generate_exit(directions[i])
