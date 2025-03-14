@@ -7,16 +7,20 @@
 [sub_resource type="Resource" id="Resource_m844q"]
 script = ExtResource("2_lqsuc")
 deliveries_enabled = false
+mobile_delivery = false
+concurrent_deliveries = 1
 gas_enabled = false
 random_gas_enabled = false
-npc_count = 3
-tank_count = 3
 player_gun_turret = true
+npc_count = 3
+randomize_npc_count = false
+tank_count = 1
+randomize_tank_count = false
 metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
 [resource]
 script = ExtResource("3_a00cv")
-minimum_targets_for_completion = 3
+minimum_targets_for_completion = 1
 client = ExtResource("1_nalsx")
 goal_description = "DESTROY TANKS"
 level_modifiers = SubResource("Resource_m844q")

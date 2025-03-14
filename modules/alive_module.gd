@@ -45,7 +45,7 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 		VfxManager.display_explosion_effect(actor.global_position)
 		CameraManager.apply_shake()
 	
-	if has_invincibility or is_taking_damage:
+	if has_invincibility:
 		return true # absorb bullets
 	
 	took_damage.emit(damage)

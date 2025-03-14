@@ -7,11 +7,15 @@
 [sub_resource type="Resource" id="Resource_2s2ct"]
 script = ExtResource("1_pvisv")
 deliveries_enabled = true
+mobile_delivery = true
+concurrent_deliveries = 1
 gas_enabled = false
 random_gas_enabled = false
-npc_count = 3
-tank_count = 1
 player_gun_turret = true
+npc_count = 3
+randomize_npc_count = false
+tank_count = 0
+randomize_tank_count = false
 metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
 
 [resource]

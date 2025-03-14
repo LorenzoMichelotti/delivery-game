@@ -2,6 +2,8 @@ class_name LevelModifierResource
 extends Resource
 
 @export var deliveries_enabled = true
+@export var mobile_delivery = false
+@export var concurrent_deliveries = 1
 @export var gas_enabled = false
 @export var random_gas_enabled = false
 @export var player_gun_turret = false

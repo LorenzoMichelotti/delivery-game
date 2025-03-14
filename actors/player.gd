@@ -7,7 +7,7 @@ extends Actor
 
 func _ready():
 	PlayerManager.set_curent_pawn(self)
-	PlayerManager.inventory_delivery_ids_changed.connect(item_balloon.update_item_balloon)
+	PlayerManager.inventory_delivery_ids_changed.connect(item_balloon.update_item_balloon.call_deferred)
 
 func _on_take_damage(_damage):
 	CameraManager.apply_quick_zoom()

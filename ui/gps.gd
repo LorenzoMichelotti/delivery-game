@@ -29,7 +29,7 @@ func use_gps_arrow():
 				animation_tree.set("parameters/conditions/appear", true)
 				distance_label.text = str(roundi(distance)).pad_zeros(2) + "m"
 				$Pivot.rotation = lerp_angle($Pivot.rotation, global_position.angle_to_point(closest_pickup_position), get_process_delta_time() * 5)
-		elif LevelManager.endless_mode:
+		elif LevelManager.endless_mode and LevelManager.current_goal_achieved:
 			var closest_tunnel_position = EntityManager.get_closest_tunnel_position(get_parent().global_position)
 			if closest_tunnel_position != null:
 				var distance = get_parent().global_position.distance_to(closest_tunnel_position)
@@ -42,6 +42,8 @@ func use_gps_arrow():
 					animation_tree.set("parameters/conditions/appear", true)
 					distance_label.text = str(roundi(distance)).pad_zeros(2) + "m"
 					$Pivot.rotation = lerp_angle($Pivot.rotation, global_position.angle_to_point(closest_tunnel_position), get_process_delta_time() * 5)
+		else:
+			hide()
 	elif PlayerManager.inventory_delivery_ids.size() > 0:
 		var closest_delivery_position = EntityManager.get_closest_delivery_position(get_parent().global_position, PlayerManager.inventory_delivery_ids)
 		if closest_delivery_position != null:

@@ -315,6 +315,8 @@ position = Vector2(0, -1)
 target_type = 1
 max_hp = 300
 can_be_knocked_down = false
+damage_stun_amount = 1.0
+invincibility_amount = 0.1
 on_death_points = 1000
 death_explosion_sfx_stream = ExtResource("5_6daes")
 
