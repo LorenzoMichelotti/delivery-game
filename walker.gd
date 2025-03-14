@@ -96,7 +96,7 @@ func _generate_exit(direction: Vector2i):
 				exit_position = Vector2i(randi_range(borders.position.x, borders.size.x), (borders.size.y + (outer_borders * 2)) - 1)
 				max_range = range(((borders.size.y + (outer_borders * 2)) - 1) / 3)
 			_:
-				return
+				return success
 		
 		for border_tile in range(((borders.size.x + (outer_borders * 2)) - 1) / 3):
 			exit_tiles.append(exit_position)
@@ -108,9 +108,10 @@ func _generate_exit(direction: Vector2i):
 				exits.append(exit_tiles.front())
 				for exit in exit_tiles:
 					step_history.append(exit)
-				return
+				return success
 		
 		tries += 1
+	return success
 		
 func generate_all_exits():
 	_generate_exit(Vector2i.UP)
@@ -121,6 +122,13 @@ func generate_all_exits():
 func generate_random_exits():
 	var directions = DIRECTIONS.duplicate()
 	directions.shuffle()
-	var exit_count = randi_range(1, 4)
-	for i in range(exit_count):
-		_generate_exit(directions[i])
+	var tries = 0
+	while tries <= 12:
+		var success_count = 0
+		var exit_count = randi_range(1, 4)
+		for i in range(exit_count):
+			if _generate_exit(directions[i]):
+				success_count += 1
+		if success_count > 0:
+			return
+		tries += 1
