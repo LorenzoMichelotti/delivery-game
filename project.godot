@@ -22,7 +22,7 @@ LevelManager="*res://level_manager.tscn"
 EntityManager="*res://entity_manager.gd"
 PlayerManager="*res://player_manager.gd"
 VfxManager="*res://vfx/vfx_manager.gd"
-SfxManager="*res://sfx/sfx_manager.gd"
+SfxManager="*res://sfx/sfx_manager.tscn"
 CutsceneManager="*res://cutscenes/cutscene_manager.gd"
 CameraManager="*res://camera_manager.tscn"
 
@@ -35,6 +35,10 @@ hit_box=""
 enemy=""
 item=""
 tunnel=""
+tank=""
+truck=""
+delivery=""
+pickup=""
 
 [input]
 

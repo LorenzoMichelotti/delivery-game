@@ -5,7 +5,7 @@ script/source = "extends Node2D
 
 @export var pawn: Actor
 @export var raycast: RayCast2D
-@export var controller_module: ControllerModule
+@export var controller_module: BaseControllerModuleResource
 
 func _ready():
 	controller_module.reset(pawn)

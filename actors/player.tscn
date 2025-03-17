@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cg0e6xtloabql"]
+[gd_scene load_steps=21 format=3 uid="uid://cg0e6xtloabql"]
 
 [ext_resource type="Script" uid="uid://b5qq2aurco47k" path="res://actors/player.gd" id="1_0lbjl"]
 [ext_resource type="Texture2D" uid="uid://d25hqrx8bfqu0" path="res://assets/city_tileset_8x8.png" id="2_hf73d"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="6_lmiaw"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="7_eowff"]
 [ext_resource type="PackedScene" uid="uid://cnki7wf0pqri2" path="res://modules/controllers/player_pathfinding_controller_module.tscn" id="11_rkwqa"]
+[ext_resource type="PackedScene" uid="uid://bhj2nlva18kt6" path="res://modules/controllers/idler_movement_module.tscn" id="12_41w2c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8v2hg"]
 radius = 3.0
@@ -74,8 +75,8 @@ script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
-shoot_delay = 0.2
-windup_shoot_delay = 0.1
+shoot_delay = 0.05
+windup_shoot_delay = 0.05
 enabled = false
 damage = 100
 aim_speed = 60
@@ -130,7 +131,11 @@ damage_stun_amount = 0.5
 invincibility_amount = 2.0
 
 [node name="PlayerControllerModule" parent="." instance=ExtResource("11_rkwqa")]
+enabled = false
 speed = 100.0
+
+[node name="IdlerMovementModule" parent="." instance=ExtResource("12_41w2c")]
+speed = 150.0
 
 [connection signal="died" from="AliveModule" to="." method="_on_die"]
 [connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]

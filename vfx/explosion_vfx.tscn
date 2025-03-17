@@ -1,28 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbwtbu1n3s6vg"]
+[gd_scene load_steps=3 format=3 uid="uid://dbwtbu1n3s6vg"]
 
-[ext_resource type="Texture2D" uid="uid://26qadtn7i3nh" path="res://assets/explosion.png" id="1_cfgkp"]
+[ext_resource type="Texture2D" uid="uid://dxivngbd6wtld" path="res://assets/effects/big_explosion.png" id="1_q2uix"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f1a12"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ukpe7"]
 particles_animation = true
-particles_anim_h_frames = 4
+particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Curve" id="Curve_ser8t"]
-_limits = [0.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 1.04039), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [node name="Node2D" type="CPUParticles2D"]
-material = SubResource("CanvasItemMaterial_f1a12")
+material = SubResource("CanvasItemMaterial_ukpe7")
 emitting = false
-texture = ExtResource("1_cfgkp")
-lifetime = 0.4
+amount = 1
+texture = ExtResource("1_q2uix")
+lifetime = 0.7
 one_shot = true
 speed_scale = 2.0
-emission_shape = 2
-emission_sphere_radius = 8.0
 gravity = Vector2(0, 0)
-scale_amount_curve = SubResource("Curve_ser8t")
+scale_amount_min = 0.4
+scale_amount_max = 0.7
 anim_speed_min = 1.0
 anim_speed_max = 1.0

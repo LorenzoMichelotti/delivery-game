@@ -107,7 +107,7 @@ func set_curent_pawn(new_pawn):
 
 func _process(delta):
 	if Input.is_action_just_pressed("reload"):
-		get_tree().reload_current_scene()
+		LevelManager.next_level()
 	
 	if !player_is_ready || GameManager.is_game_paused():
 		return

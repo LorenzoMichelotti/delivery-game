@@ -6,10 +6,11 @@ extends Node2D
 @export var enabled = true
 @export var crosshair_enabled = true
 @export var damage = 10
-@export var bullet_speed: GlobalConstants.BULLET_SPEED = GlobalConstants.BULLET_SPEED.FAST
+@export var bullet_speed: GlobalConstants.BULLET_SPEED = GlobalConstants.BULLET_SPEED.VERY_FAST
 @export var automatic_aim = true
 @export var aim_speed = 10
 @export var automatic_shoot = true
+@export var spread: int = 5
 
 @onready var type: GlobalConstants.ACTOR_TYPES
 @onready var bullet_scene = preload("res://modules/bullet.tscn")
@@ -78,6 +79,8 @@ func _start_shooting():
 		direction = (closest_enemy_in_range.global_position - bullet_hole.global_position).normalized()
 	else:
 		direction = (get_global_mouse_position() - bullet_hole.global_position).normalized()
+	var spread_angle = deg_to_rad(randi_range(-spread, spread))
+	direction = direction.rotated(spread_angle) # Apply random spread
 	
 	windup_timer.start(windup_shoot_delay)
 	if windup_tween:

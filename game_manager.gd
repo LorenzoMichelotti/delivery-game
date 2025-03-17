@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var game_over_scene: PackedScene = preload("res://ui/GameOver.tscn")
 @onready var pause_scene: PackedScene = preload("res://ui/Pause.tscn")
+const GAME_SCENE = preload("res://levels/ProceduralLevel.tscn")
+const MAIN_MENU = preload("res://ui/main_menu.tscn")
 
 var skip_cutscenes = true
 var game_over_ui
@@ -16,17 +18,17 @@ enum GAMEMODE {
 	CUTSCENE
 }
 
-var current_game_mode = GAMEMODE.INITIALIZING
-var previous_game_mode = GAMEMODE.INITIALIZING
+var current_game_mode = GAMEMODE.MENU
+var previous_game_mode = GAMEMODE.MENU
 var rng = RandomNumberGenerator.new()
 
 func _ready():
 	game_over_ui = game_over_scene.instantiate()
 	add_child.call_deferred(game_over_ui)
 
-func _unhandled_input(event):
+func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
-		GameManager.set_game_mode(GameManager.GAMEMODE.PAUSED)
+		set_game_mode(GAMEMODE.PAUSED)
 
 func is_game_paused():
 	return current_game_mode != GAMEMODE.PLAYING
@@ -38,7 +40,16 @@ func set_game_mode(new_game_mode: GAMEMODE):
 	previous_game_mode = current_game_mode
 	current_game_mode = new_game_mode
 	
+	if current_game_mode == GAMEMODE.MENU:
+		get_tree().change_scene_to_packed(MAIN_MENU)
+	
+	if previous_game_mode == GAMEMODE.MENU and current_game_mode == GAMEMODE.INITIALIZING:
+		get_tree().change_scene_to_packed(GAME_SCENE)
+	
 	match current_game_mode:
+		GAMEMODE.MENU:
+			get_tree().paused = true
+			return
 		GAMEMODE.INITIALIZING:
 			get_tree().paused = true
 			return

@@ -3,6 +3,7 @@ extends BaseControllerModuleResource
 
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 
+
 func _ready():
 	navigation_agent_2d.target_position = get_parent().global_position
 	navigation_agent_2d.navigation_finished.connect(_on_nav_finished)

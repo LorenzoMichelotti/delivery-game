@@ -37,7 +37,6 @@ func _ready():
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
-	print(get_parent().name, " took damage from ", perpetrator)
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	
@@ -119,8 +118,6 @@ func _play_hit_tweener(is_knockup: bool):
 func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
-	VfxManager.display_explosion_effect(actor.global_position)
-	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	
 	var shader = actor.sprite.material as ShaderMaterial

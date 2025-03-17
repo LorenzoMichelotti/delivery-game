@@ -54,6 +54,7 @@ func next_level():
 
 func new_run():
 	current_level = 0
+	current_goal_achieved = false
 	PlayerManager.reset_player(true)
 	_update_completion_requirements()
 	get_tree().reload_current_scene()

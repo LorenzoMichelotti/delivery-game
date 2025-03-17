@@ -1,11 +1,7 @@
 @tool
 extends Node
 
-const ACTORS = {
-	"npc": preload("res://actors/npc.tscn")
-}
-
-
+const NPC = preload("res://actors/npc.tscn")
 
 var entities = []
 var deliveries = {}
@@ -36,20 +32,14 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 	if not LevelManager.current_completion_requirements.level_modifiers.deliveries_enabled:
 		return
 	
-	var pickup_position = valid_positions.pick_random()
-	print(pickup_position)
-	
-	var pickup_item_resource = Items.PICKUP_RES.duplicate()
-	pickup_item_resource.texture = LevelManager.current_completion_requirements.client.objects.pick_random()
-	
+	var pickup_local_position: Vector2i = valid_positions.pick_random()
 	var delivery_id = deliveries.size() + 1
-	var target: ItemScene = await _spawn_item(Items.DELIVERY_TARGET_RES.duplicate(), _get_position_away_from_position(pickup_position, valid_positions, tile_map_layer), tile_map_layer)
-	target.color = LevelManager.current_completion_requirements.client.color
-	target.item.delivery_id = delivery_id
 	
-	var pickup_item: ItemScene = await _spawn_item(pickup_item_resource, pickup_position, tile_map_layer)
-	pickup_item.item.delivery_id = delivery_id
-	pickup_item.item.picked_up.connect(target.item.on_delivery_item_picked_up.bind(target))
+	var target: ItemScene = ItemScene.new_delivery_target(Items.DELIVERY_TARGET_RES, tile_map_layer.to_global(tile_map_layer.map_to_local(_get_position_away_from_position(pickup_local_position, valid_positions, tile_map_layer))), delivery_id)
+	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(target)
+	
+	var pickup_item = ItemScene.new_delivery_pickupable(Items.PICKUP_RES, tile_map_layer.to_global(tile_map_layer.map_to_local(pickup_local_position)), delivery_id, target)
+	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(pickup_item)
 
 	deliveries[delivery_id] = {
 		"item": pickup_item,
@@ -59,7 +49,7 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 
 	if LevelManager.current_completion_requirements.level_modifiers.mobile_delivery:
 		pickup_item.set_cant_be_picked_up()
-		var npc: Npc = spawn_entity(ACTORS.npc, tile_map_layer.to_global(tile_map_layer.map_to_local(pickup_position)))
+		var npc: Npc = spawn_entity(NPC, tile_map_layer.to_global(tile_map_layer.map_to_local(pickup_local_position)))
 		await get_tree().process_frame
 		npc.delivery_id = delivery_id
 	
@@ -67,25 +57,15 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 
 func _get_position_away_from_position(position, valid_positions, tile_map_layer):
 	var safe_position: Vector2i = valid_positions.pick_random()
-	var safe_distance = 5
+	var safe_distance = 10
 	var tries = 0
 	while safe_position.distance_to(position) < safe_distance and tries < 50:
 		safe_position = valid_positions.pick_random()
 		tries += 1
 	if tries >= 50:
 		print("exceded maximum tries(50) getting safe position away from another position: ", position)
-	return valid_positions.pick_random()
-
-
-func _spawn_item(item_resource: Resource, tile_position = LevelManager.road_positions.pick_random(), tile_map_layer: TileMapLayer = LevelManager.tile_map_layer) -> ItemScene:
-	var spawned_item = Items.ITEM_SCENE.instantiate()
-	spawned_item.z_index += 2
-	spawned_item.item = item_resource
-	spawned_item.tile_position = tile_position
-	spawned_item.road = tile_map_layer
-	spawned_item.global_position = tile_map_layer.to_global(tile_map_layer.map_to_local(tile_position)) 
-	get_tree().current_scene.get_node("Map/Entities").add_child.call_deferred(spawned_item)
-	return spawned_item
+		return valid_positions.pick_random()
+	return safe_position
 
 
 func pickup_delivery_item(delivery_id: int):
@@ -110,6 +90,23 @@ func erase_delivery_item(delivery_id: int):
 	if deliveries[delivery_id].target != null:
 		deliveries[delivery_id].target.queue_free.call_deferred()
 	deliveries.erase(delivery_id)
+
+func get_closest_tank_position(compare_position: Vector2):
+	var tanks = get_tree().get_nodes_in_group("tank")
+	if tanks.size() <= 0:
+		return null
+		
+	var positions = get_tree().get_nodes_in_group("tank").map(func(tank): if not (tank as Actor).alive_module.is_dead: return tank.global_position)
+	
+	return get_closest_position_in_array(compare_position, positions)
+	
+func get_closest_truck_position(compare_position: Vector2):
+	var trucks = get_tree().get_nodes_in_group("truck")
+	if trucks.size() <= 0:
+		return null
+	var positions = get_tree().get_nodes_in_group("truck").map(func(truck): if not (truck as Actor).alive_module.is_dead: return truck.global_position)
+	
+	return get_closest_position_in_array(compare_position, positions)
 
 func get_closest_pickup_position(compare_position: Vector2):
 	if EntityManager.deliveries.size() <= 0:
@@ -144,6 +141,8 @@ func get_closest_position_in_array(compare_position, positions):
 	var shortest_distance = null
 	var shortest_distance_position = null
 	for position in positions:
+		if position == null:
+			continue
 		var distance = compare_position.distance_to(position)
 		if shortest_distance == null || distance < shortest_distance:
 			shortest_distance = distance

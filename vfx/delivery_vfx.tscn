@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvnrj87jmxw1l"]
+[gd_scene load_steps=3 format=3 uid="uid://byilk2cm15q6f"]
 
-[ext_resource type="Texture2D" uid="uid://h6rfsgjv1ag3" path="res://assets/effects/pickup_effect_simple.png" id="1_2pu6v"]
+[ext_resource type="Texture2D" uid="uid://cm58tkfmpegi5" path="res://assets/effects/pickup_effect.png" id="1_oofl8"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pn6mg"]
 particles_animation = true
-particles_anim_h_frames = 5
+particles_anim_h_frames = 8
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
@@ -12,7 +12,7 @@ particles_anim_loop = false
 material = SubResource("CanvasItemMaterial_pn6mg")
 emitting = false
 amount = 1
-texture = ExtResource("1_2pu6v")
+texture = ExtResource("1_oofl8")
 lifetime = 0.3
 one_shot = true
 gravity = Vector2(0, 0)

@@ -161,6 +161,42 @@ tracks/12/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Paused/Button3:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(441, 537)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Paused/Button3:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Paused/Button3:modulate")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_dscx3"]
 resource_name = "appear"
@@ -320,6 +356,42 @@ tracks/12/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
 }
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Paused/Button3:position")
+tracks/13/interp = 2
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 0.262852, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(441, 450), Vector2(441, 537), Vector2(441, 537)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Paused/Button3:scale")
+tracks/14/interp = 2
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 0.262852, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.5, 1), Vector2(1, 1), Vector2(1, 1)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Paused/Button3:modulate")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.266667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xv3yx"]
 _data = {
@@ -357,9 +429,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -561.0
-offset_top = -169.0
+offset_top = -274.0
 offset_right = 535.0
-offset_bottom = -40.9995
+offset_bottom = -145.999
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(548, 0)
@@ -375,10 +447,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -416.0
-offset_top = -18.0
-offset_right = -291.0
-offset_bottom = 14.0
+offset_left = -413.0
+offset_top = -74.0
+offset_right = -288.0
+offset_bottom = -42.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(48, 0)
@@ -393,13 +465,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -159.0
-offset_top = -34.0
-offset_right = 391.0
-offset_bottom = 30.0
+offset_left = -275.0
+offset_top = -124.0
+offset_right = 275.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(159, 0)
+pivot_offset = Vector2(275, 32)
 theme_override_constants/outline_size = 40
 theme_override_font_sizes/font_size = 50
 text = "00000000000"
@@ -413,13 +485,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -134.0
-offset_top = 66.0
-offset_right = 134.0
-offset_bottom = 119.001
+offset_top = 26.0
+offset_right = 166.0
+offset_bottom = 79.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(73, 0)
-text = "continue"
+text = "CONTINUE"
 
 [node name="Button2" type="Button" parent="Paused"]
 layout_mode = 1
@@ -429,18 +501,35 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -134.0
-offset_top = 140.0
-offset_right = 134.0
-offset_bottom = 193.001
+offset_top = 76.0
+offset_right = 166.0
+offset_bottom = 129.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(73, 0)
-text = "restart"
+text = "RESTART"
+
+[node name="Button3" type="Button" parent="Paused"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = 126.0
+offset_right = 165.0
+offset_bottom = 179.001
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(73, 0)
+text = "MAIN MENU"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_xv3yx")
+&"": SubResource("AnimationLibrary_xv3yx")
 }
 
 [connection signal="pressed" from="Paused/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Paused/Button2" to="." method="_restart_level"]
+[connection signal="pressed" from="Paused/Button3" to="." method="_on_button_3_pressed"]

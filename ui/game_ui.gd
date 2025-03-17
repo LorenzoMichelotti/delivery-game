@@ -10,6 +10,7 @@ extends Control
 @onready var point_multiplier = $PointsControl/PointMultiplier
 
 func _ready():
+	point_multiplier.text = "X" + str(PlayerManager.point_multiplier)
 	PlayerManager.point_multiplier_changed.connect(update_multiplier)
 	PlayerManager.gas_enabled_changed.connect(hide_gasbar_if_gas_disabled)
 	show()

@@ -11,6 +11,7 @@ func on_pickup(item_scene: ItemScene):
 	was_picked_up = true
 	EntityManager.pickup_delivery_item(delivery_id)
 	SfxManager.play_sfx(pickup_sfx, SfxManager.CHANNEL_CONFIG.BASIC)
+	print("pickedup")
 	VfxManager.display_pickup_effect(item_scene.global_position)
 	PlayerManager.inventory_hold_delivery(delivery_id)
 	picked_up.emit()

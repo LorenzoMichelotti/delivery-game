@@ -45,7 +45,7 @@ _data = {
 }
 
 [node name="Item" type="Node2D" groups=["item"]]
-z_index = 1
+z_index = 3
 script = ExtResource("1_wftca")
 
 [node name="SpritePivot" type="Node2D" parent="."]

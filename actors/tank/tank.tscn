@@ -294,7 +294,7 @@ states/BlendSpace2D/node = ExtResource("5_cl3pm")
 states/BlendSpace2D/position = Vector2(506, 110)
 transitions = ["Start", "BlendSpace2D", SubResource("AnimationNodeStateMachineTransition_dc23y")]
 
-[node name="Tank" type="CharacterBody2D" groups=["enemy"]]
+[node name="Tank" type="CharacterBody2D" groups=["enemy", "tank"]]
 script = ExtResource("1_c4hyv")
 type = 1
 

@@ -17,6 +17,7 @@ var delivery_id: int = -1:
 		if new_delivery_id != -1:
 			delivery_id = new_delivery_id
 			sprite.texture = TRUCK_TEXTURE
+			add_to_group("truck")
 			alive_module.max_hp = 300
 			item_balloon.update_item_balloon.call_deferred(false, EntityManager.deliveries[delivery_id].item.item.animation_frame, EntityManager.deliveries[delivery_id].item.item.texture, EntityManager.deliveries[delivery_id].item.item.is_animated_sprite)
 			random_movement_module.speed = 70.0

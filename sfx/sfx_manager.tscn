@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://g4x6yg6hx7he"]
+
+[ext_resource type="Script" uid="uid://cmgi7eqpyaah2" path="res://sfx/sfx_manager.gd" id="1_jagdl"]
+
+[node name="SfxManager" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_jagdl")
