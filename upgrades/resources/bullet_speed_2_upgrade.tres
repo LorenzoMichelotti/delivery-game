@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BulletSpeedUpgradeResource" load_steps=2 format=3 uid="uid://c4hfg70m6mnwk"]
+
+[ext_resource type="Script" uid="uid://cpoyrussb37a3" path="res://upgrades/scripts/bullet_speed_upgrade.gd" id="1_0b322"]
+
+[resource]
+script = ExtResource("1_0b322")
+bullet_speed = 2
+id = 13
+name = "Bullet Speed 2"
+cost = 4800
+current_level = 0
+max_level = 1
+bonus_value_per_level = 9999.0
+metadata/_custom_type_script = "uid://bmp8xj1ci45f1"

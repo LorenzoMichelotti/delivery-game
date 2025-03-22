@@ -20,10 +20,11 @@ config/icon="res://icon.svg"
 GameManager="*res://game_manager.gd"
 LevelManager="*res://level_manager.tscn"
 EntityManager="*res://entity_manager.gd"
-PlayerManager="*res://player_manager.gd"
+PlayerManager="*res://player/player_manager.tscn"
+DataManager="*res://save_and_load/DataManager.tscn"
 VfxManager="*res://vfx/vfx_manager.gd"
-SfxManager="*res://sfx/sfx_manager.gd"
 CutsceneManager="*res://cutscenes/cutscene_manager.gd"
+SfxManager="*res://sfx/sfx_manager.tscn"
 CameraManager="*res://camera_manager.tscn"
 
 [global_group]
@@ -35,6 +36,11 @@ hit_box=""
 enemy=""
 item=""
 tunnel=""
+tank=""
+truck=""
+delivery=""
+pickup=""
+persist=""
 
 [input]
 
@@ -66,7 +72,6 @@ space={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(139, 27),"global_position":Vector2(153, 100),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 click={

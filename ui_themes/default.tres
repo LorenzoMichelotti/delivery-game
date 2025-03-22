@@ -4,8 +4,8 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_loeqt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mude8"]
-bg_color = Color(0.47231, 0.551156, 0.570616, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xsvj0"]
+bg_color = Color(0.536062, 0.705751, 0.722747, 1)
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -23,8 +23,8 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awh4h"]
-bg_color = Color(0.378428, 0.450396, 0.46813, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w36vt"]
+bg_color = Color(0.481679, 0.635035, 0.716942, 1)
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -42,8 +42,8 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmwoq"]
-bg_color = Color(0.205131, 0.310292, 0.352461, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kt0e"]
+bg_color = Color(0.265485, 0.37867, 0.448497, 1)
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -64,7 +64,7 @@ default_font_size = 32
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/constants/outline_size = 25
 Button/styles/focus = SubResource("StyleBoxEmpty_loeqt")
-Button/styles/hover = SubResource("StyleBoxFlat_mude8")
-Button/styles/normal = SubResource("StyleBoxFlat_awh4h")
-Button/styles/pressed = SubResource("StyleBoxFlat_nmwoq")
+Button/styles/hover = SubResource("StyleBoxFlat_xsvj0")
+Button/styles/normal = SubResource("StyleBoxFlat_w36vt")
+Button/styles/pressed = SubResource("StyleBoxFlat_0kt0e")
 Label/constants/outline_size = 25

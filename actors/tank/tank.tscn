@@ -294,7 +294,7 @@ states/BlendSpace2D/node = ExtResource("5_cl3pm")
 states/BlendSpace2D/position = Vector2(506, 110)
 transitions = ["Start", "BlendSpace2D", SubResource("AnimationNodeStateMachineTransition_dc23y")]
 
-[node name="Tank" type="CharacterBody2D" groups=["enemy"]]
+[node name="Tank" type="CharacterBody2D" groups=["enemy", "tank"]]
 script = ExtResource("1_c4hyv")
 type = 1
 
@@ -313,8 +313,10 @@ region_rect = Rect2(32, 0, 8, 8)
 [node name="AliveModule" parent="." instance=ExtResource("2_cbxp3")]
 position = Vector2(0, -1)
 target_type = 1
-max_hp = 200
+max_hp = 300
 can_be_knocked_down = false
+damage_stun_amount = 1.0
+invincibility_amount = 0.1
 on_death_points = 1000
 death_explosion_sfx_stream = ExtResource("5_6daes")
 
@@ -344,6 +346,7 @@ bullet_speed = 1
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("7_2m3if")]
 position = Vector2(0, -1)
+damage = 5
 type = 3
 
 [node name="Shadow" parent="." instance=ExtResource("9_xtfgt")]

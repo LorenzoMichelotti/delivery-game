@@ -15,25 +15,89 @@ extends Node2D
 			$SpritePivot/Sprite2D.vframes = 1
 			scale = Vector2(item.sprite_size, item.sprite_size)
 		
-@onready var area2d := $Area2D
+@onready var area2d: Area2D = $Area2D
 @onready var sprite_pivot := $SpritePivot
 @onready var sprite := $SpritePivot/Sprite2D
-@onready var item_balloon := $SpritePivot/ItemBalloon
+@onready var item_balloon := $ItemBalloon
 
-var tile_position: Vector2i
-var road: TileMapLayer
+const ITEM = preload("res://items/item.tscn")
+
+var player_in_range = false
+var can_be_picked_up: bool = true
 
 func _ready():
+	if not can_be_picked_up:
+		set_cant_be_picked_up()
 	$AnimationPlayer.play("idle")
 	sprite.modulate = color
 	area2d.connect("body_entered", _on_area_2d_body_entered)
+	area2d.connect("body_exited", _on_area_2d_body_entered)
 	
 	if item is DeliveryTargetItem:
-		item_balloon.update_item_balloon(false, EntityManager.deliveries[item.delivery_id].item.item.animation_frame, EntityManager.deliveries[item.delivery_id].item.item.texture, EntityManager.deliveries[item.delivery_id].item.item.is_animated_sprite)
+		item_balloon.update_item_balloon.call_deferred(false, EntityManager.deliveries[item.delivery_id].item.item.animation_frame, EntityManager.deliveries[item.delivery_id].item.item.texture, EntityManager.deliveries[item.delivery_id].item.item.is_animated_sprite)
+
+func _process(delta):
+	if player_in_range:
+		item.on_pickup(self)
+
+func set_cant_be_picked_up():
+	can_be_picked_up = false
+	if is_instance_valid(area2d):
+		area2d.set_deferred("monitoring", false)
+		area2d.set_deferred("monitorable", false)
+	
+	var tween = create_tween()
+	await tween.tween_property(self, "scale", Vector2.ZERO, 0.3).finished
+	tween.kill()
+	hide()
+	return
+
+func set_can_be_picked_up():
+	can_be_picked_up = true
+	if is_instance_valid(area2d):
+		area2d.set_deferred("monitoring", true)
+		area2d.set_deferred("monitorable", true)
+		
+	show()
+	var tween = create_tween()
+	await tween.tween_property(self, "scale", Vector2.ONE * 1.2, 0.3).finished
+	tween.kill()
+	scale = Vector2.ONE * 1.2
+	
+	for area in area2d.get_overlapping_areas():
+		if area.is_in_group("hit_box") and area.get_parent().actor.is_in_group("player"):
+			item.on_pickup(self)
+	
+	return
 
 func _on_area_2d_body_entered(body: Node2D):
 	if body.is_in_group("player"):
-		item.on_pickup(self)
+		player_in_range = true
+	
+func _on_area_2d_body_exited(body: Node2D):
+	if body.is_in_group("player"):
+		player_in_range = false
 
-func _exit_tree():
-	road.get_cell_tile_data(tile_position).set_custom_data("occupied", false)
+#region constructors
+
+static func new_delivery_target(resource: Item, position: Vector2, delivery_id: int) -> ItemScene:
+	var new_item: ItemScene = ITEM.instantiate()
+	new_item.item = resource.duplicate()
+	new_item.item.delivery_id = delivery_id
+	new_item.item = new_item.item
+	new_item.global_position = position
+	new_item.color = LevelManager.current_completion_requirements.client.color
+	return new_item
+
+
+static func new_delivery_pickupable(resource: Item, position: Vector2, delivery_id: int, target: ItemScene) -> ItemScene:
+	var new_item: ItemScene = ITEM.instantiate()
+	new_item.item = resource.duplicate()
+	new_item.item.texture = LevelManager.current_completion_requirements.client.objects.pick_random()
+	new_item.item.delivery_id = delivery_id
+	new_item.item = new_item.item
+	new_item.item.picked_up.connect(target.item.on_delivery_item_picked_up.bind(target))
+	new_item.global_position = position
+	return new_item
+
+#endregion

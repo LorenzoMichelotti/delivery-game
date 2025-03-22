@@ -23,6 +23,6 @@ void fragment() {
     float amp_factor = sin(phase * PI);
     vec3 normal_color = texture(TEXTURE, UV).rgb;
     if (active) {
-        COLOR.rgb = normal_color + shock_color * amp_factor * exp(1.5 * amp_factor);
+        COLOR.rgb = normal_color + shock_color * amp_factor * exp(2.0 * amp_factor);
     }
 }

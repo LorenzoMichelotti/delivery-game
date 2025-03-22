@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="DestroyTanksCompletionRequirementResource" load_steps=5 format=3 uid="uid://m03qmxtf1cbk"]
+
+[ext_resource type="Resource" uid="uid://bk8a7wr4o6575" path="res://assets/characters/actors/morgana/morgana.tres" id="1_nalsx"]
+[ext_resource type="Script" uid="uid://bpsd1ovwnfdml" path="res://level_builder/level_modifiers/level_modifier_resource.gd" id="2_lqsuc"]
+[ext_resource type="Script" uid="uid://qqy5r6dfmags" path="res://level_builder/level_completion/scripts/destroy_tanks_requirement_script.gd" id="3_a00cv"]
+
+[sub_resource type="Resource" id="Resource_m844q"]
+script = ExtResource("2_lqsuc")
+deliveries_enabled = false
+mobile_delivery = false
+concurrent_deliveries = 1
+gas_enabled = false
+random_gas_enabled = false
+player_gun_turret = true
+npc_count = 3
+randomize_npc_count = false
+tank_count = 1
+randomize_tank_count = true
+metadata/_custom_type_script = "uid://bpsd1ovwnfdml"
+
+[resource]
+script = ExtResource("3_a00cv")
+minimum_targets_for_completion = 1
+client = ExtResource("1_nalsx")
+goal_description = "DESTROY TANKS"
+level_modifiers = SubResource("Resource_m844q")
+metadata/_custom_type_script = "uid://qqy5r6dfmags"

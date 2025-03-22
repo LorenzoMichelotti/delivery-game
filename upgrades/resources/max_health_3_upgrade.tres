@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerAttributeUpgradeResource" load_steps=2 format=3 uid="uid://bh68q2di5i17l"]
+
+[ext_resource type="Script" uid="uid://bmp8xj1ci45f1" path="res://upgrades/scripts/player_attribute_upgrade.gd" id="1_kai7o"]
+
+[resource]
+script = ExtResource("1_kai7o")
+attribute = "bonus_max_hp"
+id = 11
+name = "Maximum Health 3"
+cost = 300
+current_level = 0
+max_level = 5
+bonus_value_per_level = 2.0
+metadata/_custom_type_script = "uid://bmp8xj1ci45f1"

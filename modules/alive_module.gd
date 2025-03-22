@@ -2,7 +2,10 @@ class_name AliveModule
 extends Node2D
 
 @export var target_type : GlobalConstants.TARGET_TYPES
-@export var max_hp := 1
+@export var max_hp := 1:
+	set(new_max_hp):
+		max_hp = new_max_hp
+		hp = max_hp
 @export var should_free_on_dead := true
 @export var can_be_knocked_down := true
 @export var damage_stun_amount := .2
@@ -30,22 +33,23 @@ func _ready():
 	actor = get_parent()
 	type = actor.type
 	hp = max_hp
-	died.connect(GameManager._on_acquire_target.bind(target_type))
+	died.connect(LevelManager._on_acquire_target.bind(target_type))
 
 
 func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knockup: bool = true) -> bool:
-	print(get_parent().name, " took damage from ", perpetrator)
 	if is_dead or not _should_take_damage(perpetrator):
 		return false
 	
 	if not is_knockup:
 		VfxManager.display_number(str(damage * PlayerManager.point_multiplier).pad_zeros(2), Vector2(actor.global_position.x, actor.global_position.y -8))
-		PlayerManager.add_points(damage)
 		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 		VfxManager.display_explosion_effect(actor.global_position)
 		CameraManager.apply_shake()
 	
-	if has_invincibility or is_taking_damage:
+	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER:
+		PlayerManager.add_points(damage * PlayerManager.point_multiplier)
+	
+	if has_invincibility:
 		return true # absorb bullets
 	
 	took_damage.emit(damage)
@@ -116,7 +120,6 @@ func _play_hit_tweener(is_knockup: bool):
 func _play_death_tweener(perpetrator):
 	var knockup_position = _get_random_knockup_position()
 	var knockdown_position = _get_random_knockdown_position(knockup_position)
-	VfxManager.display_explosion_effect(actor.global_position)
 	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	
 	var shader = actor.sprite.material as ShaderMaterial
@@ -150,7 +153,7 @@ func _play_death_tweener(perpetrator):
 	await tween.finished
 	shader.set_shader_parameter("active", false)
 	
-	SfxManager.play_sfx(death_explosion_sfx_stream, SfxManager.CHANNEL_CONFIG.EXPLOSIONS, true)
+	SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 	VfxManager.display_explosion_effect(knockdown_position)
 	CameraManager.apply_shake()
 	

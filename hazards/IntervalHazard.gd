@@ -22,6 +22,8 @@ func _set_armed(armed: bool):
 	damage_dealer_module.enabled = armed
 
 func _start():
+	if get_tree().paused:
+		return
 	if random_position:
 		global_position = LevelManager.tile_map_layer.map_to_local(LevelManager.road_positions.pick_random())
 	$AnimationTree.set("parameters/conditions/enabled", true)

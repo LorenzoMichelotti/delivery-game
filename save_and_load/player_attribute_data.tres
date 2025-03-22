@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PlayerAttributeData" load_steps=2 format=3 uid="uid://f1c0x0idb76i"]
+
+[ext_resource type="Script" uid="uid://cqwd2drnm1jjy" path="res://save_and_load/player_attribute_data.gd" id="1_x735e"]
+
+[resource]
+script = ExtResource("1_x735e")
+base_damage = 1
+base_max_gas = 100
+base_max_hp = 6
+base_initial_gas_usage = 3
+base_point_multiplier = 1
+base_multiplier_timer = 60
+base_speed = 50
+bonus_damage = 0
+bonus_max_gas = 0
+bonus_max_hp = 0
+bonus_initial_gas_usage = 0
+bonus_point_multiplier = 0
+bonus_multiplier_timer = 0
+bonus_speed = 0
+upgrades = {}
+metadata/_custom_type_script = "uid://cqwd2drnm1jjy"

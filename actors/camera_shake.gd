@@ -36,6 +36,9 @@ func apply_quick_zoom() -> void:
 	var default_zoom = zoom
 	tween.tween_property(self, "zoom", Vector2(default_zoom.x + 2, default_zoom.y + 2), .2)
 	tween.tween_property(self, "zoom", default_zoom, .1)
+	
+	await tween.finished
+	zoom = default_zoom
 
 func _get_random_offset(delta: float) -> Vector2:
 	return Vector2(rand.randf_range(-shake_strength,shake_strength), rand.randf_range(-shake_strength,shake_strength))

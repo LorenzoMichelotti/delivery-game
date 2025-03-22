@@ -23,21 +23,26 @@ const ACTOR_COLORS = {
 # bullet
 enum BULLET_SPEED {
 	FAST,
-	SLOW
+	SLOW,
+	VERY_FAST
 }
 const BULLET_SPEEDS = {
+	BULLET_SPEED.VERY_FAST: {
+		"speed": 500,
+		"friction": 16,
+		"acceleration": 120
+	},
 	BULLET_SPEED.FAST: {
 		"speed": 200,
 		"friction": 8,
 		"acceleration": 70
 	},
 	BULLET_SPEED.SLOW: {
-		"speed": 50,
+		"speed": 100,
 		"friction": .00005,
-		"acceleration": 15
+		"acceleration": 25
 	}
 }
-
 
 # targets
 enum TARGET_TYPES {

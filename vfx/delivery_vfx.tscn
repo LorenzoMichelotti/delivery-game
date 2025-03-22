@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://byilk2cm15q6f"]
+
+[ext_resource type="Texture2D" uid="uid://cm58tkfmpegi5" path="res://assets/effects/pickup_effect.png" id="1_oofl8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pn6mg"]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="Node2D" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_pn6mg")
+emitting = false
+amount = 1
+texture = ExtResource("1_oofl8")
+lifetime = 0.3
+one_shot = true
+gravity = Vector2(0, 0)
+scale_amount_min = 0.9
+scale_amount_max = 0.9
+anim_speed_min = 1.0
+anim_speed_max = 1.0

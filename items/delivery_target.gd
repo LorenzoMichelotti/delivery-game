@@ -11,7 +11,8 @@ func on_pickup(item_scene: ItemScene):
 		SfxManager.play_sfx(pickup_sfx, SfxManager.CHANNEL_CONFIG.VOICES)
 		var tween: Tween = GameManager.get_tree().create_tween().bind_node(item_scene)
 		VfxManager.display_number(str(points * PlayerManager.point_multiplier), item_scene.global_position)
-		VfxManager.display_pickup_effect(item_scene.global_position)
+		print("delivered")
+		VfxManager.display_delivery_effect(item_scene.global_position)
 		PlayerManager.inventory_complete_delivery(delivery_id)
 		PlayerManager.add_points(points)
 		EntityManager.deliver_item(delivery_id)
@@ -25,5 +26,4 @@ func on_delivery_item_picked_up(item_scene: ItemScene):
 	item_scene.item_balloon.sprite_pivot.scale = Vector2.ONE * 1.2
 
 func on_free():
-	PlayerManager.inventory_complete_delivery(delivery_id)
-	EntityManager.deliveries.erase(delivery_id)
+	EntityManager.erase_delivery_item(delivery_id)

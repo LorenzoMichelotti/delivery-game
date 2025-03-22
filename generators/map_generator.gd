@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 
 @export var grid_size: int = 4:
@@ -21,6 +20,7 @@ extends Node2D
 @onready var player_pawn_scene = preload("res://actors/player.tscn")
 @onready var tunnel_scene: PackedScene = preload("res://tunnel.tscn")
 @onready var tank_scene: PackedScene = preload("res://actors/tank/tank.tscn")
+@onready var police_scene: PackedScene = preload("res://actors/npc.tscn")
 @onready var spike_scene: PackedScene = preload("res://hazards/spikes.tscn")
 @onready var air_strike: PackedScene = preload("res://hazards/air_strike.tscn")
 
@@ -36,6 +36,11 @@ enum TERRAIN {
 	FOREST,
 	GRASS
 }
+
+const ROAD_TERRAINS = [
+	TERRAIN.OFFROAD,
+	TERRAIN.CITY
+]
 
 const TILE_SOURCES = {
 	TERRAIN.OFFROAD: 1,
@@ -82,14 +87,14 @@ var rng
 func _ready():
 	if path_size == null:
 		path_size = 3
-	if not Engine.is_editor_hint():
-		rng = RandomNumberGenerator.new()
-		generate()
 
 func generate(new_value: bool = true) -> void:
 	rng = RandomNumberGenerator.new()
 	var walker = _generate_walker()
+	LevelManager.tile_map_layer = road_tilemap_layer
+	LevelManager.road_positions = road_positions
 	generate_entities(walker)
+	await get_tree().process_frame
 	map_generated.emit()
 
 func generate_entities(walker):
@@ -99,18 +104,37 @@ func generate_entities(walker):
 	print("spawning tunnels")
 	
 	for exit_position in walker.get_exit_positions():
-		EntityManager.spawn_entities(tunnel_scene, 1, road_tilemap_layer.map_to_local(exit_position))
+		EntityManager.spawn_entity(tunnel_scene, road_tilemap_layer.to_global(road_tilemap_layer.map_to_local(exit_position)))
+	var player_position = road_tilemap_layer.to_global(road_tilemap_layer.map_to_local(road_positions.pick_random()))
 	print("spawning player")
-	EntityManager.spawn_entities(player_pawn_scene, 1, road_tilemap_layer.map_to_local(road_positions.pick_random()))
+	EntityManager.spawn_entity(player_pawn_scene, player_position)
+	
+	print("spawning police")
+	for i in range(LevelManager.current_completion_requirements.level_modifiers.npc_count):
+		EntityManager.spawn_entity(police_scene, _get_position_away_from_position(player_position), true)
 	print("spawning tanks")
-	EntityManager.spawn_entities(tank_scene, LevelManager.current_completion_requirements.level_modifiers.tank_count, road_tilemap_layer.map_to_local(road_positions.pick_random()))
+	for i in range(LevelManager.current_completion_requirements.level_modifiers.tank_count if LevelManager.current_completion_requirements.level_modifiers.randomize_tank_count else randi_range(LevelManager.current_completion_requirements.level_modifiers.tank_count, LevelManager.current_completion_requirements.level_modifiers.tank_count + 1)):
+		EntityManager.spawn_entity(tank_scene, _get_position_away_from_position(player_position))
 	print("spawning spikes")
-	EntityManager.spawn_entities(spike_scene, randi_range(0,2), road_tilemap_layer.map_to_local(road_positions.pick_random()))
+	for i in range(randi_range(0,2)):
+		EntityManager.spawn_entity(spike_scene, _get_position_away_from_position(player_position))
 	print("spawning air strikes")
-	EntityManager.spawn_entities(air_strike, randi_range(0,2), road_tilemap_layer.map_to_local(road_positions.pick_random()))
+	for i in range(randi_range(0,2)):
+		EntityManager.spawn_entity(air_strike, _get_position_away_from_position(player_position))
 	print("spawning deliveries")
 	EntityManager.create_delivery(road_positions, road_tilemap_layer)
 
+
+func _get_position_away_from_position(position):
+	var safe_position: Vector2 = road_tilemap_layer.to_global(road_tilemap_layer.map_to_local(road_positions.pick_random()))
+	var safe_distance = 42
+	var tries = 0
+	while safe_position.distance_to(position) < safe_distance and tries < 50:
+		safe_position = road_tilemap_layer.to_global(road_tilemap_layer.map_to_local(road_positions.pick_random()))
+		tries += 1
+	if tries >= 50:
+		print("exceded maximum tries(50) getting safe position away from player")
+	return safe_position
 
 func _generate_walker():
 	print("cleaning previous map data...")
@@ -130,14 +154,16 @@ func _generate_walker():
 	var walker = Walker.new(Vector2i(border_size, border_size), Rect2(border_size, border_size, grid_size, grid_size), border_size)
 	var map = walker.walk(grid_size * grid_size)
 	
+	var current_terrain = TERRAIN.OFFROAD
+	
 	for cell_position in map.road_history:
-		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
+		_create_road_tile(cell_position, current_terrain) 
 		road_positions.append(cell_position)
 	for cell_position in map.step_history:
-		_create_road_tile(cell_position, TERRAIN.OFFROAD) 
+		_create_road_tile(cell_position, current_terrain) 
 	
 	print("connecting terrains...")
-	_connect_terrains()
+	_connect_terrains(current_terrain)
 	
 	print("map generated!")
 	
@@ -171,8 +197,8 @@ func _create_road_tile(cell_position, terrain):
 	grass_positions.erase(cell_position)
 	all_road_positions.append(cell_position)
 
-func _connect_terrains():
-	road_tilemap_layer.set_cells_terrain_connect(all_road_positions, TERRAIN_SET.MAIN, TERRAIN.OFFROAD)
+func _connect_terrains(current_terrain):
+	road_tilemap_layer.set_cells_terrain_connect(all_road_positions, TERRAIN_SET.MAIN, current_terrain)
 	road_tilemap_layer.set_cells_terrain_connect(grass_positions, TERRAIN_SET.MAIN, TERRAIN.GRASS)
 
 func _neighbour_is_null_or_not_connected(neighbour_position, road_atlas_position):
