@@ -33,3 +33,9 @@ func _update_points_label():
 
 func _on_button_3_pressed():
 	GameManager.set_game_mode(GameManager.GAMEMODE.MENU)
+
+
+func _on_button_4_pressed():
+	hide()
+	get_tree().paused = false
+	GameManager.set_game_mode(GameManager.GAMEMODE.GAMEOVER)

@@ -8,7 +8,7 @@
 script = ExtResource("1_pvisv")
 deliveries_enabled = true
 mobile_delivery = false
-concurrent_deliveries = 1
+concurrent_deliveries = 3
 gas_enabled = false
 random_gas_enabled = false
 player_gun_turret = true

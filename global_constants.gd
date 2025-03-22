@@ -38,9 +38,9 @@ const BULLET_SPEEDS = {
 		"acceleration": 70
 	},
 	BULLET_SPEED.SLOW: {
-		"speed": 50,
+		"speed": 100,
 		"friction": .00005,
-		"acceleration": 15
+		"acceleration": 25
 	}
 }
 

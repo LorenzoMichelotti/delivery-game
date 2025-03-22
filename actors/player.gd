@@ -3,7 +3,8 @@ extends Actor
 @export var player_lose_life_stream_sfx : AudioStreamWAV = preload("res://assets/sounds/Life_Lose.wav")
 @export var player_die_stream_sfx : AudioStreamWAV = preload("res://assets/sounds/Player_Died.wav")
 @onready var item_balloon = $ItemBalloon
-@onready var controller: PlayerPathfindingControllerModule = $PlayerControllerModule
+@onready var controller: IdlerPathfindingControllerModule = $IdlerMovementModule
+@onready var gun_turret_module = $GunTurretModule
 
 func _ready():
 	PlayerManager.set_curent_pawn(self)

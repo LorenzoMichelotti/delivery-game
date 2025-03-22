@@ -32,6 +32,8 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 	if not LevelManager.current_completion_requirements.level_modifiers.deliveries_enabled:
 		return
 	
+	# TODO need to fix concurrent deliveries...
+	#for i in range(LevelManager.current_completion_requirements.level_modifiers.concurrent_deliveries):
 	var pickup_local_position: Vector2i = valid_positions.pick_random()
 	var delivery_id = deliveries.size() + 1
 	
@@ -53,7 +55,7 @@ func create_delivery(valid_positions: Array[Vector2i] = LevelManager.road_positi
 		await get_tree().process_frame
 		npc.delivery_id = delivery_id
 	
-	return deliveries[delivery_id]
+	return
 
 func _get_position_away_from_position(position, valid_positions, tile_map_layer):
 	var safe_position: Vector2i = valid_positions.pick_random()
@@ -69,7 +71,10 @@ func _get_position_away_from_position(position, valid_positions, tile_map_layer)
 
 
 func pickup_delivery_item(delivery_id: int):
-	deliveries[delivery_id].obtained = true
+	var delivery = deliveries.get(delivery_id)
+	if delivery == null:
+		return
+	delivery.obtained = true
 
 
 func can_deliver_item(delivery_id: int):
@@ -117,6 +122,13 @@ func get_closest_pickup_position(compare_position: Vector2):
 	
 	return get_closest_position_in_array(compare_position, positions)
 	
+func get_pickup_delivery_position(delivery_id):
+	if delivery_id == null: 
+		return null
+	var delivery = EntityManager.deliveries.get(delivery_id)
+	if delivery == null or delivery.target == null: 
+		return null
+	return delivery.target.global_position
 	
 func get_closest_tunnel_position(compare_position: Vector2):
 	var tunnels = get_tree().get_nodes_in_group("tunnel")
@@ -130,10 +142,19 @@ func get_closest_tunnel_position(compare_position: Vector2):
 func get_closest_delivery_position(compare_position: Vector2, delivery_ids: Array[int]):
 	if delivery_ids.size() <= 0:
 		return null
-	var positions = delivery_ids.map(func(delivery_id): return EntityManager.deliveries[delivery_id].target.global_position if EntityManager.deliveries[delivery_id].target != null else EntityManager.deliveries[delivery_id].item)
+	var positions = delivery_ids.map(get_delivery_positions)
 	
 	return get_closest_position_in_array(compare_position, positions)
 
+
+func get_delivery_positions(delivery_id): 
+	var delivery = EntityManager.deliveries.get(delivery_id)
+	if delivery:
+		if delivery.target != null:
+			return delivery.target.global_position
+		if delivery.item != null:
+			return delivery.item
+	return null
 
 func get_closest_position_in_array(compare_position, positions):
 	if positions.size() <= 0:

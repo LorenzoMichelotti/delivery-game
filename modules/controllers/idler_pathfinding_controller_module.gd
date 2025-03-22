@@ -15,6 +15,7 @@ enum STATES {
 @onready var navigation_agent_2d = $NavigationAgent2D
 
 func _ready():
+	speed = PlayerManager.speed
 	super()
 
 
@@ -81,7 +82,7 @@ func state_machine():
 			if PlayerManager.inventory_delivery_ids.size() <= 0:
 				state = STATES.WALKING
 				return
-			var new_delivery_position = EntityManager.get_closest_delivery_position(pawn.global_position, PlayerManager.inventory_delivery_ids)
+			var new_delivery_position = EntityManager.get_pickup_delivery_position(PlayerManager.inventory_delivery_ids.front())
 			if new_delivery_position == null:
 				state = STATES.WALKING
 				return

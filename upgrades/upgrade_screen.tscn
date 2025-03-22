@@ -1,0 +1,227 @@
+[gd_scene load_steps=19 format=3 uid="uid://dwuo17mxcad3v"]
+
+[ext_resource type="Theme" uid="uid://ck22mgvaqi0wd" path="res://ui_themes/default.tres" id="1_c8yye"]
+[ext_resource type="Script" uid="uid://bjikhcnshn1nr" path="res://upgrades/upgrade_screen.gd" id="1_h5bux"]
+[ext_resource type="Script" uid="uid://dowgxy2eph4rs" path="res://upgrades/scripts/draggable_field.gd" id="2_01r67"]
+[ext_resource type="Resource" uid="uid://dn4pqrtodx4qg" path="res://upgrades/resources/max_health_upgrade.tres" id="3_c8yye"]
+[ext_resource type="PackedScene" uid="uid://b7jdbtilc4boq" path="res://upgrades/upgrade_node.tscn" id="3_h5bux"]
+[ext_resource type="Resource" uid="uid://c0lxej3p4ugep" path="res://upgrades/resources/max_health_2_upgrade.tres" id="6_jgqep"]
+[ext_resource type="Resource" uid="uid://bh68q2di5i17l" path="res://upgrades/resources/max_health_3_upgrade.tres" id="7_5c0hm"]
+[ext_resource type="Resource" uid="uid://c6577lh1x0i2s" path="res://upgrades/resources/movement_speed_upgrade.tres" id="7_7ygq1"]
+[ext_resource type="Resource" uid="uid://bf2m56r57vjo0" path="res://upgrades/resources/movement_speed_2_upgrade.tres" id="8_yy5o5"]
+[ext_resource type="Resource" uid="uid://cvgib3kb51dmc" path="res://upgrades/resources/damage_upgrade.tres" id="9_ashqo"]
+[ext_resource type="Resource" uid="uid://byxo1ifwlbvyi" path="res://upgrades/resources/movement_speed_3_upgrade.tres" id="9_x72ro"]
+[ext_resource type="Resource" uid="uid://c4eh5ocdk05ux" path="res://upgrades/resources/attack_speed_2_upgrade.tres" id="10_pumwo"]
+[ext_resource type="Resource" uid="uid://dj7ethc4n4gyi" path="res://upgrades/resources/damage_2_upgrade.tres" id="10_r4rt3"]
+[ext_resource type="Resource" uid="uid://s5voopsdotp4" path="res://upgrades/resources/attack_speed_3_upgrade.tres" id="11_b38da"]
+[ext_resource type="Resource" uid="uid://d2qqn2gcx6pfg" path="res://upgrades/resources/attack_speed_upgrade.tres" id="11_olxwc"]
+[ext_resource type="Resource" uid="uid://bshm71ccnpqfj" path="res://upgrades/resources/damage_3_upgrade.tres" id="12_nspsv"]
+[ext_resource type="Resource" uid="uid://cov2alhv3qh8m" path="res://upgrades/resources/bullet_speed_upgrade.tres" id="12_t8cxn"]
+[ext_resource type="Resource" uid="uid://c4hfg70m6mnwk" path="res://upgrades/resources/bullet_speed_2_upgrade.tres" id="13_5c0hm"]
+
+[node name="UpgradeScreen" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_h5bux")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_c8yye")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.5
+offset_top = 31.0
+offset_right = 36.5
+offset_bottom = 54.0
+grow_horizontal = 2
+text = "upgrades"
+
+[node name="MoneyLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -536.0
+offset_top = 31.0
+offset_right = -216.0
+offset_bottom = 63.0
+grow_horizontal = 2
+pivot_offset = Vector2(0, 16)
+theme_override_colors/font_color = Color(0.715491, 0.934862, 1.92523e-06, 1)
+text = "$123456789"
+
+[node name="UpgradeField" type="Control" parent="Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 86.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Field" type="Panel" parent="Panel/UpgradeField"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.600694
+anchor_top = -0.914179
+anchor_right = 1.59809
+anchor_bottom = 1.89366
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_01r67")
+metadata/_edit_use_anchors_ = true
+
+[node name="MaxHp" parent="Panel/UpgradeField/Field" instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -70.5001
+offset_top = 17.863
+offset_right = -14.5001
+offset_bottom = 88.863
+upgrade_resource = ExtResource("3_c8yye")
+
+[node name="MaxHp2" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = 41.4999
+offset_top = 17.863
+offset_right = 97.4999
+offset_bottom = 88.863
+parent_upgrade = NodePath("../MaxHp")
+upgrade_resource = ExtResource("6_jgqep")
+
+[node name="MaxHp3" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = 153.5
+offset_top = 17.863
+offset_right = 209.5
+offset_bottom = 88.863
+parent_upgrade = NodePath("../MaxHp2")
+upgrade_resource = ExtResource("7_5c0hm")
+
+[node name="MoveSpeed" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -182.5
+offset_top = 17.863
+offset_right = -126.5
+offset_bottom = 88.863
+parent_upgrade = NodePath("../MaxHp")
+upgrade_resource = ExtResource("7_7ygq1")
+
+[node name="MoveSpeed2" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -294.5
+offset_top = 17.863
+offset_right = -238.5
+offset_bottom = 88.863
+parent_upgrade = NodePath("../MoveSpeed")
+upgrade_resource = ExtResource("8_yy5o5")
+
+[node name="MoveSpeed3" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -406.5
+offset_top = 17.863
+offset_right = -350.5
+offset_bottom = 88.863
+parent_upgrade = NodePath("../MoveSpeed2")
+upgrade_resource = ExtResource("9_x72ro")
+
+[node name="AttackSpeed" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -406.5
+offset_top = -94.137
+offset_right = -350.5
+offset_bottom = -23.137
+parent_upgrade = NodePath("../MoveSpeed3")
+upgrade_resource = ExtResource("11_olxwc")
+
+[node name="AttackSpeed2" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -406.5
+offset_top = -206.137
+offset_right = -350.5
+offset_bottom = -135.137
+parent_upgrade = NodePath("../AttackSpeed")
+upgrade_resource = ExtResource("10_pumwo")
+
+[node name="AttackSpeed3" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -406.5
+offset_top = -318.137
+offset_right = -350.5
+offset_bottom = -247.137
+parent_upgrade = NodePath("../AttackSpeed2")
+upgrade_resource = ExtResource("11_b38da")
+
+[node name="BulletSpeed" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -294.5
+offset_top = -318.137
+offset_right = -238.5
+offset_bottom = -247.137
+parent_upgrade = NodePath("../AttackSpeed3")
+upgrade_resource = ExtResource("12_t8cxn")
+
+[node name="BulletSpeed2" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -294.5
+offset_top = -206.137
+offset_right = -238.5
+offset_bottom = -135.137
+parent_upgrade = NodePath("../BulletSpeed")
+upgrade_resource = ExtResource("13_5c0hm")
+
+[node name="Damage" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -182.5
+offset_top = -94.137
+offset_right = -126.5
+offset_bottom = -23.137
+parent_upgrade = NodePath("../MoveSpeed")
+upgrade_resource = ExtResource("9_ashqo")
+
+[node name="Damage2" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -182.5
+offset_top = -206.137
+offset_right = -126.5
+offset_bottom = -135.137
+parent_upgrade = NodePath("../Damage")
+upgrade_resource = ExtResource("10_r4rt3")
+
+[node name="Damage3" parent="Panel/UpgradeField/Field" node_paths=PackedStringArray("parent_upgrade") instance=ExtResource("3_h5bux")]
+layout_mode = 1
+offset_left = -182.5
+offset_top = -318.137
+offset_right = -126.5
+offset_bottom = -247.137
+parent_upgrade = NodePath("../Damage2")
+upgrade_resource = ExtResource("12_nspsv")
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 570.0
+offset_right = 182.0
+offset_bottom = 614.0
+text = "menu"
+
+[node name="Button2" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 882.0
+offset_top = 570.0
+offset_right = 1118.0
+offset_bottom = 614.0
+text = "new run"
+
+[connection signal="mouse_entered" from="Panel/UpgradeField/Field" to="Panel/UpgradeField/Field" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/UpgradeField/Field" to="Panel/UpgradeField/Field" method="_on_mouse_exited"]
+[connection signal="pressed" from="Panel/Button" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="Panel/Button2" to="." method="_on_new_run_button_2_pressed"]

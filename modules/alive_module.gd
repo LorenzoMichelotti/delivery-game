@@ -42,10 +42,12 @@ func take_damage(damage: int, perpetrator: GlobalConstants.ACTOR_TYPES, is_knock
 	
 	if not is_knockup:
 		VfxManager.display_number(str(damage * PlayerManager.point_multiplier).pad_zeros(2), Vector2(actor.global_position.x, actor.global_position.y -8))
-		PlayerManager.add_points(damage)
 		SfxManager.play_sfx(hit_sfx_stream, SfxManager.CHANNEL_CONFIG.HITS, true)
 		VfxManager.display_explosion_effect(actor.global_position)
 		CameraManager.apply_shake()
+	
+	if perpetrator == GlobalConstants.ACTOR_TYPES.PLAYER:
+		PlayerManager.add_points(damage * PlayerManager.point_multiplier)
 	
 	if has_invincibility:
 		return true # absorb bullets

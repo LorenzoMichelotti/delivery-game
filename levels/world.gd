@@ -12,8 +12,8 @@ extends Node2D
 @export var success_cutscene: CutsceneResource
 
 @onready var game_ui = $CanvasLayer/LevelUI
-@onready var map = $Map
 
+@onready var map = $Map
 func _ready():
 	get_tree().paused = true
 	LevelManager._update_completion_requirements(custom_completion_requirement)

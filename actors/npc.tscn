@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cibaxdfigpu3p"]
+[gd_scene load_steps=20 format=3 uid="uid://cibaxdfigpu3p"]
 
 [ext_resource type="Script" uid="uid://dp3fxv1mu60fq" path="res://actors/npc.gd" id="1_yi3ig"]
 [ext_resource type="PackedScene" uid="uid://cty87vwubofv3" path="res://smoke_particles.tscn" id="2_ays1p"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dvxqim7m6kljp" path="res://modules/controllers/random_movement_module.tscn" id="5_cwb55"]
 [ext_resource type="PackedScene" uid="uid://porud4gj3lgo" path="res://modules/alive_module.tscn" id="5_sxxkn"]
 [ext_resource type="PackedScene" uid="uid://b060ub1c3cpsf" path="res://actors/shadow.tscn" id="8_rfo5t"]
+[ext_resource type="PackedScene" uid="uid://d3wxhev3telpw" path="res://modules/damage_dealer_module.tscn" id="9_sjbeq"]
 
 [sub_resource type="Animation" id="Animation_peuc1"]
 length = 0.001
@@ -130,3 +131,7 @@ position = Vector2(0, -4)
 [node name="RandomMovementModule" parent="." instance=ExtResource("5_cwb55")]
 
 [node name="Shadow" parent="." instance=ExtResource("8_rfo5t")]
+
+[node name="DamageDealerModule" parent="." instance=ExtResource("9_sjbeq")]
+position = Vector2(0, -1)
+type = 1

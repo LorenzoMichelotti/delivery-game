@@ -501,9 +501,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -134.0
-offset_top = 76.0
+offset_top = 88.0
 offset_right = 166.0
-offset_bottom = 129.0
+offset_bottom = 141.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(73, 0)
@@ -517,13 +517,29 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -135.0
-offset_top = 126.0
+offset_top = 150.0
 offset_right = 165.0
-offset_bottom = 179.001
+offset_bottom = 203.001
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(73, 0)
 text = "MAIN MENU"
+
+[node name="Button4" type="Button" parent="Paused"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 241.0
+offset_top = 247.0
+offset_right = 541.0
+offset_bottom = 300.001
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(73, 0)
+text = "END RUN"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -533,3 +549,4 @@ libraries = {
 [connection signal="pressed" from="Paused/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Paused/Button2" to="." method="_restart_level"]
 [connection signal="pressed" from="Paused/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="Paused/Button4" to="." method="_on_button_4_pressed"]

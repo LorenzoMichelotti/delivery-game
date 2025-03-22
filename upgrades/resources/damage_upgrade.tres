@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerAttributeUpgradeResource" load_steps=2 format=3 uid="uid://cvgib3kb51dmc"]
+
+[ext_resource type="Script" uid="uid://bmp8xj1ci45f1" path="res://upgrades/scripts/player_attribute_upgrade.gd" id="1_mnwq2"]
+
+[resource]
+script = ExtResource("1_mnwq2")
+attribute = "bonus_damage"
+id = 5
+name = "Damage"
+cost = 200
+current_level = 0
+max_level = 5
+bonus_value_per_level = 10.0
+metadata/_custom_type_script = "uid://bmp8xj1ci45f1"

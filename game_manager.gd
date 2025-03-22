@@ -4,10 +4,12 @@ extends Node2D
 @onready var pause_scene: PackedScene = preload("res://ui/Pause.tscn")
 const GAME_SCENE = preload("res://levels/ProceduralLevel.tscn")
 const MAIN_MENU = preload("res://ui/main_menu.tscn")
+const UPGRADE_SCREEN = preload("res://upgrades/upgrade_screen.tscn")
 
 var skip_cutscenes = true
 var game_over_ui
 var pause_ui
+var upgrade_ui
 
 enum GAMEMODE {
 	INITIALIZING,
@@ -15,6 +17,7 @@ enum GAMEMODE {
 	PLAYING,
 	GAMEOVER,
 	PAUSED,
+	UPGRADING,
 	CUTSCENE
 }
 
@@ -61,6 +64,10 @@ func set_game_mode(new_game_mode: GAMEMODE):
 			get_tree().paused = true
 			pause_screen()
 			return
+		GAMEMODE.UPGRADING:
+			get_tree().paused = true
+			upgrade_screen()
+			return
 		GAMEMODE.CUTSCENE:
 			return
 		GAMEMODE.PLAYING:
@@ -75,6 +82,14 @@ func pause_screen():
 		return
 	pause_ui = pause_scene.instantiate()
 	get_tree().current_scene.add_child.call_deferred(pause_ui)
+
+func upgrade_screen():
+	if upgrade_ui != null:
+		upgrade_ui.show.call_deferred()
+		return
+	upgrade_ui = UPGRADE_SCREEN.instantiate()
+	get_tree().current_scene.add_child.call_deferred(upgrade_ui)
+
 
 func on_level_changed():
 	pass

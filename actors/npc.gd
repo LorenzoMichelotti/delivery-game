@@ -33,7 +33,9 @@ func _ready():
 func _on_death():
 	print("npc died, dropping the delivery_id -> ", delivery_id)
 	item_balloon.update_item_balloon.call_deferred(true)
-	EntityManager.deliveries[delivery_id].item.set_can_be_picked_up()
+	var delivery = EntityManager.deliveries.get(delivery_id)
+	if is_instance_valid(delivery):
+		delivery.item.set_can_be_picked_up()
 
 func _process(delta):
 	update_animation(velocity.normalized())

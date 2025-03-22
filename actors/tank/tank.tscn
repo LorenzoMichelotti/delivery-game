@@ -346,6 +346,7 @@ bullet_speed = 1
 
 [node name="DamageDealerModule" parent="." instance=ExtResource("7_2m3if")]
 position = Vector2(0, -1)
+damage = 5
 type = 3
 
 [node name="Shadow" parent="." instance=ExtResource("9_xtfgt")]

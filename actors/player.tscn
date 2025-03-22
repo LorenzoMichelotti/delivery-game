@@ -75,10 +75,10 @@ script = ExtResource("1_0lbjl")
 
 [node name="GunTurretModule" parent="." instance=ExtResource("3_td6ek")]
 position = Vector2(0, -9)
-shoot_delay = 0.05
-windup_shoot_delay = 0.05
+shoot_delay = 1.0
 enabled = false
 damage = 100
+bullet_speed = 0
 aim_speed = 60
 
 [node name="Node2D" parent="." instance=ExtResource("3_yylic")]
@@ -135,8 +135,9 @@ enabled = false
 speed = 100.0
 
 [node name="IdlerMovementModule" parent="." instance=ExtResource("12_41w2c")]
-speed = 150.0
 
 [connection signal="died" from="AliveModule" to="." method="_on_die"]
 [connection signal="died" from="AliveModule" to="DamageDealerModule" method="disable"]
 [connection signal="took_damage" from="AliveModule" to="." method="_on_take_damage"]
+
+[editable path="GunTurretModule"]
